@@ -1,4 +1,4 @@
-export function AuthLayout({ children }: any) {
+export default function AuthLayout({ children }: any) {
   return (
     <div>
       {children}

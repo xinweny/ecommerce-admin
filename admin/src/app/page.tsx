@@ -1,10 +1,10 @@
-import ToggleAuthButton from "@/app/(routes)/(auth)/_components/toggle-auth-button";
+import LoginButton from "@/app/(routes)/(auth)/_components/login-button";
 
-export default function Page() {
+export default function HomePage() {
   return (
     <main>
       <p>Hello Admin Dashboard</p>
-      <ToggleAuthButton />
+      <LoginButton>Login</LoginButton>
     </main>
   );
 }
