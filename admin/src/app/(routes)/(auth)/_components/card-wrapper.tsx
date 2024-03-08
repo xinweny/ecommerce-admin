@@ -10,7 +10,7 @@ interface CardWrapperProps {
   headerLabel: string;
 }
 
-export default function CardWrapper({ children, headerLabel }: CardWrapperProps) {
+export function CardWrapper({ children, headerLabel }: CardWrapperProps) {
   return (
     <Card>
       <CardHeader>{headerLabel}</CardHeader>

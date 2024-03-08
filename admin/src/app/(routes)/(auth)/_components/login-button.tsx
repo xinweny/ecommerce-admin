@@ -6,7 +6,7 @@ interface LoginButtonProps {
   children: React.ReactNode;
 }
 
-export default function LoginButton({ children }: LoginButtonProps) {
+export function LoginButton({ children }: LoginButtonProps) {
   const router = useRouter();
 
   return (

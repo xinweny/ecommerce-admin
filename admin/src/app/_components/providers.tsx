@@ -6,7 +6,7 @@ interface ProvidersProps {
   children: React.ReactNode;
 };
 
-export default function Providers({
+export function Providers({
   children
 }: ProvidersProps) {
   return (
