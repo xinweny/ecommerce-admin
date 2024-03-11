@@ -3,9 +3,9 @@ import Credentials from "next-auth/providers/credentials";
 
 import type { NextAuthConfig } from "next-auth";
 
-import { LoginSchema } from "./schemas";
+import { LoginSchema } from "@/schemas";
 
-import { getUserByEmail } from "./data/user";
+import { getUserByEmail } from "@/data/user";
 
 export default {
   providers: [Credentials({
@@ -19,7 +19,7 @@ export default {
 
         if (!user || !user.password) return null;
 
-        // TODO: add admin condition
+        if (user.role !== "admin") return null;
 
         const passwordsMatch = await bcrypt.compare(password, user.password);
 
