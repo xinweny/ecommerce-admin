@@ -23,7 +23,7 @@ import { FormSuccess } from "@/app/_components/ui/form-success";
 
 import { CardWrapper } from "@/app/_components/wrappers/card-wrapper";
 
-import { login } from "../../_actions/login";
+import { login } from "../_actions/login";
 
 export function LoginForm() {
   const [isPending, startTransition] = useTransition();

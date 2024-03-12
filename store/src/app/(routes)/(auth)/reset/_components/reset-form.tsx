@@ -4,9 +4,8 @@ import { useTransition, useState } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 
-import { LoginSchema } from "@/schemas/login.schema";
+import { ResetSchema } from "@/schemas/reset.schema";
 
 import {
   Form,
@@ -24,31 +23,28 @@ import { FormSuccess } from "@/app/_components/ui/form-success";
 
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { login } from "../../_actions/login";
+import { login } from "../../login/_actions/login";
 
-export function ResetPasswordForm() {
+export function ResetForm() {
   const [isPending, startTransition] = useTransition();
 
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof ResetSchema>>({
+    resolver: zodResolver(ResetSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof ResetSchema>) => {
     setError("");
     setSuccess("");
 
     startTransition(async () => {
-      const data = await login(values);
-
-      setError(data.error);
-      setSuccess(data.success);
+      // setError(data.error);
+      //setSuccess(data.success);
     });
   };
 
@@ -63,26 +59,24 @@ export function ResetPasswordForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6"
         >
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      disabled={isPending}
-                      placeholder="johndoe@example.com"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="email"
+                    disabled={isPending}
+                    placeholder="johndoe@example.com"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormError message={error} />
           <FormSuccess message={success} />
           <Button
