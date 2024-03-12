@@ -10,7 +10,7 @@ export function LoginButton({ children }: LoginButtonProps) {
   const router = useRouter();
 
   return (
-    <div onClick={() => router.push("/login")}>
+    <div onClick={() => router.push("/auth/login")}>
       {children}
     </div>
   );
