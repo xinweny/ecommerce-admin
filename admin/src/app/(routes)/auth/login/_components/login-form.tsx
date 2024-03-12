@@ -21,9 +21,9 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/app/_components/ui/form-error";
 import { FormSuccess } from "@/app/_components/ui/form-success";
 
-import { CardWrapper } from "./card-wrapper";
+import { CardWrapper } from "../../_components/card-wrapper";
 
-import { login } from "../_actions/login";
+import { login } from "../../_actions/login";
 
 export function LoginForm() {
   const [isPending, startTransition] = useTransition();
