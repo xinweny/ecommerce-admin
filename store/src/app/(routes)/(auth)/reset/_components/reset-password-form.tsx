@@ -1,7 +1,6 @@
 "use client";
 
 import { useTransition, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,17 +26,11 @@ import { CardWrapper } from "../../_components/card-wrapper";
 
 import { login } from "../../_actions/login";
 
-export function LoginForm() {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
-  const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
-    ? "Email already in use with different provider!"
-    : "";
+export function ResetPasswordForm() {
+  const [isPending, startTransition] = useTransition();
 
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
-
-  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -52,7 +45,7 @@ export function LoginForm() {
     setSuccess("");
 
     startTransition(async () => {
-      const data = await login(values, callbackUrl);
+      const data = await login(values);
 
       setError(data.error);
       setSuccess(data.success);
@@ -61,10 +54,9 @@ export function LoginForm() {
 
   return (
     <CardWrapper
-      headerLabel="Welcome Back"
-      backButtonLabel="Don't have an account?"
-      backButtonHref="/register"
-      showSocial
+      headerLabel="Forgot your password?"
+      backButtonLabel="Back to login"
+      backButtonHref="/login"
     >
       <Form {...form}>
         <form
@@ -90,40 +82,15 @@ export function LoginForm() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <Button
-                    size="sm"
-                    variant="link"
-                    asChild
-                    className="px-0 font-normal"
-                  >
-                    <Link href="/reset">Forgot your password?</Link>
-                  </Button>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
-          <FormError message={error || urlError} />
+          <FormError message={error} />
           <FormSuccess message={success} />
           <Button
             type="submit"
             className="w-full"
             disabled={isPending}
           >
-            Login
+            Send Reset Email
           </Button>
         </form>
       </Form>
