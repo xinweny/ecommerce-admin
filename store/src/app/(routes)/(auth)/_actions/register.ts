@@ -18,29 +18,22 @@ export const login = async (values: z.infer<typeof RegisterSchema>) => {
     email,
     password,
   } = validatedFields.data;
+  const existingUser = await db.user.findUnique({
+    where: { email },
+  });
 
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+  if (existingUser) return { error: "Email already in use."};
 
-    const existingUser = await db.user.findUnique({
-      where: { email },
-    });
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-    if (existingUser) return { error: "Email already in use."};
+  await db.user.create({
+    firstName,
+    lastName,
+    email,
+    password: hashedPassword,
+  });
 
-    await db.user.create({
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
-    });
+  // TODO: Send verification token email
 
-    // TODO: Send verification token email
-
-    return { success: "Signed up successfully!" };
-  } catch (error) {
-
-
-    throw error;
-  }
+  return { success: "Signed up successfully!" };
 };
