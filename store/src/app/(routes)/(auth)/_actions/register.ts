@@ -7,7 +7,7 @@ import { db } from "@/lib/db";
 
 import { RegisterSchema } from "@/schemas";
 
-export const login = async (values: z.infer<typeof RegisterSchema>) => {
+export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: "Invalid fields." };
@@ -22,15 +22,17 @@ export const login = async (values: z.infer<typeof RegisterSchema>) => {
     where: { email },
   });
 
-  if (existingUser) return { error: "Email already in use."};
+  if (existingUser) return { error: "Email already in use." };
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
   await db.user.create({
-    firstName,
-    lastName,
-    email,
-    password: hashedPassword,
+    data: {
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+    },
   });
 
   // TODO: Send verification token email
