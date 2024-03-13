@@ -3,7 +3,7 @@
 import * as z from "zod";
 import bcrypt from "bcryptjs";
 
-import { db } from "@/lib/db";
+import { db } from "@/db/client";
 
 import { RegisterSchema } from "@/schemas";
 

@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { db } from "./db";
+import { db } from "../db/client";
 
 import { getVerificationTokenByEmail } from "@/data/verification-token";
 import { getPasswordResetTokenByEmail } from "@/data/password-reset-token";
