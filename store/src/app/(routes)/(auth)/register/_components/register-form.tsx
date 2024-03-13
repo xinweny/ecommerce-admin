@@ -23,7 +23,7 @@ import { FormSuccess } from "@/app/_components/ui/form-success";
 
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { register } from "../_actions/register";
+import { register } from "@/actions/auth";
 
 export function RegisterForm() {
   const [isPending, startTransition] = useTransition();

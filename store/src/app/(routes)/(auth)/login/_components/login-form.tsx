@@ -25,7 +25,7 @@ import { FormSuccess } from "@/app/_components/ui/form-success";
 
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { login } from "../_actions/login";
+import { login } from "@/actions/auth";
 
 export function LoginForm() {
   const searchParams = useSearchParams();

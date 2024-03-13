@@ -24,7 +24,7 @@ import { FormSuccess } from "@/app/_components/ui/form-success";
 
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { resetPassword } from "../_actions/reset-password";
+import { resetPassword } from "@/actions/auth";
 
 export function ResetPasswordForm() {
   const searchParams = useSearchParams();

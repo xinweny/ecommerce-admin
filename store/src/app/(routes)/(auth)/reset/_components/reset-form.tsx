@@ -23,7 +23,7 @@ import { FormSuccess } from "@/app/_components/ui/form-success";
 
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { reset } from "../_actions/reset";
+import { reset } from "@/actions/auth";
 
 export function ResetForm() {
   const [error, setError] = useState<string>();
