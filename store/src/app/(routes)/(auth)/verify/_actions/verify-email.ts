@@ -5,7 +5,9 @@ import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
 import { getVerificationTokenByToken } from "@/data/verification-token";
 
-export const verifyEmail = async (token: string) => {
+export const verifyEmail = async (token?: string | null) => {
+  if (!token) return { error: "Missing token." };
+
   const verificationToken = await getVerificationTokenByToken(token);
 
   if (!verificationToken) return { error: "Token does not exist." };

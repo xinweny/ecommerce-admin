@@ -12,20 +12,14 @@ import { FormSuccess } from "@/app/_components/ui/form-success";
 import { CardWrapper } from "../../_components/card-wrapper";
 
 export function EmailVerificationForm() {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
 
-  const searchParams = useSearchParams();
-
-  const token = searchParams.get("token");
-
   const onSubmit = useCallback(async () => {
     if (success || error) return;
-
-    if (!token) {
-      setError("Missing token!");
-      return;
-    }
 
     try {
       const data = await verifyEmail(token);
