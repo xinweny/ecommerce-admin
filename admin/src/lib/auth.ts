@@ -3,7 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import { UserRole } from "@prisma/client";
 
-import { db } from "@/lib/db";
+import { db } from "@/db/client";
 
 import authConfig from "./auth.config";
 
