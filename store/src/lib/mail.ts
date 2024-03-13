@@ -31,3 +31,31 @@ export const sendVerificationEmail = async ({
     </p>`,
   });
 };
+
+export const sendPasswordResetEmail = async ({
+  email,
+  token,
+}: {
+  email: string;
+  token: string;
+}) => {
+  const resetLink = `${process.env.NEXT_URL}/new-password?token=${token}`;
+
+  await resend.emails.send({
+    from: process.env.SMTP_ADDRESS as string,
+    to: email,
+    subject: "Reset your password",
+    html:  `<p>
+      <p>Forgot your password? It happens to the best of us. Click the button below to reset your password:</p>
+      <br>
+      <a href="${resetLink}">Reset Password</a>
+      <br>
+      <p>The link will expire after 24 hours.</p>
+      <br>
+      <p>Thank you,</p>
+      <br>
+      <p>Songbird Instruments</p>
+      <a href="${process.env.NEXT_URL}">${process.env.NEXT_URL}</a>
+    </p>`,
+  });
+};
