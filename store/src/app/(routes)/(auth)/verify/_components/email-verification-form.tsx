@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CircleLoader } from "react-spinners";
 
-import { verifyEmail } from "../../_actions/verify-email";
+import { verifyEmail } from "../_actions/verify-email";
 
 import { FormError } from "@/app/_components/ui/form-error";
 import { FormSuccess } from "@/app/_components/ui/form-success";
@@ -19,7 +19,7 @@ export function EmailVerificationForm() {
 
   const token = searchParams.get("token");
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (success || error) return;
 
     if (!token) {
@@ -27,12 +27,14 @@ export function EmailVerificationForm() {
       return;
     }
 
-    verifyEmail(token)
-      .then((data) => {
-        setSuccess(data.success);
-        setError(data.error);
-      })
-      .catch(() => { setError("Something went wrong."); });
+    try {
+      const data = await verifyEmail(token);
+
+      setSuccess(data.success);
+      setError(data.error);
+    } catch {
+      setError("Something went wrong.");
+    }
   }, [token, success, error]);
 
   useEffect(() => {
