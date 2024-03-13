@@ -1,10 +1,10 @@
-import { LinkButton } from "./_components/ui/link-button";
+import { LoginButton } from "./_components/auth/login-button";
 
 export default function Home() {
   return (
     <main>
       Store
-      <LinkButton href="/login">Login</LinkButton>
+      <LoginButton>Login</LoginButton>
     </main>
   );
 }
