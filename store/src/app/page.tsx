@@ -1,10 +1,10 @@
-import { LoginButton } from "./(routes)/(auth)/login/_components/login-button";
+import { LinkButton } from "./_components/ui/link-button";
 
 export default function Home() {
   return (
     <main>
       Store
-      <LoginButton>Login</LoginButton>
+      <LinkButton href="/login">Login</LinkButton>
     </main>
   );
 }
