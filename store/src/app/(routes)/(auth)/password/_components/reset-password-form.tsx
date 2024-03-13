@@ -5,7 +5,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ResetSchema } from "@/schemas";
+import { ResetSchema } from "@/schemas/reset.schema";
 
 import {
   Form,
@@ -23,9 +23,9 @@ import { FormSuccess } from "@/app/_components/ui/form-success";
 
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { reset } from "../_actions/reset";
+import { resetPassword } from "../_actions/reset-password";
 
-export function ResetForm() {
+export function ResetPasswordForm() {
   const [isPending, startTransition] = useTransition();
 
   const [error, setError] = useState<string>();
@@ -43,7 +43,7 @@ export function ResetForm() {
     setSuccess("");
 
     startTransition(async () => {
-      const data = await reset(values);
+      const data = await resetPassword(values);
 
       setError(data.error);
       setSuccess(data.success);
@@ -52,7 +52,7 @@ export function ResetForm() {
 
   return (
     <CardWrapper
-      headerLabel="Forgot your password?"
+      headerLabel="Reset your password"
       backButtonLabel="Back to login"
       backButtonHref="/login"
     >

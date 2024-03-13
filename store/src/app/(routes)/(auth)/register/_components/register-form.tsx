@@ -5,7 +5,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { RegisterSchema } from "@/schemas/register.schema";
+import { RegisterSchema } from "@/schemas";
 
 import {
   Form,
@@ -23,7 +23,7 @@ import { FormSuccess } from "@/app/_components/ui/form-success";
 
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { register } from "../../_actions/register";
+import { register } from "../_actions/register";
 
 export function RegisterForm() {
   const [isPending, startTransition] = useTransition();
