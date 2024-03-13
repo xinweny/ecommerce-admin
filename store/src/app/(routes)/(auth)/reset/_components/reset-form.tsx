@@ -26,10 +26,10 @@ import { CardWrapper } from "../../_components/card-wrapper";
 import { reset } from "../_actions/reset";
 
 export function ResetForm() {
-  const [isPending, startTransition] = useTransition();
-
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
+
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof ResetSchema>>({
     resolver: zodResolver(ResetSchema),
