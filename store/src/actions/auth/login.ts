@@ -3,8 +3,8 @@
 import * as z from "zod";
 import { AuthError } from "next-auth";
 
-import { signIn } from "@/lib/auth";
-import { DEFAULT_LOGIN_REDIRECT } from "@/lib/routes";
+import { signIn } from "@/auth";
+import { DEFAULT_LOGIN_REDIRECT } from "@/config/routes.config";
 import { LoginSchema } from "@/schemas";
 
 import { getUserByEmail } from "@/data/user";
