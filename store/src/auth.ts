@@ -32,16 +32,24 @@ export const {
 
       if (token.sub) session.user.id = token.sub;
 
+      session.user.firstName = token.firstName as string;
+      session.user.lastName = token.lastName as string;
+      session.user.email = token.email as string;
+      session.user.provider = token.provider as "string" | null;
+
       return session;
     },
-    jwt: async ({ token }) => {
+    jwt: async ({ token, account }) => {
       if (!token.sub) return token;
 
       const user = await getUserById(token.sub);
 
       if (!user) return token;
 
-      token.role = user.role;
+      token.firstName = user.firstName;
+      token.lastName = user.lastName;
+      token.email = user.email;
+      token.provider = account?.provider || null;
 
       return token;
     },

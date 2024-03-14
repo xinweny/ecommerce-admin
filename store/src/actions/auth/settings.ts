@@ -26,5 +26,5 @@ export const settings = async (
     data: { ...values },
   });
 
-  return { success: "  updated." };
+  return { success: "User info updated!" };
 };
