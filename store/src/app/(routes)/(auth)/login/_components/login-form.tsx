@@ -5,27 +5,19 @@ import { useSearchParams } from "next/navigation";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
+import { useFormState, useFormStatus } from "react-dom";
 
-import { LoginSchema } from "@/schemas";
-
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-
-import { FormError } from "@/app/_components/ui/form-error";
-import { FormSuccess } from "@/app/_components/ui/form-success";
-
-import { CardWrapper } from "../../_components/card-wrapper";
+import { LoginSchema } from "@/schemas/auth";
 
 import { login } from "@/actions/auth";
+
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+
+import { FormMessage } from "@/app/_components/ui/form-message";
+import { FormInput } from "@/app/_components/ui/form-input";
+import { CardWrapper } from "../../_components/card-wrapper";
+import { ForgotPasswordLink } from "./forgot-password-link";
 
 export function LoginForm() {
   const searchParams = useSearchParams();
@@ -33,6 +25,8 @@ export function LoginForm() {
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
     ? "Email already in use with different provider!"
     : "";
+
+  const [state, formAction] = useFormState(login, null);
 
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
@@ -68,56 +62,29 @@ export function LoginForm() {
     >
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={formAction}
           className="space-y-6"
         >
           <div className="space-y-4">
-            <FormField
-              control={form.control}
+            <FormInput
               name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      disabled={isPending}
-                      placeholder="johndoe@example.com"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              type="email"
+              label="Email"
+              placeholder="johannstrauss@waltz.com"
             />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <Button
-                    size="sm"
-                    variant="link"
-                    asChild
-                    className="px-0 font-normal"
-                  >
-                    <Link href="/reset">Forgot your password?</Link>
-                  </Button>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div>
+              <FormInput
+                name="password"
+                type="password"
+                label="Password"
+              />
+              <ForgotPasswordLink />
+            </div>
           </div>
-          <FormError message={error || urlError} />
-          <FormSuccess message={success} />
+          <FormMessage
+            error={error || urlError}
+            success={success}
+          />
           <Button
             type="submit"
             className="w-full"

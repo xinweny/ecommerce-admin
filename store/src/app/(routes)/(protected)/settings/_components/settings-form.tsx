@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 
-import { SettingsSchema } from "@/schemas";
+import { SettingsSchema } from "@/schemas/settings";
 
 import { useCurrentUser } from "@/hooks";
 

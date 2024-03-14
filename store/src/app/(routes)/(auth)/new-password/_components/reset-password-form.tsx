@@ -6,25 +6,16 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ResetPasswordSchema } from "@/schemas";
-
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-
-import { FormError } from "@/app/_components/ui/form-error";
-import { FormSuccess } from "@/app/_components/ui/form-success";
-
-import { CardWrapper } from "../../_components/card-wrapper";
+import { ResetPasswordSchema } from "@/schemas/auth";
 
 import { resetPassword } from "@/actions/auth";
+
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+
+import { FormInput } from "@/app/_components/ui/form-input";
+import { FormMessage } from "@/app/_components/ui/form-message";
+import { CardWrapper } from "../../_components/card-wrapper";
 
 export function ResetPasswordForm() {
   const searchParams = useSearchParams();
@@ -67,43 +58,22 @@ export function ResetPasswordForm() {
           className="space-y-6"
         >
           <div className="space-y-4">
-            <FormField
+            <FormInput
               control={form.control}
               name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>New Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="New Password"
+              type="password"
+              disabled={isPending}
             />
-            <FormField
+            <FormInput
               control={form.control}
               name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Confirm Password"
+              type="password"
+              disabled={isPending}
             />
           </div>
-          <FormError message={error} />
-          <FormSuccess message={success} />
+          <FormMessage error={error} success={success} />
           <Button
             type="submit"
             className="w-full"

@@ -4,7 +4,7 @@ import * as z from "zod";
 
 import { db } from "@/db/client";
 
-import { SettingsSchema } from "@/schemas";
+import { SettingsSchema } from "@/schemas/settings";
 
 import { getUserById } from "@/data/user";
 

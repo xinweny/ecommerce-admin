@@ -2,7 +2,7 @@
 
 import { signIn } from "next-auth/react";
 
-import { DEFAULT_LOGIN_REDIRECT } from "@/config/routes.config";
+import { DEFAULT_LOGIN_REDIRECT } from "@/config/routes";
 
 import { Button } from "@/components/ui/button";
 

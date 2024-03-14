@@ -4,8 +4,8 @@ import * as z from "zod";
 import { AuthError } from "next-auth";
 
 import { signIn } from "@/auth";
-import { DEFAULT_LOGIN_REDIRECT } from "@/config/routes.config";
-import { LoginSchema } from "@/schemas";
+import { DEFAULT_LOGIN_REDIRECT } from "@/config/routes";
+import { LoginSchema } from "@/schemas/auth";
 
 import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
@@ -34,7 +34,7 @@ export const login = async (
       name: user.firstName,
     });
 
-    return { success: "Confirmation email sent!" }
+    return { success: "Confirmation email sent!" };
   }
 
   try {

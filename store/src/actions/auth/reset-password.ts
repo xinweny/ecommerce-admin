@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 
 import { db } from "@/db/client";
 
-import { ResetPasswordSchema } from "@/schemas";
+import { ResetPasswordSchema } from "@/schemas/auth";
 
 import { getPasswordResetTokenByToken } from "@/data/password-reset-token";
 
