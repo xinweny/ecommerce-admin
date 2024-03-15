@@ -11,11 +11,11 @@ import { ResetPasswordSchema } from "@/schemas/auth";
 import { resetPassword } from "@/actions/auth";
 
 import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 
 import { FormInput } from "@/app/_components/ui/form-input";
 import { FormMessage } from "@/app/_components/ui/form-message";
 import { CardWrapper } from "../../_components/card-wrapper";
+import { SubmitButton } from "@/app/_components/ui/submit-button";
 
 export function ResetPasswordForm() {
   const searchParams = useSearchParams();
@@ -23,8 +23,6 @@ export function ResetPasswordForm() {
 
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
-
-  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof ResetPasswordSchema>>({
     resolver: zodResolver(ResetPasswordSchema),
@@ -34,16 +32,14 @@ export function ResetPasswordForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof ResetPasswordSchema>) => {
+  const onSubmit = async (values: z.infer<typeof ResetPasswordSchema>) => {
     setError("");
     setSuccess("");
 
-    startTransition(async () => {
-      const data = await resetPassword(values, token);
+    const data = await resetPassword(values, token);
 
-      setError(data.error);
-      setSuccess(data.success);
-    });
+    setError(data.error);
+    setSuccess(data.success);
   };
 
   return (
@@ -59,28 +55,18 @@ export function ResetPasswordForm() {
         >
           <div className="space-y-4">
             <FormInput
-              control={form.control}
               name="password"
               label="New Password"
               type="password"
-              disabled={isPending}
             />
             <FormInput
-              control={form.control}
               name="confirmPassword"
               label="Confirm Password"
               type="password"
-              disabled={isPending}
             />
           </div>
           <FormMessage error={error} success={success} />
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isPending}
-          >
-            Reset Password
-          </Button>
+          <SubmitButton className="w-full">Reset Password</SubmitButton>
         </form>
       </Form>
     </CardWrapper>

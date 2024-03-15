@@ -1,6 +1,7 @@
 "use server";
 
 import * as z from "zod";
+import { revalidatePath } from "next/cache";
 
 import { db } from "@/db/client";
 
@@ -25,6 +26,8 @@ export const settings = async (
     where: { id: dbUser.id },
     data: { ...values },
   });
+
+  revalidatePath("/settings");
 
   return { success: "User info updated!" };
 };

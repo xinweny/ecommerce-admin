@@ -1,4 +1,5 @@
 import NextAuth from "next-auth";
+import { NextResponse } from "next/server";
 
 import authConfig from "@/config/auth";
 
@@ -17,13 +18,11 @@ export default auth((req) => {
 
   if (nextUrl.pathname.startsWith(apiAuthPrefix)) return;
   
-  if (authRoutes.includes(nextUrl.pathname)) {
-    return isLoggedIn
-      ? Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
-      : undefined;
-  }
+  if (authRoutes.includes(nextUrl.pathname)) return isLoggedIn
+    ? NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+    : undefined;
 
-  if (!isLoggedIn && !(publicRoutes.includes(nextUrl.pathname))) return Response.redirect(new URL("/login", nextUrl));
+  if (!isLoggedIn && !(publicRoutes.includes(nextUrl.pathname))) return NextResponse.redirect(new URL("/login", nextUrl));
 
   return;
 });

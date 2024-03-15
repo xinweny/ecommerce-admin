@@ -1,21 +1,20 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFormState, useFormStatus } from "react-dom";
 
 import { LoginSchema } from "@/schemas/auth";
 
 import { login } from "@/actions/auth";
 
 import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 
 import { FormMessage } from "@/app/_components/ui/form-message";
 import { FormInput } from "@/app/_components/ui/form-input";
+import { SubmitButton } from "@/app/_components/ui/submit-button";
 import { CardWrapper } from "../../_components/card-wrapper";
 import { ForgotPasswordLink } from "./forgot-password-link";
 
@@ -26,12 +25,8 @@ export function LoginForm() {
     ? "Email already in use with different provider!"
     : "";
 
-  const [state, formAction] = useFormState(login, null);
-
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
-
-  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -41,16 +36,14 @@ export function LoginForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
 
-    startTransition(async () => {
-      const data = await login(values, callbackUrl);
+    const data = await login(values, callbackUrl);
 
-      setError(data.error);
-      setSuccess(data.success);
-    });
+    setError(data.error);
+    setSuccess(data.success);
   };
 
   return (
@@ -62,7 +55,7 @@ export function LoginForm() {
     >
       <Form {...form}>
         <form
-          onSubmit={formAction}
+          onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6"
         >
           <div className="space-y-4">
@@ -85,13 +78,7 @@ export function LoginForm() {
             error={error || urlError}
             success={success}
           />
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isPending}
-          >
-            Login
-          </Button>
+          <SubmitButton className="w-full">Login</SubmitButton>
         </form>
       </Form>
     </CardWrapper>

@@ -61,34 +61,26 @@ export function RegisterForm() {
           <div className="space-y-4">
             <div>
               <FormInput
-                control={form.control}
                 name="firstName"
                 label="First Name"
-                disabled={isPending}
                 placeholder="Johann"
               />
               <FormInput
-                control={form.control}
                 name="lastName"
                 label="Last Name"
-                disabled={isPending}
                 placeholder="Strauss"
               />
             </div>
             <FormInput
-              control={form.control}
               name="email"
               type="email"
               label="Email"
-              disabled={isPending}
               placeholder="johannstrauss@waltz.com"
             />
             <FormInput
-              control={form.control}
               name="password"
               label="Password"
               type="password"
-              disabled={isPending}
             />
           </div>
           <FormMessage error={error} success={success} />

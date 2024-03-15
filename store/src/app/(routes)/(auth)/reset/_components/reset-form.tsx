@@ -1,26 +1,18 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useState } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { ResetSchema } from "@/schemas/auth";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 
+import { FormInput } from "@/app/_components/ui/form-input";
 import { FormError } from "@/app/_components/ui/form-error";
 import { FormSuccess } from "@/app/_components/ui/form-success";
-
+import { SubmitButton } from "@/app/_components/ui/submit-button";
 import { CardWrapper } from "../../_components/card-wrapper";
 
 import { reset } from "@/actions/auth";
@@ -29,8 +21,6 @@ export function ResetForm() {
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
 
-  const [isPending, startTransition] = useTransition();
-
   const form = useForm<z.infer<typeof ResetSchema>>({
     resolver: zodResolver(ResetSchema),
     defaultValues: {
@@ -38,16 +28,14 @@ export function ResetForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof ResetSchema>) => {
+  const onSubmit = async (values: z.infer<typeof ResetSchema>) => {
     setError("");
     setSuccess("");
 
-    startTransition(async () => {
-      const data = await reset(values);
+    const data = await reset(values);
 
-      setError(data.error);
-      setSuccess(data.success);
-    });
+    setError(data.error);
+    setSuccess(data.success);
   };
 
   return (
@@ -61,33 +49,17 @@ export function ResetForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6"
         >
-          <FormField
-            control={form.control}
+          <FormInput
             name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="email"
-                    disabled={isPending}
-                    placeholder="johndoe@example.com"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            type="email"
+            label="Email"
+            placeholder="johannstrauss@waltz.com"
           />
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isPending}
-          >
+          <SubmitButton className="w-full">
             Send Reset Email
-          </Button>
+          </SubmitButton>
         </form>
       </Form>
     </CardWrapper>
