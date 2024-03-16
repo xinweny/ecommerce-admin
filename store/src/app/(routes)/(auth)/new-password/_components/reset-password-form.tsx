@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -13,16 +13,15 @@ import { resetPassword } from "@/actions/auth";
 import { Form } from "@/components/ui/form";
 
 import { FormInput } from "@/app/_components/ui/form-input";
-import { FormMessage } from "@/app/_components/ui/form-message";
+import { FormFeedback } from "@/app/_components/ui/form-feedback";
 import { CardWrapper } from "../../_components/card-wrapper";
 import { SubmitButton } from "@/app/_components/ui/submit-button";
 
 export function ResetPasswordForm() {
+  const [success, setSuccess] = useState<string>();
+
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-
-  const [error, setError] = useState<string>();
-  const [success, setSuccess] = useState<string>();
 
   const form = useForm<z.infer<typeof ResetPasswordSchema>>({
     resolver: zodResolver(ResetPasswordSchema),
@@ -33,13 +32,12 @@ export function ResetPasswordForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof ResetPasswordSchema>) => {
-    setError("");
-    setSuccess("");
+    setSuccess(undefined);
 
-    const data = await resetPassword(values, token);
+    const { error, success } = await resetPassword(values, token);
 
-    setError(data.error);
-    setSuccess(data.success);
+    if (error) form.setError("root.serverError", { message: error });
+    if (success) setSuccess(success);
   };
 
   return (
@@ -65,7 +63,7 @@ export function ResetPasswordForm() {
               type="password"
             />
           </div>
-          <FormMessage error={error} success={success} />
+          <FormFeedback success={success} />
           <SubmitButton className="w-full">Reset Password</SubmitButton>
         </form>
       </Form>

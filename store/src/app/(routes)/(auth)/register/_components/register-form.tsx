@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useState } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,18 +8,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 
 import { FormInput } from "@/app/_components/ui/form-input";
-import { FormMessage } from "@/app/_components/ui/form-message";
+import { FormFeedback } from "@/app/_components/ui/form-feedback";
 import { CardWrapper } from "../../_components/card-wrapper";
+import { SubmitButton } from "@/app/_components/ui/submit-button";
 
 import { register } from "@/actions/auth";
 
 export function RegisterForm() {
-  const [isPending, startTransition] = useTransition();
-
-  const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
@@ -32,18 +29,13 @@ export function RegisterForm() {
     },
   });
 
-  const { formState: { isSubmitting } } = form;
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
+    setSuccess(undefined);
 
-  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    setError("");
-    setSuccess("");
+    const { error, success } = await register(values);
 
-    startTransition(async () => {
-      const data = await register(values);
-
-      setError(data.error);
-      setSuccess(data.success);
-    });
+    if (error) form.setError("root.serverError", { message: error });
+    if (success) setSuccess(success);
   };
 
   return (
@@ -83,14 +75,10 @@ export function RegisterForm() {
               type="password"
             />
           </div>
-          <FormMessage error={error} success={success} />
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isPending}
-          >
-            Login
-          </Button>
+          <FormFeedback success={success} />
+          <SubmitButton className="w-full">
+            Register
+          </SubmitButton>
         </form>
       </Form>
     </CardWrapper>

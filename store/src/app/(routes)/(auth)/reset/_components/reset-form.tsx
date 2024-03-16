@@ -9,16 +9,14 @@ import { ResetSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
 
+import { reset } from "@/actions/auth";
+
 import { FormInput } from "@/app/_components/ui/form-input";
-import { FormError } from "@/app/_components/ui/form-error";
-import { FormSuccess } from "@/app/_components/ui/form-success";
+import { FormFeedback } from "@/app/_components/ui/form-feedback";
 import { SubmitButton } from "@/app/_components/ui/submit-button";
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { reset } from "@/actions/auth";
-
 export function ResetForm() {
-  const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
 
   const form = useForm<z.infer<typeof ResetSchema>>({
@@ -29,13 +27,13 @@ export function ResetForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof ResetSchema>) => {
-    setError("");
-    setSuccess("");
 
-    const data = await reset(values);
+    setSuccess(undefined);
 
-    setError(data.error);
-    setSuccess(data.success);
+    const { error, success } = await reset(values);
+
+    if (error) form.setError("root.serverError", { message: error });
+    if (success) setSuccess(success);
   };
 
   return (
@@ -55,8 +53,7 @@ export function ResetForm() {
             label="Email"
             placeholder="johannstrauss@waltz.com"
           />
-          <FormError message={error} />
-          <FormSuccess message={success} />
+          <FormFeedback success={success} />
           <SubmitButton className="w-full">
             Send Reset Email
           </SubmitButton>

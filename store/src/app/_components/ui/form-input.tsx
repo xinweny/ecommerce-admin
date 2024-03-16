@@ -24,8 +24,6 @@ export function FormInput({
 }: FormInputProps) {
   const methods = useFormContext();
 
-  if (!methods) return null;
-
   const {
     control,
     formState: { isSubmitting },

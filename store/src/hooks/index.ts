@@ -1,2 +1,1 @@
-export * from "./useCurrentUser";
-export * from "./useSubmitErrorSuccess";
+export * from "./use-current-user";

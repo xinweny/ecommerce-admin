@@ -16,11 +16,11 @@ export const settings = async (
 ) => {
   const user = await currentUser();
 
-  if (!user) return { error: "Unauthorized" };
+  if (!user) return { error: "Unauthorized", status: 401 };
 
   const dbUser = await getUserById(user.id as string);
 
-  if (!dbUser) return { error: "Unauthorized" };
+  if (!dbUser) return { error: "Unauthorized", status: 401 };
 
   await db.user.update({
     where: { id: dbUser.id },

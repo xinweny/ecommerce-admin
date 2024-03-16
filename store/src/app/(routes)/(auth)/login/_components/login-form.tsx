@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 
 import { LoginSchema } from "@/schemas/auth";
 
@@ -12,7 +12,7 @@ import { login } from "@/actions/auth";
 
 import { Form } from "@/components/ui/form";
 
-import { FormMessage } from "@/app/_components/ui/form-message";
+import { FormFeedback } from "@/app/_components/ui/form-feedback";
 import { FormInput } from "@/app/_components/ui/form-input";
 import { SubmitButton } from "@/app/_components/ui/submit-button";
 import { CardWrapper } from "../../_components/card-wrapper";
@@ -23,10 +23,7 @@ export function LoginForm() {
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
     ? "Email already in use with different provider!"
-    : "";
-
-  const [error, setError] = useState<string>();
-  const [success, setSuccess] = useState<string>();
+    : undefined;
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -37,13 +34,14 @@ export function LoginForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
-    setError("");
-    setSuccess("");
+    const { success, error } = await login(values, callbackUrl);
 
-    const data = await login(values, callbackUrl);
+    if (error) form.setError("root.serverError", { message: error });
 
-    setError(data.error);
-    setSuccess(data.success);
+    if (success) {
+      form.reset();
+      toast.success(success);
+    }
   };
 
   return (
@@ -74,10 +72,7 @@ export function LoginForm() {
               <ForgotPasswordLink />
             </div>
           </div>
-          <FormMessage
-            error={error || urlError}
-            success={success}
-          />
+          <FormFeedback error={urlError} />
           <SubmitButton className="w-full">Login</SubmitButton>
         </form>
       </Form>

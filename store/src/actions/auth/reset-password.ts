@@ -8,7 +8,6 @@ import { db } from "@/db/client";
 import { ResetPasswordSchema } from "@/schemas/auth";
 
 import { getPasswordResetTokenByToken } from "@/data/password-reset-token";
-
 import { getUserByEmail } from "@/data/user";
 
 export const resetPassword = async (
@@ -45,5 +44,5 @@ export const resetPassword = async (
     }),
   ]);
 
-  return { success: "Password updated!" };
+  return { success: "Password updated successfully! Please log in again." };
 };

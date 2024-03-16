@@ -8,6 +8,7 @@ import { db } from "@/db/client";
 import { RegisterSchema } from "@/schemas/auth";
 
 import { getUserByEmail } from "@/data/user";
+
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
@@ -45,5 +46,5 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     name: firstName,
   });
 
-  return { success: "Confirmation email sent!" };
+  return { success: `Confirmation email sent to ${email}!` };
 };

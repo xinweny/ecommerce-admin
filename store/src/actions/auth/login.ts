@@ -4,10 +4,13 @@ import * as z from "zod";
 import { AuthError } from "next-auth";
 
 import { signIn } from "@/auth";
+
 import { DEFAULT_LOGIN_REDIRECT } from "@/config/routes";
+
 import { LoginSchema } from "@/schemas/auth";
 
 import { getUserByEmail } from "@/data/user";
+
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
@@ -34,7 +37,7 @@ export const login = async (
       name: user.firstName,
     });
 
-    return { success: "Confirmation email sent!" };
+    return { error: `Confirmation email sent to ${verificationToken.email}. Please verify your email address.` };
   }
 
   try {
@@ -44,16 +47,14 @@ export const login = async (
       redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
 
-    return { success: "Logged in successfully!" };
+    return { success: `Welcome back, ${user.firstName}!` };
   } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return { error: "Invalid credentials" };
-        default:
-          return { error: "Something went wrong" };
+    if (error instanceof AuthError) return error.type === "CredentialsSignin"
+      ? {
+        error: "Invalid credentials.",
+        status: 400,
       }
-    }
+      : { error: "Something went wrong." };
 
     throw error;
   }
