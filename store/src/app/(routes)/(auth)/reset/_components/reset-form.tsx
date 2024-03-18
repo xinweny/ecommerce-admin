@@ -32,8 +32,12 @@ export function ResetForm() {
 
     const { error, success } = await reset(values);
 
-    if (error) form.setError("root.serverError", { message: error });
-    if (success) setSuccess(success);
+    if (error) {
+      form.setError("root.serverError", { message: error });
+      return;
+    }
+    
+    setSuccess(success);
   };
 
   return (

@@ -36,12 +36,13 @@ export function LoginForm() {
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     const { success, error } = await login(values, callbackUrl);
 
-    if (error) form.setError("root.serverError", { message: error });
-
-    if (success) {
-      form.reset();
-      toast.success(success);
+    if (error) {
+      form.setError("root.serverError", { message: error });
+      return;
     }
+
+    form.reset();
+    toast.success(success as string);
   };
 
   return (

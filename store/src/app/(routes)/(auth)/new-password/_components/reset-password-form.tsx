@@ -36,8 +36,12 @@ export function ResetPasswordForm() {
 
     const { error, success } = await resetPassword(values, token);
 
-    if (error) form.setError("root.serverError", { message: error });
-    if (success) setSuccess(success);
+    if (error) {
+      form.setError("root.serverError", { message: error });
+      return;
+    }
+    
+    setSuccess(success);
   };
 
   return (

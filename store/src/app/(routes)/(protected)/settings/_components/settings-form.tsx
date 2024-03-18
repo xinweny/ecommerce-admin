@@ -1,10 +1,10 @@
 "use client";
 
-import { useTransition, useState } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 import { SettingsSchema } from "@/schemas/settings";
 
@@ -15,32 +15,17 @@ import {
   CardHeader,
   CardContent,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormField,
-  FormControl,
-  FormItem,
-  FormLabel,
-  FormDescription,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 
-import { FormError } from "@/app/_components/ui/form-error";
-import { FormSuccess } from "@/app/_components/ui/form-success";
+import { SubmitButton } from "@/app/_components/ui/submit-button";
 
 import { settings } from "@/actions/auth";
+import { FormInput } from "@/app/_components/ui/form-input";
 
 export function SettingsForm() {
   const user = useCurrentUser();
 
   const { update } = useSession();
-
-  const [error, setError] = useState<string | undefined>();
-  const [success, setSuccess] = useState<string | undefined>();
-
-  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof SettingsSchema>>({
     resolver: zodResolver(SettingsSchema),
@@ -51,26 +36,26 @@ export function SettingsForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof SettingsSchema>) => {
-    startTransition(async () => {
-      try {
-        const data = await settings(values);
+    try {
+      const { error, success } = await settings(values);
 
-        if (data.error) {
-          setError(data.error);
-          return;
-        }
-        
-        await update();
-        
-        setSuccess(data.success);
-      } catch {
-        setError("Something went wrong.");
+      console.log(error, success);
+
+      if (error) {
+        form.setError("root.serverError", { message: error });
+        return;
       }
-    });
+
+      await update();
+      
+      toast.success(success as string);
+    } catch {
+      form.setError("root.serverError", { message: "Something went wrong." });
+    }
   };
 
   return (
-    <Card className="w-[600px">
+    <Card>
       <CardHeader>
         <span className="text-2xl font-semibold text-center">Settings</span>
       </CardHeader>
@@ -81,30 +66,18 @@ export function SettingsForm() {
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>First Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isPending}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              <div>
+                <FormInput
+                  name="firstName"
+                  label="First Name"
+                />
+                <FormInput
+                  name="lastName"
+                  label="Last Name"
+                />
+              </div>
             </div>
-            <FormError message={error} />
-            <FormSuccess message={success} />
-            <Button
-              disabled={isPending}
-              type="submit"
-            >
-              Save
-            </Button>
+            <SubmitButton className="w-full">Save</SubmitButton>
           </form>
         </Form>
       </CardContent>
