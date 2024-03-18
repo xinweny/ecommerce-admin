@@ -23,7 +23,7 @@ import { FormFeedback } from "@/app/_components/ui/form-feedback";
 
 import { updatePassword } from "@/actions/settings/update-password";
 
-export function ChangePasswordForm() {
+export function UpdatePasswordForm() {
   const user = useCurrentUser();
 
   const form = useForm<z.infer<typeof passwordSchema>>({
@@ -55,7 +55,7 @@ export function ChangePasswordForm() {
   return (
     <Card>
       <CardHeader>
-        <span className="text-2xl font-semibold text-center">Change Password</span>
+        <span className="text-2xl font-semibold text-center">Update Password</span>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -84,7 +84,7 @@ export function ChangePasswordForm() {
               />
             </div>
             <FormFeedback />
-            <SubmitButton className="w-full">Update Password</SubmitButton>
+            <SubmitButton className="w-full">Update</SubmitButton>
           </form>
         </Form>
       </CardContent>

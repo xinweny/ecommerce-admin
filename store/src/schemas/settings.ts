@@ -15,3 +15,7 @@ export const passwordSchema = z.object({
     message: "Passwords do not match.",
     path: ["confirmNewPassword"],
   });
+
+export const emailSchema = z.object({
+  email: z.string().email("Email is required"),
+});
