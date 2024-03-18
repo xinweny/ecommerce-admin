@@ -6,6 +6,7 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
@@ -14,6 +15,7 @@ interface FormInputProps {
   label: string;
   type?: React.HTMLInputTypeAttribute;
   placeholder?: string;
+  description?: string;
 }
 
 export function FormInput({
@@ -21,6 +23,7 @@ export function FormInput({
   label,
   type,
   placeholder,
+  description,
 }: FormInputProps) {
   const methods = useFormContext();
 
@@ -36,6 +39,7 @@ export function FormInput({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
+          {description && <FormDescription>{description}</FormDescription>}
           <FormControl>
             <Input
               {...field}

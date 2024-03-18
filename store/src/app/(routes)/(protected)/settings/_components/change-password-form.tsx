@@ -3,10 +3,9 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
-import { userInfoSchema } from "@/schemas/settings";
+import { passwordSchema } from "@/schemas/settings";
 
 import { useCurrentUser } from "@/hooks";
 
@@ -22,20 +21,19 @@ import { SubmitButton } from "@/app/_components/ui/submit-button";
 
 import { updateUserInfo } from "@/actions/settings";
 
-export function UpdateUserInfoForm() {
+export function ChangePasswordForm() {
   const user = useCurrentUser();
 
-  const { update } = useSession();
-
-  const form = useForm<z.infer<typeof userInfoSchema>>({
-    resolver: zodResolver(userInfoSchema),
+  const form = useForm<z.infer<typeof passwordSchema>>({
+    resolver: zodResolver(passwordSchema),
     defaultValues: {
-      firstName: user?.firstName || undefined,
-      lastName: user?.lastName || undefined,
+      oldPassword: undefined,
+      newPassword: undefined,
+      confirmNewPassword: undefined,
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof userInfoSchema>) => {
+  const onSubmit = async (values: z.infer<typeof passwordSchema>) => {
     try {
       const { error, success } = await updateUserInfo(values);
 
@@ -43,8 +41,6 @@ export function UpdateUserInfoForm() {
         form.setError("root.serverError", { message: error });
         return;
       }
-
-      await update();
       
       toast.success(success as string);
     } catch {
@@ -52,10 +48,12 @@ export function UpdateUserInfoForm() {
     }
   };
 
+  if (user?.provider === "credentials") return null;
+
   return (
     <Card>
       <CardHeader>
-        <span className="text-2xl font-semibold text-center">User Info</span>
+        <span className="text-2xl font-semibold text-center">Change Password</span>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -66,16 +64,23 @@ export function UpdateUserInfoForm() {
             <div className="space-y-4">
               <div>
                 <FormInput
-                  name="firstName"
-                  label="First Name"
+                  name="oldPassword"
+                  label="Current Password"
+                  type="password"
                 />
                 <FormInput
-                  name="lastName"
-                  label="Last Name"
+                  name="newPassword"
+                  label="New Password"
+                  type="password"
+                />
+                <FormInput
+                  name="confirmNewPassword"
+                  label="Confirm New Password"
+                  type="password"
                 />
               </div>
             </div>
-            <SubmitButton className="w-full">Save</SubmitButton>
+            <SubmitButton className="w-full">Update Password</SubmitButton>
           </form>
         </Form>
       </CardContent>

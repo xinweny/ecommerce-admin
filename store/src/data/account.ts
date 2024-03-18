@@ -1,12 +1,12 @@
 import { db } from "@/db/client";
 
-export const getAccountByUserId = async (userId: string) => {
+export const getAccountsByUserId = async (userId: string) => {
   try {
-    const account = await db.account.findFirst({
+    const accounts = await db.account.findMany({
       where: { userId },
     });
 
-    return account;
+    return accounts;
   } catch {
     return null;
   }

@@ -7,14 +7,11 @@ export const userInfoSchema = z.object({
 });
 
 export const passwordSchema = z.object({
-  oldPassword: z.string().min(1),
-  newPassword: z.string().min(6),
-  confirmNewPassword: z.string().min(6),
+  oldPassword: z.string().min(1, "Password is required."),
+  newPassword: z.string().min(6, "Minimum of 6 characters required"),
+  confirmNewPassword: z.string().min(6, "Minimum of 6 characters required"),
 })
-  .refine((data) => {
-    const { newPassword, confirmNewPassword } = data;
-
-    if (newPassword !== confirmNewPassword) return false;
-
-    return true;
+  .refine(({ newPassword, confirmNewPassword }) => newPassword === confirmNewPassword, {
+    message: "Passwords do not match.",
+    path: ["confirmNewPassword"],
   });
