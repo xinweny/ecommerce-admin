@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 
-import { LoginSchema } from "@/schemas/auth";
+import { loginSchema } from "@/schemas/auth";
 
 import { login } from "@/actions/auth";
 
@@ -25,15 +25,15 @@ export function LoginForm() {
     ? "Email already in use with different provider!"
     : undefined;
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     const { success, error } = await login(values, callbackUrl);
 
     if (error) {

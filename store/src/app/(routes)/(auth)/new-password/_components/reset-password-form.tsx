@@ -6,7 +6,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ResetPasswordSchema } from "@/schemas/auth";
+import { resetPasswordSchema } from "@/schemas/auth";
 
 import { resetPassword } from "@/actions/auth";
 
@@ -23,15 +23,15 @@ export function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
-  const form = useForm<z.infer<typeof ResetPasswordSchema>>({
-    resolver: zodResolver(ResetPasswordSchema),
+  const form = useForm<z.infer<typeof resetPasswordSchema>>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       password: "",
       confirmPassword: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof ResetPasswordSchema>) => {
+  const onSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
     setSuccess(undefined);
 
     const { error, success } = await resetPassword(values, token);

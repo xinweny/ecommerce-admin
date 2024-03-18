@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
-import { SettingsSchema } from "@/schemas/settings";
+import { userInfoSchema } from "@/schemas/settings";
 
 import { useCurrentUser } from "@/hooks";
 
@@ -19,7 +19,7 @@ import { Form } from "@/components/ui/form";
 
 import { SubmitButton } from "@/app/_components/ui/submit-button";
 
-import { settings } from "@/actions/auth";
+import { updateUserInfo } from "@/actions/settings";
 import { FormInput } from "@/app/_components/ui/form-input";
 
 export function SettingsForm() {
@@ -27,17 +27,17 @@ export function SettingsForm() {
 
   const { update } = useSession();
 
-  const form = useForm<z.infer<typeof SettingsSchema>>({
-    resolver: zodResolver(SettingsSchema),
+  const form = useForm<z.infer<typeof userInfoSchema>>({
+    resolver: zodResolver(userInfoSchema),
     defaultValues: {
       firstName: user?.firstName || undefined,
       lastName: user?.lastName || undefined,
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof SettingsSchema>) => {
+  const onSubmit = async (values: z.infer<typeof userInfoSchema>) => {
     try {
-      const { error, success } = await settings(values);
+      const { error, success } = await updateUserInfo(values);
 
       console.log(error, success);
 

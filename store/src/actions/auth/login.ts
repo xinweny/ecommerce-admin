@@ -7,7 +7,7 @@ import { signIn } from "@/auth";
 
 import { DEFAULT_LOGIN_REDIRECT } from "@/config/routes";
 
-import { LoginSchema } from "@/schemas/auth";
+import { loginSchema } from "@/schemas/auth";
 
 import { getUserByEmail } from "@/data/user";
 
@@ -15,10 +15,10 @@ import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
 export const login = async (
-  values: z.infer<typeof LoginSchema>,
+  values: z.infer<typeof loginSchema>,
   callbackUrl?: string | null,
 ) => {
-  const validatedFields = LoginSchema.safeParse(values);
+  const validatedFields = loginSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: "Invalid fields." };
 

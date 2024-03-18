@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-export const LoginSchema = z.object({
+export const loginSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),
@@ -9,7 +9,7 @@ export const LoginSchema = z.object({
   }),
 });
 
-export const RegisterSchema = z.object({
+export const registerSchema = z.object({
   firstName: z.string().min(1, {
     message: "First name is required"
   }),
@@ -24,7 +24,7 @@ export const RegisterSchema = z.object({
   }),
 });
 
-export const ResetPasswordSchema = z.object({
+export const resetPasswordSchema = z.object({
   password: z.string().min(6, {
     message: "Minimum 6 characters required",
   }),
@@ -40,7 +40,7 @@ export const ResetPasswordSchema = z.object({
     }
   );
 
-export const ResetSchema = z.object({
+export const resetSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),

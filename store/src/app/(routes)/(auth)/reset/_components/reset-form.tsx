@@ -5,7 +5,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ResetSchema } from "@/schemas/auth";
+import { resetSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
 
@@ -19,14 +19,14 @@ import { CardWrapper } from "../../_components/card-wrapper";
 export function ResetForm() {
   const [success, setSuccess] = useState<string>();
 
-  const form = useForm<z.infer<typeof ResetSchema>>({
-    resolver: zodResolver(ResetSchema),
+  const form = useForm<z.infer<typeof resetSchema>>({
+    resolver: zodResolver(resetSchema),
     defaultValues: {
       email: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof ResetSchema>) => {
+  const onSubmit = async (values: z.infer<typeof resetSchema>) => {
 
     setSuccess(undefined);
 
@@ -36,7 +36,7 @@ export function ResetForm() {
       form.setError("root.serverError", { message: error });
       return;
     }
-    
+
     setSuccess(success);
   };
 

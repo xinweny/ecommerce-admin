@@ -5,14 +5,14 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/db/client";
 
-import { SettingsSchema } from "@/schemas/settings";
+import { userInfoSchema } from "@/schemas/settings";
 
 import { getUserById } from "@/data/user";
 
 import { currentUser } from "@/lib/auth";
 
-export const settings = async (
-  values: z.infer<typeof SettingsSchema>
+export const updateUserInfo = async (
+  values: z.infer<typeof userInfoSchema>
 ) => {
   const user = await currentUser();
 
@@ -24,7 +24,10 @@ export const settings = async (
 
   await db.user.update({
     where: { id: dbUser.id },
-    data: { ...values },
+    data: {
+      firstName: values.firstName,
+      lastName: values.lastName,
+    },
   });
 
   revalidatePath("/settings");

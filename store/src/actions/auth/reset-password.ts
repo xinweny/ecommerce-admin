@@ -5,18 +5,18 @@ import bcrypt from "bcryptjs";
 
 import { db } from "@/db/client";
 
-import { ResetPasswordSchema } from "@/schemas/auth";
+import { resetPasswordSchema } from "@/schemas/auth";
 
 import { getPasswordResetTokenByToken } from "@/data/password-reset-token";
 import { getUserByEmail } from "@/data/user";
 
 export const resetPassword = async (
-  values: z.infer<typeof ResetPasswordSchema>,
+  values: z.infer<typeof resetPasswordSchema>,
   token?: string | null,
 ) => {
   if (!token) return { error: "Missing token." };
 
-  const validatedFields = ResetPasswordSchema.safeParse(values);
+  const validatedFields = resetPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: "Invalid fields." };
 

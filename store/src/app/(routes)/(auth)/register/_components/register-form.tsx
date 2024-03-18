@@ -5,7 +5,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { RegisterSchema } from "@/schemas/auth";
+import { registerSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
 
@@ -19,8 +19,8 @@ import { register } from "@/actions/auth";
 export function RegisterForm() {
   const [success, setSuccess] = useState<string>();
 
-  const form = useForm<z.infer<typeof RegisterSchema>>({
-    resolver: zodResolver(RegisterSchema),
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -29,7 +29,7 @@ export function RegisterForm() {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
+  const onSubmit = async (values: z.infer<typeof registerSchema>) => {
     setSuccess(undefined);
 
     const { error, success } = await register(values);
