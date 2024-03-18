@@ -21,9 +21,6 @@ import { ForgotPasswordLink } from "./forgot-password-link";
 export function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
-  const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
-    ? "Email already in use with different provider!"
-    : undefined;
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -73,7 +70,7 @@ export function LoginForm() {
               <ForgotPasswordLink />
             </div>
           </div>
-          <FormFeedback error={urlError} />
+          <FormFeedback />
           <SubmitButton className="w-full">Login</SubmitButton>
         </form>
       </Form>

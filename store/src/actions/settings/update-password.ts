@@ -27,18 +27,22 @@ export const updatePassword = async (
 
   if (!dbUser) return { error: "Unauthorized", status: 401 };
 
-  await bcrypt.compare(values.oldPassword, dbUser.password)
+  if (dbUser.password && typeof values.oldPassword === "string") {
+    const isCorrectPassword = await bcrypt.compare(values.oldPassword, dbUser.password);
 
-  await bcrypt.hash()
+    if (!isCorrectPassword) return { error: "Password is incorrect." };
+  }
+
+  const hashedPassword = await bcrypt.hash(values.newPassword, 10);
 
   await db.user.update({
     where: { id: dbUser.id },
     data: {
-      
+      password: hashedPassword,
     },
   });
 
   revalidatePath("/settings");
 
-  return { success: "User info updated!" };
+  return { success: "Password updated successfully!" };
 };

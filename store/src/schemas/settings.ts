@@ -7,7 +7,7 @@ export const userInfoSchema = z.object({
 });
 
 export const passwordSchema = z.object({
-  oldPassword: z.string().min(1, "Password is required."),
+  oldPassword: z.string(),
   newPassword: z.string().min(6, "Minimum of 6 characters required"),
   confirmNewPassword: z.string().min(6, "Minimum of 6 characters required"),
 })

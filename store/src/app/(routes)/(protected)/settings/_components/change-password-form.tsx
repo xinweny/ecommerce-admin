@@ -18,8 +18,10 @@ import { Form } from "@/components/ui/form";
 
 import { FormInput } from "@/app/_components/ui/form-input";
 import { SubmitButton } from "@/app/_components/ui/submit-button";
+import { SendResetEmailLink } from "./send-reset-email-link";
+import { FormFeedback } from "@/app/_components/ui/form-feedback";
 
-import { updateUserInfo } from "@/actions/settings";
+import { updatePassword } from "@/actions/settings/update-password";
 
 export function ChangePasswordForm() {
   const user = useCurrentUser();
@@ -27,15 +29,15 @@ export function ChangePasswordForm() {
   const form = useForm<z.infer<typeof passwordSchema>>({
     resolver: zodResolver(passwordSchema),
     defaultValues: {
-      oldPassword: undefined,
-      newPassword: undefined,
-      confirmNewPassword: undefined,
+      oldPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof passwordSchema>) => {
     try {
-      const { error, success } = await updateUserInfo(values);
+      const { error, success } = await updatePassword(values);
 
       if (error) {
         form.setError("root.serverError", { message: error });
@@ -68,18 +70,20 @@ export function ChangePasswordForm() {
                   label="Current Password"
                   type="password"
                 />
-                <FormInput
-                  name="newPassword"
-                  label="New Password"
-                  type="password"
-                />
-                <FormInput
-                  name="confirmNewPassword"
-                  label="Confirm New Password"
-                  type="password"
-                />
+                <SendResetEmailLink />
               </div>
+              <FormInput
+                name="newPassword"
+                label="New Password"
+                type="password"
+              />
+              <FormInput
+                name="confirmNewPassword"
+                label="Confirm New Password"
+                type="password"
+              />
             </div>
+            <FormFeedback />
             <SubmitButton className="w-full">Update Password</SubmitButton>
           </form>
         </Form>
