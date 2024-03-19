@@ -1,18 +1,10 @@
-import { auth, signOut } from "@/auth";
+import { LogoutButton } from "@/app/_components/auth/logout-button";
 
 export default async function DashboardPage() {
-  const session = await auth();
-
   return (
     <div>
       <span>Dashboard</span>
-      <form action={async () => {
-        "use server";
-
-        await signOut();
-      }}>
-        <button type="submit">Sign Out</button>
-      </form>
+      <LogoutButton>Log Out</LogoutButton>
     </div>
   );
 }
