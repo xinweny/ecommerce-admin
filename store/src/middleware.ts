@@ -16,13 +16,15 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
-  if (nextUrl.pathname.startsWith(apiAuthPrefix)) return;
+  const path = nextUrl.pathname;
+
+  if (path.startsWith(apiAuthPrefix)) return;
   
-  if (authRoutes.includes(nextUrl.pathname)) return isLoggedIn
+  if (authRoutes.includes(path)) return isLoggedIn
     ? NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
     : undefined;
 
-  if (!isLoggedIn && !(publicRoutes.includes(nextUrl.pathname))) return NextResponse.redirect(new URL("/login", nextUrl));
+  if (!isLoggedIn && !(publicRoutes.includes(path))) return NextResponse.redirect(new URL("/login", nextUrl));
 
   return;
 });
