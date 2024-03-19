@@ -5,7 +5,7 @@ import { db } from "@/db/client";
 
 import authConfig from "./config/auth";
 
-import { getUserById } from "@/data/user";
+import { getUserById } from "@/actions/data/user";
 
 export const {
   handlers: { GET, POST },
@@ -35,11 +35,10 @@ export const {
       session.user.firstName = token.firstName as string;
       session.user.lastName = token.lastName as string;
       session.user.email = token.email as string;
-      session.user.provider = token.provider as "string" | null;
 
       return session;
     },
-    jwt: async ({ token, account }) => {
+    jwt: async ({ token }) => {
       if (!token.sub) return token;
 
       const user = await getUserById(token.sub);
@@ -49,7 +48,6 @@ export const {
       token.firstName = user.firstName;
       token.lastName = user.lastName;
       token.email = user.email;
-      token.provider = account?.provider || null;
 
       return token;
     },
