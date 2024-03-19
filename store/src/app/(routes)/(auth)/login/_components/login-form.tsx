@@ -30,7 +30,7 @@ export function LoginForm() {
     defaultValues: {
       email: "",
       password: "",
-      twoFactorCode: "",
+      twoFactorCode: undefined,
     },
   });
 
@@ -73,7 +73,7 @@ export function LoginForm() {
                   name="twoFactorCode"
                   label="Security Code"
                   description={`Security code sent to ${email}. Please enter the 6-digit code.`}
-                  placeholder={"123456"}
+                  placeholder={"000000"}
                 />
               )
               : (
