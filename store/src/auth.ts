@@ -46,6 +46,7 @@ export const {
       session.user.firstName = token.firstName as string;
       session.user.lastName = token.lastName as string;
       session.user.email = token.email as string;
+      session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
 
       return session;
     },
@@ -59,6 +60,7 @@ export const {
       token.firstName = user.firstName;
       token.lastName = user.lastName;
       token.email = user.email;
+      token.isTwoFactorEnabled = user.isTwoFactorEnabled;
 
       return token;
     },

@@ -5,15 +5,15 @@ import bcrypt from "bcryptjs";
 
 import { db } from "@/db/client";
 
-import { RegisterSchema } from "@/schemas/auth";
+import { registerSchema } from "@/schemas/auth";
 
-import { getUserByEmail } from "@/data/user";
+import { getUserByEmail } from "../data/user";
 
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
-export const register = async (values: z.infer<typeof RegisterSchema>) => {
-  const validatedFields = RegisterSchema.safeParse(values);
+export const register = async (values: z.infer<typeof registerSchema>) => {
+  const validatedFields = registerSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: "Invalid fields." };
 

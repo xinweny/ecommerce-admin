@@ -3,6 +3,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
 import { emailSchema } from "@/schemas/settings";
@@ -20,10 +21,12 @@ import { FormInput } from "@/app/_components/ui/form-input";
 import { SubmitButton } from "@/app/_components/ui/submit-button";
 import { FormFeedback } from "@/app/_components/ui/form-feedback";
 
-import { updateEmail } from "@/actions/settings/update-email";
+import { updateEmail } from "@/actions/settings";
 
 export function UpdateEmailForm() {
   const user = useCurrentUser();
+
+  const { update } = useSession();
 
   const form = useForm<z.infer<typeof emailSchema>>({
     resolver: zodResolver(emailSchema),
@@ -40,14 +43,14 @@ export function UpdateEmailForm() {
         form.setError("root.serverError", { message: error });
         return;
       }
+
+      await update();
       
       toast.success(success as string);
     } catch {
       form.setError("root.serverError", { message: "Something went wrong." });
     }
   };
-
-  if (user?.provider === "credentials") return null;
 
   return (
     <Card>

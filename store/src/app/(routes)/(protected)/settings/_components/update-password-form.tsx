@@ -7,8 +7,6 @@ import toast from "react-hot-toast";
 
 import { passwordSchema } from "@/schemas/settings";
 
-import { useCurrentUser } from "@/hooks";
-
 import {
   Card,
   CardHeader,
@@ -21,11 +19,9 @@ import { SubmitButton } from "@/app/_components/ui/submit-button";
 import { SendResetEmailLink } from "./send-reset-email-link";
 import { FormFeedback } from "@/app/_components/ui/form-feedback";
 
-import { updatePassword } from "@/actions/settings/update-password";
+import { updatePassword } from "@/actions/settings";
 
 export function UpdatePasswordForm() {
-  const user = useCurrentUser();
-
   const form = useForm<z.infer<typeof passwordSchema>>({
     resolver: zodResolver(passwordSchema),
     defaultValues: {
@@ -49,8 +45,6 @@ export function UpdatePasswordForm() {
       form.setError("root.serverError", { message: "Something went wrong." });
     }
   };
-
-  if (user?.provider === "credentials") return null;
 
   return (
     <Card>

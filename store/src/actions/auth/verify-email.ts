@@ -2,8 +2,8 @@
 
 import { db } from "@/db/client";
 
-import { getUserByEmail } from "@/data/user";
-import { getVerificationTokenByToken } from "@/data/verification-token";
+import { getUserByEmail } from "../data/user";
+import { getVerificationTokenByToken } from "../data/verification-token";
 
 export const verifyEmail = async (token?: string | null) => {
   if (!token) return { error: "Missing token." };

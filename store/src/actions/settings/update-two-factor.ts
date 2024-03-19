@@ -5,16 +5,16 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/db/client";
 
-import { userInfoSchema } from "@/schemas/settings";
+import { twoFactorSchema } from "@/schemas/settings";
 
 import { getUserById } from "../data/user";
 
 import { currentUser } from "@/lib/auth";
 
-export const updateUserInfo = async (
-  values: z.infer<typeof userInfoSchema>
+export const updateTwoFactor = async (
+  values: z.infer<typeof twoFactorSchema>
 ) => {
-  const validatedFields = userInfoSchema.safeParse(values);
+  const validatedFields = twoFactorSchema.safeParse(values);
 
   if (!validatedFields.success) return { error: "Invalid fields." };
   
@@ -26,15 +26,14 @@ export const updateUserInfo = async (
 
   if (!dbUser) return { error: "Unauthorized", status: 401 };
 
+  const { isTwoFactorEnabled } = values;
+
   await db.user.update({
     where: { id: dbUser.id },
-    data: {
-      firstName: values.firstName,
-      lastName: values.lastName,
-    },
+    data: { isTwoFactorEnabled: isTwoFactorEnabled },
   });
 
   revalidatePath("/settings");
 
-  return { success: "User info updated!" };
+  return { success: `2FA ${isTwoFactorEnabled ? "enabled" : "disabled"}.` };
 };
