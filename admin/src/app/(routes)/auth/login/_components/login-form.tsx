@@ -1,36 +1,23 @@
 "use client";
 
-import { useTransition, useState } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-hot-toast";
 
 import { LoginSchema } from "@/schemas";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 
-import { FormError } from "@/app/_components/ui/form-error";
-import { FormSuccess } from "@/app/_components/ui/form-success";
+import { FormInput } from "@/app/_components/auth/form-input";
+import { FormFeedback } from "@/app/_components/auth/form-feedback";
+import { SubmitButton } from "@/app/_components/ui/submit-button";
 
-import { CardWrapper } from "@/app/(routes)/auth/_components/card-wrapper";
+import { CardWrapper } from "@/app/_components/auth/card-wrapper";
 
 import { login } from "@/actions/auth";
 
 export function LoginForm() {
-  const [isPending, startTransition] = useTransition();
-
-  const [error, setError] = useState<string>();
-  const [success, setSuccess] = useState<string>();
-
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -39,16 +26,17 @@ export function LoginForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    setError("");
-    setSuccess("");
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+    const { error, success } = await login(values);
+    
+    if (error) {
+      form.reset();
+      form.setError("root.serverError", { message: error });
+      return;
+    }
 
-    startTransition(async () => {
-      const data = await login(values);
-
-      setError(data.error);
-      setSuccess(data.success);
-    });
+    form.reset();
+    toast.success(success as string);
   };
 
   return (
@@ -59,51 +47,22 @@ export function LoginForm() {
           className="space-y-6"
         >
           <div className="space-y-4">
-            <FormField
-              control={form.control}
+            <FormInput
               name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      disabled={isPending}
-                      placeholder="johndoe@example.com"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Email"
+              type="email"
+              placeholder="johannstrauss@waltz.com"
             />
-            <FormField
-              control={form.control}
+            <FormInput
               name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Password"
+              type="password"
             />
           </div>
-          <FormError message={error} />
-          <FormSuccess message={success} />
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isPending}
-          >
+          <FormFeedback />
+          <SubmitButton className="w-full">
             Login
-          </Button>
+          </SubmitButton>
         </form>
       </Form>
     </CardWrapper>

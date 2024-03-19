@@ -7,7 +7,7 @@ import { db } from "@/db/client";
 
 import authConfig from "./config/auth.config";
 
-import { getUserById } from "@/data/user";
+import { getUserById } from "@/actions/data/user";
 
 export const {
   handlers: { GET, POST },
