@@ -59,3 +59,32 @@ export const sendPasswordResetEmail = async ({
     </p>`,
   });
 };
+
+export const sendTwoFactorTokenEmail = async ({
+  name,
+  email,
+  token,
+}: {
+  name: string,
+  email: string;
+  token: string;
+}) => {
+  await resend.emails.send({
+    from: process.env.SMTP_ADDRESS as string,
+    to: email,
+    subject: "Your 2FA Security Code",
+    html: `
+      <p>
+        Hello ${name},
+        <br>
+        <p>Here is your security code for your Songbird Instruments account:</p>
+        <br>
+        <b>${token}</b>
+        <br>
+        <p>Thank you,</p>
+        <br>
+        <p>Songbird Instruments</p>
+      </p>
+    `
+  })
+};

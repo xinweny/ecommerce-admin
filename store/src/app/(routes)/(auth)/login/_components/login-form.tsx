@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -22,19 +23,30 @@ export function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
 
+  const [showTwoFactor, setShowTwoFactor] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
+      twoFactorCode: "",
     },
   });
 
+  const email = form.watch("email");
+
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    const { success, error } = await login(values, callbackUrl);
+    const { data, success, error } = await login(values, callbackUrl);
 
     if (error) {
+      form.reset();
       form.setError("root.serverError", { message: error });
+      return;
+    }
+
+    if (data?.isTwoFactor) {
+      setShowTwoFactor(true);
       return;
     }
 
@@ -55,23 +67,39 @@ export function LoginForm() {
           className="space-y-6"
         >
           <div className="space-y-4">
-            <FormInput
-              name="email"
-              type="email"
-              label="Email"
-              placeholder="johannstrauss@waltz.com"
-            />
-            <div>
-              <FormInput
-                name="password"
-                type="password"
-                label="Password"
-              />
-              <ForgotPasswordLink />
-            </div>
+            {showTwoFactor
+              ? (
+                <FormInput
+                  name="twoFactorCode"
+                  label="Security Code"
+                  description={`Security code sent to ${email}. Please enter the 6-digit code.`}
+                  placeholder={"123456"}
+                />
+              )
+              : (
+              <>
+                <FormInput
+                  name="email"
+                  type="email"
+                  label="Email"
+                  placeholder="johannstrauss@waltz.com"
+                />
+                <div>
+                  <FormInput
+                    name="password"
+                    type="password"
+                    label="Password"
+                  />
+                  <ForgotPasswordLink />
+                </div>
+              </>
+            )
+            }
           </div>
           <FormFeedback />
-          <SubmitButton className="w-full">Login</SubmitButton>
+          <SubmitButton className="w-full">
+            {showTwoFactor ? "Confirm" : "Login"}
+          </SubmitButton>
         </form>
       </Form>
     </CardWrapper>

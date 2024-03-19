@@ -6,6 +6,7 @@ import { db } from "@/db/client";
 import authConfig from "./config/auth";
 
 import { getUserById } from "@/actions/data/user";
+import { getTwoFactorConfirmationByUserId } from "./actions/data/two-factor-confirmation";
 
 export const {
   handlers: { GET, POST },
@@ -24,6 +25,16 @@ export const {
       const existingUser = await getUserById(user.id as string);
 
       if (!existingUser?.emailVerified) return false;
+
+      if (existingUser.isTwoFactorEnabled) {
+        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
+
+        if (!twoFactorConfirmation) return false;
+
+        await db.twoFactorConfirmation.delete({
+          where: { id: twoFactorConfirmation.id },
+        });
+      }
 
       return true;
     },
