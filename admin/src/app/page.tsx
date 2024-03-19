@@ -1,4 +1,4 @@
-import { LoginButton } from "@/app/(routes)/auth/login/_components/login-button";
+import { LoginButton } from "@/app/_components/auth/login-button";
 
 export default function HomePage() {
   return (

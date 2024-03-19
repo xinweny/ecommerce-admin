@@ -5,7 +5,7 @@ import { UserRole } from "@prisma/client";
 
 import { db } from "@/db/client";
 
-import authConfig from "./config/auth.config";
+import authConfig from "./config/auth";
 
 import { getUserById } from "@/actions/data/user";
 

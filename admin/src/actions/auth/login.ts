@@ -4,7 +4,7 @@ import * as z from "zod";
 import { AuthError } from "next-auth";
 
 import { signIn } from "@/auth";
-import { DEFAULT_LOGIN_REDIRECT } from "@/config/routes.config";
+import { DEFAULT_LOGIN_REDIRECT } from "@/config/routes";
 import { LoginSchema } from "@/schemas";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
