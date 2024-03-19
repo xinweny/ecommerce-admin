@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,6 +41,8 @@ export function UpdateTwoFactorForm() {
     mode: "onChange",
   });
 
+  const { handleSubmit, watch, control } = form;
+
   const onSubmit = async (values: z.infer<typeof twoFactorSchema>) => {
     try {
       const { error, success } = await updateTwoFactor(values);
@@ -58,6 +61,12 @@ export function UpdateTwoFactorForm() {
     }
   };
 
+  useEffect(() => {
+    const subscription = watch(() => handleSubmit(onSubmit)());
+
+    return () => subscription.unsubscribe();
+  }, [handleSubmit, watch]);
+
   return (
     <Card>
       <CardHeader>
@@ -67,11 +76,11 @@ export function UpdateTwoFactorForm() {
         <Form {...form}>
           <form
             className="space-y-6"
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <div className="space-y-4">
               <FormField
-                control={form.control}
+                control={control}
                 name="isTwoFactorEnabled"
                 render={({ field }) => (
                   <FormItem
