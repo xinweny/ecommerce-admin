@@ -5,8 +5,8 @@ import { db } from "@/db/client";
 
 import authConfig from "./config/auth";
 
-import { getUserById } from "@/actions/data/user";
-import { getTwoFactorConfirmationByUserId } from "./actions/data/two-factor-confirmation";
+import { getUserById } from "@/queries/user";
+import { getTwoFactorConfirmationByUserId } from "./queries/two-factor-confirmation";
 
 export const {
   handlers: { GET, POST },

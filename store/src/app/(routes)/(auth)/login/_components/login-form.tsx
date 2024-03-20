@@ -9,16 +9,16 @@ import toast from "react-hot-toast";
 
 import { loginSchema } from "@/schemas/auth";
 
-import { login } from "@/actions/auth";
-
 import { Form } from "@/components/ui/form";
 import { SubmitButton } from "@/components/form/submit-button";
 
-import { FormFeedback } from "../../_components/form-feedback";
-import { FormInput } from "../../_components/form-input";
+import { FormFeedback } from "@/components/form/form-feedback";
+import { FormInput } from "@/components/form/form-input";
 import { CardWrapper } from "../../_components/card-wrapper";
 
 import { ForgotPasswordLink } from "./forgot-password-link";
+
+import { login } from "@/actions/auth/login";
 
 export function LoginForm() {
   const searchParams = useSearchParams();

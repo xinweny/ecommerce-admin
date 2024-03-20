@@ -7,7 +7,7 @@ import { db } from "@/db/client";
 
 import { registerSchema } from "@/schemas/auth";
 
-import { getUserByEmail } from "../data/user";
+import { getUserByEmail } from "@/queries/user";
 
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";

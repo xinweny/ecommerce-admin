@@ -6,7 +6,7 @@ import type { NextAuthConfig } from "next-auth";
 
 import { loginSchema } from "@/schemas/auth";
 
-import { getUserByEmail } from "@/actions/data/user";
+import { getUserByEmail } from "@/queries/user";
 
 export default {
   providers: [

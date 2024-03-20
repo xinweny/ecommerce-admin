@@ -4,7 +4,7 @@ import * as z from "zod";
 
 import { emailSchema } from "@/schemas/settings";
 
-import { getUserByEmail } from "../data/user";
+import { getUserByEmail } from "@/queries/user";
 
 import { currentUser } from "@/lib/auth";
 import { generateVerificationToken } from "@/lib/tokens";

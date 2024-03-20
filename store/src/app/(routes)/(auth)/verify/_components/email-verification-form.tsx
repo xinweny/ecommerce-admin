@@ -4,11 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CircleLoader } from "react-spinners";
 
-import { FormError } from "../../_components/form-error";
-import { FormSuccess } from "../../_components/form-success";
+import { FormError } from "@/components/form/form-error";
+import { FormSuccess } from "@/components/form/form-success";
+
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { verifyEmail } from "@/actions/auth";
+import { verifyEmail } from "@/actions/auth/verify-email";
 
 export function EmailVerificationForm() {
   const searchParams = useSearchParams();

@@ -7,7 +7,7 @@ import { db } from "@/db/client";
 
 import { userInfoSchema } from "@/schemas/settings";
 
-import { getUserById } from "../data/user";
+import { getUserById } from "@/queries/user";
 
 import { currentUser } from "@/lib/auth";
 

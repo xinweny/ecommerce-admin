@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 
-import { updateTwoFactor } from "@/actions/settings";
+import { updateTwoFactor } from "@/actions/settings/update-two-factor";
 
 export function UpdateTwoFactorForm() {
   const user = useCurrentUser();

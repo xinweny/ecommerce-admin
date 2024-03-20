@@ -7,8 +7,8 @@ import { db } from "@/db/client";
 
 import { resetPasswordSchema } from "@/schemas/auth";
 
-import { getPasswordResetTokenByToken } from "../data/password-reset-token";
-import { getUserByEmail } from "../data/user";
+import { getPasswordResetTokenByToken } from "@/queries/password-reset-token";
+import { getUserByEmail } from "@/queries/user";
 
 export const resetPassword = async (
   values: z.infer<typeof resetPasswordSchema>,

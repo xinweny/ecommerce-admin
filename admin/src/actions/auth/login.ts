@@ -5,7 +5,7 @@ import { AuthError } from "next-auth";
 
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/config/routes";
-import { LoginSchema } from "@/schemas";
+import { LoginSchema } from "@/schemas/auth";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
