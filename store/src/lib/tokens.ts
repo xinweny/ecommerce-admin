@@ -3,9 +3,9 @@ import { v4 as uuid } from "uuid";
 
 import { db } from "../db/client";
 
-import { getVerificationTokenByEmail } from "@/queries/verification-token";
-import { getPasswordResetTokenByEmail } from "@/queries/password-reset-token";
-import { getTwoFactorTokenByEmail } from "@/queries/two-factor-token";
+import { getVerificationTokenByEmail } from "@/db/query/verification-token";
+import { getPasswordResetTokenByEmail } from "@/db/query/password-reset-token";
+import { getTwoFactorTokenByEmail } from "@/db/query/two-factor-token";
 
 export const generateVerificationToken = async (email: string) => {
   const token = uuid();

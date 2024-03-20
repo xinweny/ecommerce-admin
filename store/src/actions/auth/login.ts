@@ -11,9 +11,9 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/config/routes";
 
 import { loginSchema } from "@/schemas/auth";
 
-import { getUserByEmail } from "@/queries/user";
-import { getTwoFactorTokenByEmail } from "@/queries/two-factor-token";
-import { getTwoFactorConfirmationByUserId } from "@/queries/two-factor-confirmation";
+import { getUserByEmail } from "@/db/query/user";
+import { getTwoFactorTokenByEmail } from "@/db/query/two-factor-token";
+import { getTwoFactorConfirmationByUserId } from "@/db/query/two-factor-confirmation";
 
 import {
   generateVerificationToken,

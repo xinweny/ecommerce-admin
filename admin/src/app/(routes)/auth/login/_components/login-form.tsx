@@ -14,7 +14,7 @@ import { FormFeedback } from "../../_components/form-feedback";
 import { SubmitButton } from "@/components/form/submit-button";
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { login } from "@/actions/auth";
+import { login } from "@/actions/auth/login";
 
 export function LoginForm() {
   const form = useForm<z.infer<typeof LoginSchema>>({

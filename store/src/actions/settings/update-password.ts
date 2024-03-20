@@ -8,7 +8,7 @@ import { db } from "@/db/client";
 
 import { passwordSchema } from "@/schemas/settings";
 
-import { getUserById } from "@/queries/user";
+import { getUserById } from "@/db/query/user";
 
 import { currentUser } from "@/lib/auth";
 
