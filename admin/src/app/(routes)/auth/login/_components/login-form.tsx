@@ -9,11 +9,11 @@ import { LoginSchema } from "@/schemas";
 
 import { Form } from "@/components/ui/form";
 
-import { FormInput } from "@/app/_components/auth/form-input";
-import { FormFeedback } from "@/app/_components/auth/form-feedback";
-import { SubmitButton } from "@/app/_components/ui/submit-button";
+import { FormInput } from "@/components/auth/form-input";
+import { FormFeedback } from "@/components/auth/form-feedback";
+import { SubmitButton } from "@/components/form/submit-button";
 
-import { CardWrapper } from "@/app/_components/auth/card-wrapper";
+import { CardWrapper } from "@/components/auth/card-wrapper";
 
 import { login } from "@/actions/auth";
 
