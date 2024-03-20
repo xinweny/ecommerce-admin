@@ -12,10 +12,10 @@ import { resetPassword } from "@/actions/auth";
 
 import { Form } from "@/components/ui/form";
 
-import { FormInput } from "@/app/_components/ui/form-input";
-import { FormFeedback } from "@/app/_components/ui/form-feedback";
-import { CardWrapper } from "../../_components/card-wrapper";
-import { SubmitButton } from "@/app/_components/ui/submit-button";
+import { FormInput } from "@/components/form/form-input";
+import { FormFeedback } from "@/components/form/form-feedback";
+import { CardWrapper } from "@/components/auth/card-wrapper";
+import { SubmitButton } from "@/components/form/submit-button";
 
 export function ResetPasswordForm() {
   const [success, setSuccess] = useState<string>();

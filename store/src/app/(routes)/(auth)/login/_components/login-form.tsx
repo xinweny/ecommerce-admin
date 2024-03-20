@@ -13,10 +13,10 @@ import { login } from "@/actions/auth";
 
 import { Form } from "@/components/ui/form";
 
-import { FormFeedback } from "@/app/_components/ui/form-feedback";
-import { FormInput } from "@/app/_components/ui/form-input";
-import { SubmitButton } from "@/app/_components/ui/submit-button";
-import { CardWrapper } from "../../_components/card-wrapper";
+import { FormFeedback } from "@/components/form/form-feedback";
+import { FormInput } from "@/components/form/form-input";
+import { SubmitButton } from "@/components/form/submit-button";
+import { CardWrapper } from "@/components/auth/card-wrapper";
 import { ForgotPasswordLink } from "./forgot-password-link";
 
 export function LoginForm() {

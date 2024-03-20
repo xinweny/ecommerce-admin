@@ -17,9 +17,9 @@ import {
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 
-import { FormInput } from "@/app/_components/ui/form-input";
-import { SubmitButton } from "@/app/_components/ui/submit-button";
-import { FormFeedback } from "@/app/_components/ui/form-feedback";
+import { FormInput } from "@/components/form/form-input";
+import { SubmitButton } from "@/components/form/submit-button";
+import { FormFeedback } from "@/components/form/form-feedback";
 
 import { updateEmail } from "@/actions/settings";
 

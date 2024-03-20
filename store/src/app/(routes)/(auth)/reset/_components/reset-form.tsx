@@ -11,10 +11,10 @@ import { Form } from "@/components/ui/form";
 
 import { reset } from "@/actions/auth";
 
-import { FormInput } from "@/app/_components/ui/form-input";
-import { FormFeedback } from "@/app/_components/ui/form-feedback";
-import { SubmitButton } from "@/app/_components/ui/submit-button";
-import { CardWrapper } from "../../_components/card-wrapper";
+import { FormInput } from "@/components/form/form-input";
+import { FormFeedback } from "@/components/form/form-feedback";
+import { SubmitButton } from "@/components/form/submit-button";
+import { CardWrapper } from "@/components/auth/card-wrapper";
 
 export function ResetForm() {
   const [success, setSuccess] = useState<string>();
