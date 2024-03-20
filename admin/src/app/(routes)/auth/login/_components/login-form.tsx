@@ -9,10 +9,10 @@ import { LoginSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
 
-import { FormInput } from "@/components/auth/form-input";
-import { FormFeedback } from "@/components/auth/form-feedback";
+import { FormInput } from "../../_components/form-input";
+import { FormFeedback } from "../../_components/form-feedback";
 import { SubmitButton } from "@/components/form/submit-button";
-import { CardWrapper } from "@/components/auth/card-wrapper";
+import { CardWrapper } from "../../_components/card-wrapper";
 
 import { login } from "@/actions/auth";
 

@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 
-import { FormInput } from "@/components/form/form-input";
+import { FormInput } from "@/app/(routes)/(auth)/_components/form-input";
 import { SubmitButton } from "@/components/form/submit-button";
 import { SendResetEmailLink } from "./send-reset-email-link";
-import { FormFeedback } from "@/components/form/form-feedback";
+import { FormFeedback } from "@/app/(routes)/(auth)/_components/form-feedback";
 
 import { updatePassword } from "@/actions/settings";
 

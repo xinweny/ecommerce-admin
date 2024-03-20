@@ -4,10 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CircleLoader } from "react-spinners";
 
-import { FormError } from "@/components/form/form-error";
-import { FormSuccess } from "@/components/form/form-success";
-
-import { CardWrapper } from "@/components/auth/card-wrapper";
+import { FormError } from "../../_components/form-error";
+import { FormSuccess } from "../../_components/form-success";
+import { CardWrapper } from "../../_components/card-wrapper";
 
 import { verifyEmail } from "@/actions/auth";
 

@@ -11,11 +11,11 @@ import { resetPasswordSchema } from "@/schemas/auth";
 import { resetPassword } from "@/actions/auth";
 
 import { Form } from "@/components/ui/form";
-
-import { FormInput } from "@/components/form/form-input";
-import { FormFeedback } from "@/components/form/form-feedback";
-import { CardWrapper } from "@/components/auth/card-wrapper";
 import { SubmitButton } from "@/components/form/submit-button";
+
+import { FormInput } from "../../_components/form-input";
+import { FormFeedback } from "../../_components/form-feedback";
+import { CardWrapper } from "../../_components/card-wrapper";
 
 export function ResetPasswordForm() {
   const [success, setSuccess] = useState<string>();

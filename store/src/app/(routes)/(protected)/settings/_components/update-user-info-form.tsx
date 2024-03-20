@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 
-import { FormInput } from "@/components/form/form-input";
+import { FormInput } from "@/app/(routes)/(auth)/_components/form-input";
 import { SubmitButton } from "@/components/form/submit-button";
 
 import { updateUserInfo } from "@/actions/settings";
