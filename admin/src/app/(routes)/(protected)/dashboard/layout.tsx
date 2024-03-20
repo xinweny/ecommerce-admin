@@ -1,8 +1,4 @@
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-export default async function DashboardLayout({ children }: LayoutProps) {
+export default async function DashboardLayout({ children }: any) {
   return (
     <div>
       {children}

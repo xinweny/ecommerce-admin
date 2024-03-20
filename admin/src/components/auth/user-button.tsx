@@ -1,5 +1,7 @@
 "use client";
 
+import { FaUser } from "react-icons/fa";
+
 import { useCurrentUser } from "@/hooks";
 
 import {
@@ -15,8 +17,6 @@ import {
 } from "@/components/ui/avatar";
 
 import { LogoutButton } from "./logout-button";
-
-import { FaUser } from "react-icons/fa";
 
 export function UserButton() {
   const user = useCurrentUser();
