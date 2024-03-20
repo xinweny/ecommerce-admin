@@ -13,29 +13,33 @@ import { sendVerificationEmail } from "@/lib/mail";
 export const updateEmail = async (
   values: z.infer<typeof emailSchema>
 ) => {
-  const validatedFields = emailSchema.safeParse(values);
+  try {
+    const validatedFields = emailSchema.safeParse(values);
 
-  if (!validatedFields.success) return { error: "Invalid fields." };
+    if (!validatedFields.success) return { error: "Invalid fields." };
 
-  const user = await currentUser();
+    const user = await currentUser();
 
-  if (!user) return { error: "Unauthorized", status: 401 };
+    if (!user) return { error: "Unauthorized", status: 401 };
 
-  const { email } = values;
+    const { email } = values;
 
-  if (user.email === email) return { error: "Please enter a different email address." };
+    if (user.email === email) return { error: "Please enter a different email address." };
 
-  const dbUser = await getUserByEmail(email);
+    const dbUser = await getUserByEmail(email);
 
-  if (dbUser) return { error: "Email already in use." };
+    if (dbUser) return { error: "Email already in use." };
 
-  const verificationToken = await generateVerificationToken(email);
+    const verificationToken = await generateVerificationToken(email);
 
-  await sendVerificationEmail({
-    name: user.firstName,
-    email: verificationToken.email,
-    token: verificationToken.token,
-  });
+    await sendVerificationEmail({
+      name: user.firstName,
+      email: verificationToken.email,
+      token: verificationToken.token,
+    });
 
-  return { success: `Verification email sent to ${verificationToken.email}!` };
+    return { success: `Verification email sent to ${verificationToken.email}!` };
+  } catch {
+    return { error: "Something went wrong." };
+  }
 };

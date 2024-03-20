@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 import { useCurrentUser } from "@/hooks";
 
-import { reset } from "@/actions/auth/reset";
+import { reset } from "@/actions/auth";
 
 export function SendResetEmailLink() {
   const user = useCurrentUser();

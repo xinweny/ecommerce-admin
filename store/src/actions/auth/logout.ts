@@ -3,5 +3,9 @@
 import { signOut } from "@/auth";
 
 export const logout = async () => {
-  await signOut();
+  try {
+    await signOut();
+  } catch {
+    return { error: "Something went wrong." };
+  }
 };

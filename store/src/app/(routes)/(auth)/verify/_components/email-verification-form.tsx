@@ -9,7 +9,7 @@ import { FormSuccess } from "@/components/form/form-success";
 
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { verifyEmail } from "@/actions/auth/verify-email";
+import { verifyEmail } from "@/actions/auth";
 
 export function EmailVerificationForm() {
   const searchParams = useSearchParams();

@@ -14,7 +14,7 @@ import { FormFeedback } from "@/components/form/form-feedback";
 
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { register } from "@/actions/auth/register";
+import { register } from "@/actions/auth";
 
 export function RegisterForm() {
   const [success, setSuccess] = useState<string>();

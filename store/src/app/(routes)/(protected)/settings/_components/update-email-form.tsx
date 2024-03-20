@@ -21,7 +21,7 @@ import { FormInput } from "@/components/form/form-input";
 import { SubmitButton } from "@/components/form/submit-button";
 import { FormFeedback } from "@/components/form/form-feedback";
 
-import { updateEmail } from "@/actions/settings/update-email";
+import { updateEmail } from "@/actions/settings";
 
 export function UpdateEmailForm() {
   const user = useCurrentUser();

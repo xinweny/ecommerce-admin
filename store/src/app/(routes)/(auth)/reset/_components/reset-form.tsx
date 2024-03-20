@@ -14,7 +14,7 @@ import { FormFeedback } from "@/components/form/form-feedback";
 
 import { CardWrapper } from "../../_components/card-wrapper";
 
-import { reset } from "@/actions/auth/reset";
+import { reset } from "@/actions/auth";
 
 export function ResetForm() {
   const [success, setSuccess] = useState<string>();

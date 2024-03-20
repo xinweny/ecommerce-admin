@@ -19,7 +19,7 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { SendResetEmailLink } from "./send-reset-email-link";
 import { FormFeedback } from "@/components/form/form-feedback";
 
-import { updatePassword } from "@/actions/settings/update-password";
+import { updatePassword } from "@/actions/settings";
 
 export function UpdatePasswordForm() {
   const form = useForm<z.infer<typeof passwordSchema>>({

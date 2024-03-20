@@ -14,26 +14,30 @@ import { currentUser } from "@/lib/auth";
 export const updateTwoFactor = async (
   values: z.infer<typeof twoFactorSchema>
 ) => {
-  const validatedFields = twoFactorSchema.safeParse(values);
+  try {
+    const validatedFields = twoFactorSchema.safeParse(values);
 
-  if (!validatedFields.success) return { error: "Invalid fields." };
-  
-  const user = await currentUser();
+    if (!validatedFields.success) return { error: "Invalid fields." };
+    
+    const user = await currentUser();
 
-  if (!user) return { error: "Unauthorized", status: 401 };
+    if (!user) return { error: "Unauthorized", status: 401 };
 
-  const dbUser = await getUserById(user.id as string);
+    const dbUser = await getUserById(user.id as string);
 
-  if (!dbUser) return { error: "Unauthorized", status: 401 };
+    if (!dbUser) return { error: "Unauthorized", status: 401 };
 
-  const { isTwoFactorEnabled } = values;
+    const { isTwoFactorEnabled } = values;
 
-  await db.user.update({
-    where: { id: dbUser.id },
-    data: { isTwoFactorEnabled: isTwoFactorEnabled },
-  });
+    await db.user.update({
+      where: { id: dbUser.id },
+      data: { isTwoFactorEnabled: isTwoFactorEnabled },
+    });
 
-  revalidatePath("/settings");
+    revalidatePath("/settings");
 
-  return { success: `2FA ${isTwoFactorEnabled ? "enabled" : "disabled"}.` };
+    return { success: `2FA ${isTwoFactorEnabled ? "enabled" : "disabled"}.` };
+  } catch {
+    return { error: "Something went wrong." };
+  }
 };

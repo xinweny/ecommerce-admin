@@ -18,7 +18,7 @@ import { CardWrapper } from "../../_components/card-wrapper";
 
 import { ForgotPasswordLink } from "./forgot-password-link";
 
-import { login } from "@/actions/auth/login";
+import { login } from "@/actions/auth";
 
 export function LoginForm() {
   const searchParams = useSearchParams();
