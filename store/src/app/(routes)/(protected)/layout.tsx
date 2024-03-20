@@ -1,10 +1,4 @@
-interface ProtectedLayoutProps {
-  children: React.ReactNode;
-}
-
-export default function ProtectedLayout({
-  children,
-}: ProtectedLayoutProps) {
+export default function ProtectedLayout({ children }: any) {
   return (
     <div>
       {children}

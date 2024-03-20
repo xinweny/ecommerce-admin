@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
-interface ModalStore {
+interface StoreModalStore {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 }
 
-export const useModal = create<ModalStore>((set) => ({
+export const useStoreModal = create<StoreModalStore>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),

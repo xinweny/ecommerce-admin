@@ -5,14 +5,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-hot-toast";
 
-import { LoginSchema } from "@/schemas";
+import { LoginSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
 
 import { FormInput } from "@/components/auth/form-input";
 import { FormFeedback } from "@/components/auth/form-feedback";
 import { SubmitButton } from "@/components/form/submit-button";
-
 import { CardWrapper } from "@/components/auth/card-wrapper";
 
 import { login } from "@/actions/auth";

@@ -20,7 +20,6 @@ export const emailSchema = z.object({
   email: z.string().email("Email is required"),
 });
 
-
 export const twoFactorSchema = z.object({
   isTwoFactorEnabled: z.boolean(),
 });
