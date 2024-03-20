@@ -1,10 +1,14 @@
-import { LoginButton } from "@/app/_components/auth/login-button";
+import { redirect } from "next/navigation";
 
-export default function HomePage() {
+import { currentUser } from "@/lib/auth";
+
+export default async function HomePage() {
+  const user = await currentUser();
+
+  redirect(user ? "/dashboard" : "/auth/login");
+
   return (
     <main>
-      <p>Hello Admin Dashboard</p>
-      <LoginButton>Login</LoginButton>
     </main>
   );
 }
