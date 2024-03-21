@@ -1,21 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import { Store } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 
 import { updateStoreSchema, type UpdateStoreSchema } from "@/schemas/store";
 
-import { Separator } from "@/components/ui/separator";
 import {
   Form,
 } from "@/components/ui/form";
-import { FormHeader } from "@/components/form/form-header";
 import { FormInput } from "@/components/form/form-input";
 import { SubmitButton } from "@/components/form/submit-button";
-
-import { DeleteStoreButton } from "./delete-store-button";
 
 import { updateStore } from "@/actions/store";
 
@@ -23,9 +19,9 @@ interface UpdateStoreFormProps {
   store: Store;
 }
 
-export function UpdateStoreForm({ store }: UpdateStoreFormProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
+export function UpdateStoreForm({
+  store,
+}: UpdateStoreFormProps) {
   const form = useForm<UpdateStoreSchema>({
     resolver: zodResolver(updateStoreSchema),
     defaultValues: {
@@ -34,32 +30,26 @@ export function UpdateStoreForm({ store }: UpdateStoreFormProps) {
   });
 
   const onSubmit = async (values: UpdateStoreSchema) => {
-    await updateStore(store.id, values);
+    const { success, error } = await updateStore(store.id, values);
+
+    if (success) toast.success(success);
+    if (error) toast.error(error);
   };
 
   return (
-    <>
-      <div className="flex items-center justify-between">
-        <FormHeader title="Settings" description="Manage store preferences" />
-        <DeleteStoreButton storeId={store.id} />
-      </div>
-      <Separator />
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)} 
-          className="space-y-8 w-full"
-        >
-          <div className="rid grid-col-3 gap-8">
-            <FormInput
-              name="name"
-              label="Store Name"
-            />
-          </div>
-          <SubmitButton
-            className="ml-auto"
-          >Save Changes</SubmitButton>
-        </form>
-      </Form>
-    </>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)} 
+        className="space-y-8 w-full"
+      >
+        <div className="rid grid-col-3 gap-8">
+          <FormInput
+            name="name"
+            label="Store Name"
+          />
+        </div>
+        <SubmitButton className="ml-auto">Save Changes</SubmitButton>
+      </form>
+    </Form>
   );
 }
