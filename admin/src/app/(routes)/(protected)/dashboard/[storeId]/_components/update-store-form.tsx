@@ -17,7 +17,7 @@ import { SubmitButton } from "@/components/form/submit-button";
 
 import { DeleteStoreButton } from "./delete-store-button";
 
-
+import { updateStore } from "@/actions/store";
 
 interface UpdateStoreFormProps {
   store: Store;
@@ -33,8 +33,8 @@ export function UpdateStoreForm({ store }: UpdateStoreFormProps) {
     },
   });
 
-  const onSubmit = (values: UpdateStoreSchema) => {
-
+  const onSubmit = async (values: UpdateStoreSchema) => {
+    await updateStore(store.id, values);
   };
 
   return (
