@@ -22,9 +22,9 @@ export const getStoresByCurrentUserId = async () => {
 
   if (!user?.id) return [];
 
-  const store = await db.store.findMany({
+  const stores = await db.store.findMany({
     where: { userId: user.id },
   });
 
-  return store;
-}
+  return stores;
+};

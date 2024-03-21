@@ -13,17 +13,22 @@ export function MainNav({
   const pathname = usePathname();
   const { storeId } = useParams();
 
-  const routes = [];
+  const routes = [
+    {
+      href: storeId ? `/${storeId}` : "/",
+      label: "Overview",
+    },
+  ];
 
   if (storeId) routes.push(...[
     {
-      href: `/dashboard/${storeId}`,
-      label: "Overview",
+      href: `/${storeId}/display`,
+      label: "Display",
     },
     {
-      href: `/dashboard/${storeId}/settings`,
+      href: `/${storeId}/settings`,
       label: "Settings",
-    }
+    },
   ]);
 
   return (
@@ -34,7 +39,7 @@ export function MainNav({
       {routes.map(({ href, label }) => (
         <Link
           key={href}
-          href={href}
+          href={`/dashboard${href}`}
           className={cn(
             "text-sm font-medium transition-colors hover:text-primary",
             pathname === href ? "text =-black dark:text-white" : "text-muted-foreground"

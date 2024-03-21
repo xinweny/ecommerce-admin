@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Trash } from "lucide-react";
 import { Store } from "@prisma/client";
@@ -8,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { AlertModal } from "@/components/modals/alert-modal";
 
 import { deleteStore } from "@/actions/store";
-
 
 interface DeleteStoreButtonProps {
   store: Store;

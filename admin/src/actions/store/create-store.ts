@@ -11,13 +11,13 @@ import { createStoreSchema } from "@/schemas/store";
 
 export const createStore = async (values: z.infer<typeof createStoreSchema>) => {
   try {
-    const user = await currentUser();
-
-    if (!user) return { error: "Unauthorized", status: 401 };
-
     const validatedFields = createStoreSchema.safeParse(values);
 
     if (!validatedFields) return { error: "Invalid fields." };
+
+    const user = await currentUser();
+
+    if (!user) return { error: "Unauthorized", status: 401 };
 
     const store = await db.store.create({
         data: {

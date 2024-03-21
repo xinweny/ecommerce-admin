@@ -7,9 +7,7 @@ import toast from "react-hot-toast";
 
 import { updateStoreSchema, type UpdateStoreSchema } from "@/schemas/store";
 
-import {
-  Form,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
 import { SubmitButton } from "@/components/form/submit-button";
 
@@ -42,7 +40,7 @@ export function UpdateStoreForm({
         onSubmit={form.handleSubmit(onSubmit)} 
         className="space-y-8 w-full"
       >
-        <div className="rid grid-col-3 gap-8">
+        <div className="grid grid-col-3 gap-8">
           <FormInput
             name="name"
             label="Store Name"
