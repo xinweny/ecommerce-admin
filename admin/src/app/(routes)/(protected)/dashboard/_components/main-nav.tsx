@@ -11,14 +11,25 @@ export function MainNav({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
-  const params = useParams();
+  const { storeId } = useParams();
 
-  const routes = [];
+  const routes = [
+    {
+      href: "/dashboard",
+      label: "Overview",
+    }
+  ];
 
-  if (params.storeId) routes.push({
-    href: `/${params.storeId}/settings`,
-    label: "Settings",
-  });
+  if (storeId) routes.push(...[
+    {
+      href: `/dashboard/${storeId}`,
+      label: "Dashboard",
+    },
+    {
+      href: `/dashboard/${storeId}/settings`,
+      label: "Settings",
+    }
+  ]);
 
   return (
     <nav

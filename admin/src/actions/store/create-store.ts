@@ -1,6 +1,7 @@
 "use server";
 
 import * as z from "zod";
+import { revalidatePath } from "next/cache";
 
 import { db } from "@/db/client";
 
@@ -24,6 +25,8 @@ export const createStore = async (values: z.infer<typeof createStoreSchema>) => 
           userId: user.id as string,
         },
       });
+
+    revalidatePath("/dashboard");
 
     return {
       data: { storeId: store.id },

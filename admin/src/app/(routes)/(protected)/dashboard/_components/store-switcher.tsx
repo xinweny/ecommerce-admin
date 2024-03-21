@@ -38,18 +38,18 @@ export function StoreSwitcher({
   className,
   stores = [],
 }: StoreSwitcherProps) {
-  const params = useParams();
+  const { storeId }= useParams();
   const router = useRouter();
 
   const storeModal = useStoreModal();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const currentStore = stores.find(i => i.id === params.storeId);
+  const currentStore = stores.find(store => store.id === storeId);
 
   const onStoreSelect = (store: Store) => {
     setIsOpen(false);
-    router.push(`/${store.name}`);
+    router.push(`/dashboard/${store.id}`);
   };
 
   return (
