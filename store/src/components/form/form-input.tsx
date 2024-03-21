@@ -25,12 +25,12 @@ export function FormInput({
   placeholder,
   description,
 }: FormInputProps) {
-  const methods = useFormContext();
+  const form = useFormContext();
 
   const {
     control,
     formState: { isSubmitting },
-  } = methods;
+  } = form;
 
   return (
     <FormField

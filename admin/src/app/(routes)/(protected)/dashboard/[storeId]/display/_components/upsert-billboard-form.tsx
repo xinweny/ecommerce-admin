@@ -11,6 +11,7 @@ import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
 import { FormTextarea } from "@/components/form/form-textarea";
 import { SubmitButton } from "@/components/form/submit-button";
+import { ImageUpload } from "@/components/form/image-upload";
 
 import { upsertBillboard } from "@/actions/billboard/upsert-billboard";
 
@@ -46,6 +47,10 @@ export function UpsertBillboardForm({
         className="space-y-8 w-full"
       >
         <div className="grid grid-col-3 gap-8">
+          <ImageUpload
+            label="Background Image"
+            name="imageUrl"
+          />
           <FormInput
             name="title"
             label="Title"
