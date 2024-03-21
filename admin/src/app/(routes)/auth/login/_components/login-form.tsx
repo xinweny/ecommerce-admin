@@ -8,10 +8,10 @@ import { loginSchema, type LoginSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
 
-import { FormInput } from "../../_components/form-input";
-import { FormFeedback } from "../../_components/form-feedback";
+import { FormInput } from "@/components/form/form-input";
+import { FormFeedback } from "@/components/form/form-feedback";
 import { SubmitButton } from "@/components/form/submit-button";
-import { CardWrapper } from "../../_components/card-wrapper";
+import { CardWrapper } from "./card-wrapper";
 
 import { login } from "@/actions/auth";
 
