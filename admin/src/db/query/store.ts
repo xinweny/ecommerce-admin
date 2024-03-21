@@ -15,4 +15,16 @@ export const getStoreById = async (id: string) => {
   });
 
   return store;
+};
+
+export const getStoresByCurrentUserId = async () => {
+  const user = await currentUser();
+
+  if (!user?.id) return [];
+
+  const store = await db.store.findMany({
+    where: { userId: user.id },
+  });
+
+  return store;
 }
