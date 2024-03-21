@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "react-hot-toast";
 
 import { auth } from "@/auth";
 
@@ -26,6 +27,7 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={inter.className}>
+          <Toaster />
           <ModalProvider />
           {children}
         </body>
