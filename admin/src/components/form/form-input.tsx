@@ -52,5 +52,5 @@ export function FormInput({
         </FormItem>
       )}
     />
-  )
+  );
 }
