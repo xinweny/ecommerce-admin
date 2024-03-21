@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-hot-toast";
 
-import { loginSchema, LoginSchema } from "@/schemas/auth";
+import { loginSchema, type LoginSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
 

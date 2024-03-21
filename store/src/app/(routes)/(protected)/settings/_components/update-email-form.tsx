@@ -1,12 +1,11 @@
 "use client";
 
-import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
-import { emailSchema } from "@/schemas/settings";
+import { emailSchema, type EmailSchema } from "@/schemas/settings";
 
 import { useCurrentUser } from "@/hooks";
 
@@ -28,14 +27,14 @@ export function UpdateEmailForm() {
 
   const { update } = useSession();
 
-  const form = useForm<z.infer<typeof emailSchema>>({
+  const form = useForm<EmailSchema>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
       email: user?.email || "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof emailSchema>) => {
+  const onSubmit = async (values: EmailSchema) => {
     try {
       const { error, success } = await updateEmail(values);
 

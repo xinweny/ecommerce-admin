@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 
-import { loginSchema } from "@/schemas/auth";
+import { loginSchema, type LoginSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
 import { SubmitButton } from "@/components/form/submit-button";
@@ -26,7 +25,7 @@ export function LoginForm() {
 
   const [showTwoFactor, setShowTwoFactor] = useState<boolean>(false);
 
-  const form = useForm<z.infer<typeof loginSchema>>({
+  const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
@@ -37,7 +36,7 @@ export function LoginForm() {
 
   const email = form.watch("email");
 
-  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
+  const onSubmit = async (values: LoginSchema) => {
     const { data, success, error } = await login(values, callbackUrl);
 
     if (error) {

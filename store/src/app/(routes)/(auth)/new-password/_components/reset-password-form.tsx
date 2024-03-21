@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { resetPasswordSchema } from "@/schemas/auth";
+import { resetPasswordSchema, type ResetPasswordSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
 import { SubmitButton } from "@/components/form/submit-button";
@@ -23,7 +22,7 @@ export function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
-  const form = useForm<z.infer<typeof resetPasswordSchema>>({
+  const form = useForm<ResetPasswordSchema>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       password: "",
@@ -31,7 +30,7 @@ export function ResetPasswordForm() {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
+  const onSubmit = async (values: ResetPasswordSchema) => {
     setSuccess(undefined);
 
     const { error, success } = await resetPassword(values, token);

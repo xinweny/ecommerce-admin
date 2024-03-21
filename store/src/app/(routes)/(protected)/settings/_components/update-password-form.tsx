@@ -1,11 +1,10 @@
 "use client";
 
-import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 
-import { passwordSchema } from "@/schemas/settings";
+import { passwordSchema, type PasswordSchema } from "@/schemas/settings";
 
 import {
   Card,
@@ -22,7 +21,7 @@ import { FormFeedback } from "@/components/form/form-feedback";
 import { updatePassword } from "@/actions/settings";
 
 export function UpdatePasswordForm() {
-  const form = useForm<z.infer<typeof passwordSchema>>({
+  const form = useForm<PasswordSchema>({
     resolver: zodResolver(passwordSchema),
     defaultValues: {
       oldPassword: "",
@@ -31,7 +30,7 @@ export function UpdatePasswordForm() {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof passwordSchema>) => {
+  const onSubmit = async (values: PasswordSchema) => {
     try {
       const { error, success } = await updatePassword(values);
 

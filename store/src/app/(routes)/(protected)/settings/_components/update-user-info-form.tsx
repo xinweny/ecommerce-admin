@@ -1,12 +1,11 @@
 "use client";
 
-import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
-import { userInfoSchema } from "@/schemas/settings";
+import { userInfoSchema, type UserInfoSchema } from "@/schemas/settings";
 
 import { useCurrentUser } from "@/hooks";
 
@@ -27,7 +26,7 @@ export function UpdateUserInfoForm() {
 
   const { update } = useSession();
 
-  const form = useForm<z.infer<typeof userInfoSchema>>({
+  const form = useForm<UserInfoSchema>({
     resolver: zodResolver(userInfoSchema),
     defaultValues: {
       firstName: user?.firstName || undefined,
@@ -35,7 +34,7 @@ export function UpdateUserInfoForm() {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof userInfoSchema>) => {
+  const onSubmit = async (values: UserInfoSchema) => {
     try {
       const { error, success } = await updateUserInfo(values);
 

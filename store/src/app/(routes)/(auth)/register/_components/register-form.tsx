@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { registerSchema } from "@/schemas/auth";
+import { registerSchema, type RegisterSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
 import { SubmitButton } from "@/components/form/submit-button";
@@ -19,7 +18,7 @@ import { register } from "@/actions/auth";
 export function RegisterForm() {
   const [success, setSuccess] = useState<string>();
 
-  const form = useForm<z.infer<typeof registerSchema>>({
+  const form = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       firstName: "",
@@ -29,7 +28,7 @@ export function RegisterForm() {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof registerSchema>) => {
+  const onSubmit = async (values: RegisterSchema) => {
     setSuccess(undefined);
 
     const { error, success } = await register(values);

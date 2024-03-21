@@ -5,6 +5,7 @@ export const userInfoSchema = z.object({
   lastName: z.optional(z.string()),
   email: z.optional(z.string().email()),
 });
+export type UserInfoSchema = z.infer<typeof userInfoSchema>;
 
 export const passwordSchema = z.object({
   oldPassword: z.string(),
@@ -15,11 +16,14 @@ export const passwordSchema = z.object({
     message: "Passwords do not match.",
     path: ["confirmNewPassword"],
   });
+  export type PasswordSchema = z.infer<typeof passwordSchema>;
 
 export const emailSchema = z.object({
   email: z.string().email("Email is required"),
 });
+export type EmailSchema = z.infer<typeof emailSchema>;
 
 export const twoFactorSchema = z.object({
   isTwoFactorEnabled: z.boolean(),
 });
+export type TwoFactorSchema = z.infer<typeof twoFactorSchema>;

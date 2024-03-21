@@ -5,7 +5,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { resetSchema } from "@/schemas/auth";
+import { resetSchema, type ResetSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
 import { SubmitButton } from "@/components/form/submit-button";
@@ -19,14 +19,14 @@ import { reset } from "@/actions/auth";
 export function ResetForm() {
   const [success, setSuccess] = useState<string>();
 
-  const form = useForm<z.infer<typeof resetSchema>>({
+  const form = useForm<ResetSchema>({
     resolver: zodResolver(resetSchema),
     defaultValues: {
       email: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof resetSchema>) => {
+  const onSubmit = async (values: ResetSchema) => {
 
     setSuccess(undefined);
 

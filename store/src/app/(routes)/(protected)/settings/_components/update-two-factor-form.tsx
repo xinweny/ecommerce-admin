@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 
-import { twoFactorSchema } from "@/schemas/settings";
+import { twoFactorSchema, TwoFactorSchema } from "@/schemas/settings";
 
 import { useCurrentUser } from "@/hooks";
 
@@ -33,7 +32,7 @@ export function UpdateTwoFactorForm() {
 
   const { update } = useSession();
 
-  const form = useForm<z.infer<typeof twoFactorSchema>>({
+  const form = useForm<TwoFactorSchema>({
     resolver: zodResolver(twoFactorSchema),
     defaultValues: {
       isTwoFactorEnabled: user?.isTwoFactorEnabled || false,
@@ -43,7 +42,7 @@ export function UpdateTwoFactorForm() {
 
   const { handleSubmit, watch, control } = form;
 
-  const onSubmit = async (values: z.infer<typeof twoFactorSchema>) => {
+  const onSubmit = async (values: TwoFactorSchema) => {
     try {
       const { error, success } = await updateTwoFactor(values);
 

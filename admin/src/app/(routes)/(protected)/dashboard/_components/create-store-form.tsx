@@ -1,12 +1,11 @@
 "use client";
 
-import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-import { createStoreSchema } from "@/schemas/store";
+import { createStoreSchema, type CreateStoreSchema } from "@/schemas/store";
 
 import { useStoreModal } from "@/hooks";
 
@@ -28,14 +27,14 @@ export function CreateStoreForm() {
 
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof createStoreSchema>>({
+  const form = useForm<CreateStoreSchema>({
     resolver: zodResolver(createStoreSchema),
     defaultValues: {
       name: ""
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof createStoreSchema>) => {
+  const onSubmit = async (values: CreateStoreSchema) => {
     const { data, error, success } = await createStore(values);
 
     if (error) toast.error(error);

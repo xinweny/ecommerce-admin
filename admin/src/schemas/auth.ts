@@ -8,5 +8,4 @@ export const loginSchema = z.object({
     message: "Password is required",
   }),
 });
-
 export type LoginSchema = z.infer<typeof loginSchema>
