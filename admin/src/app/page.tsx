@@ -7,8 +7,5 @@ export default async function HomePage() {
 
   redirect(user ? "/dashboard" : "/auth/login");
 
-  return (
-    <main>
-    </main>
-  );
+  return null;
 }
