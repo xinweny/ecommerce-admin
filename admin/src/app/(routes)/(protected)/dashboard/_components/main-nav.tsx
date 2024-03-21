@@ -13,12 +13,7 @@ export function MainNav({
   const pathname = usePathname();
   const { storeId } = useParams();
 
-  const routes = [
-    {
-      href: "/dashboard",
-      label: "Overview",
-    }
-  ];
+  const routes = [];
 
   if (storeId) routes.push(...[
     {

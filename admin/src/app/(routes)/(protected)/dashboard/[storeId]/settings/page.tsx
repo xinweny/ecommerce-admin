@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import { getStoreById } from "@/db/query/store";
 
-import { StoreSettingsForm } from "../_components/store-settings-form";
+import { StoreSettingsForm } from "./_components/store-settings-form";
 
 interface StoreSettingsPageProps {
   params: { storeId: string };

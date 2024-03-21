@@ -20,7 +20,7 @@ export function StoreSettingsForm({ store }: StoreSettingsFormProps) {
     <>
       <div className="flex items-center justify-between">
         <FormHeader title="Settings" description="Manage store preferences" />
-        <DeleteStoreButton storeId={store.id} />
+        <DeleteStoreButton store={store} />
       </div>
       <Separator />
       <UpdateStoreForm store={store} />

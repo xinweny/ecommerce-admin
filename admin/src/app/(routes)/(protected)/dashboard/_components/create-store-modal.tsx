@@ -2,7 +2,7 @@
 
 import { useStoreModal } from "@/hooks";
 
-import { Modal } from "@/components/ui/modal";
+import { Modal } from "@/components/modals/modal";
 
 import { CreateStoreForm } from "./create-store-form";
 

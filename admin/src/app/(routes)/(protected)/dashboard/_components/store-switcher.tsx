@@ -8,6 +8,7 @@ import {
   Store as StoreIcon,
   Check,
   PlusCircle,
+  LineChart,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -47,9 +48,12 @@ export function StoreSwitcher({
 
   const currentStore = stores.find(store => store.id === storeId);
 
-  const onStoreSelect = (store: Store) => {
+  const onStoreSelect = (store: Store | undefined) => {
     setIsOpen(false);
-    router.push(`/dashboard/${store.id}`);
+    router.push(store
+      ? `/dashboard/${store.id}`
+      : "/dashboard"
+    );
   };
 
   return (
@@ -64,7 +68,7 @@ export function StoreSwitcher({
           className={cn("w-[200px] justify-between", className)}
         >
           <StoreIcon className="mr-2 h-4 w-4" />
-          <span>{currentStore ? currentStore.name : "Select Store"}</span>
+          <span>{currentStore ? currentStore.name : "Select a store"}</span>
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -73,6 +77,23 @@ export function StoreSwitcher({
           <CommandList>
             <CommandInput placeholder="Search store" />
             <CommandEmpty>No stores found</CommandEmpty>
+            <CommandGroup>
+              <CommandItem
+                onSelect={() => { onStoreSelect(undefined); }}
+                className="text-sm text-bold"
+              >
+                <LineChart className="mr-2 h-3 w-4" />
+                <span>Summary</span>
+                <Check
+                  className={cn(
+                    "ml-auto h-4 w-4",
+                    !currentStore
+                      ? "opacity-100"
+                      : "opacity-0"
+                  )}
+              />
+              </CommandItem>
+            </CommandGroup>
             <CommandGroup heading="Stores">
               {stores.map(store => (
                 <CommandItem
