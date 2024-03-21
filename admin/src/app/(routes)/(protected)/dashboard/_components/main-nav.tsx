@@ -18,7 +18,7 @@ export function MainNav({
   if (storeId) routes.push(...[
     {
       href: `/dashboard/${storeId}`,
-      label: "Dashboard",
+      label: "Overview",
     },
     {
       href: `/dashboard/${storeId}/settings`,
