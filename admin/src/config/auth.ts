@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 
 import type { NextAuthConfig } from "next-auth";
 
-import { LoginSchema } from "@/schemas/auth";
+import { loginSchema } from "@/schemas/auth";
 
 import { getUserByEmail } from "@/db/query/user";
 
@@ -11,7 +11,7 @@ export default {
   providers: [
     Credentials({
       authorize: async (credentials) => {
-        const validatedFields = LoginSchema.safeParse(credentials);
+        const validatedFields = loginSchema.safeParse(credentials);
 
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;

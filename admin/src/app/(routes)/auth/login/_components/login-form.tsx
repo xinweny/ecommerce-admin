@@ -1,11 +1,10 @@
 "use client";
 
-import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-hot-toast";
 
-import { LoginSchema } from "@/schemas/auth";
+import { loginSchema, LoginSchema } from "@/schemas/auth";
 
 import { Form } from "@/components/ui/form";
 
@@ -17,15 +16,15 @@ import { CardWrapper } from "../../_components/card-wrapper";
 import { login } from "@/actions/auth";
 
 export function LoginForm() {
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: LoginSchema) => {
     const { error, success } = await login(values);
     
     if (error) {
