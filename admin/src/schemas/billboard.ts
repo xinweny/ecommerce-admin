@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 export const upsertBillboardSchema = z.object({
-  imageUrl: z.string(),
+  imageUrl: z.optional(z.string()),
   title: z.optional(z.string()),
   description: z.optional(z.string()),
 });

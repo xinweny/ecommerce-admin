@@ -5,6 +5,7 @@ import { ImagePlus, Trash } from "lucide-react";
 import Image from "next/image";
 import { CldUploadWidget } from "next-cloudinary";
 import { useFormContext } from "react-hook-form";
+import toast from "react-hot-toast";
 
 import { Button } from "../ui/button";
 import {
@@ -25,7 +26,7 @@ export function ImageUpload({
   name,
   label,
   limit = 1,
-  folder = "/",
+  folder,
 }: ImageUploadProps) {
   const isMounted = useIsMounted();
 
@@ -86,19 +87,22 @@ export function ImageUpload({
                   ))}
                 </div>
                 <CldUploadWidget
+                  signatureEndpoint="/api/cloudinary"
                   onSuccess={onSuccess}
-                  uploadPreset={process.env.NEXT_CLOUDINARY_UPLOAD_PRESET}
+                  onError={() =>  { toast.error("Image upload failed."); }}
                   options={{
+                    folder: `ecommerce/${folder || ''}`,
                     sources: ["local"],
                     maxFiles: limit,
                     multiple: limit > 1,
-                    folder,
                     clientAllowedFormats: ["jpg", "jpeg", "png", "webp", "gif"],
+                    singleUploadAutoClose: false,
                   }}
                 >
                   {({ open }) => (
                     <Button
                       type="button"
+                      variant="secondary"
                       disabled={isSubmitting}
                       onClick={() => { open(); }}
                     >

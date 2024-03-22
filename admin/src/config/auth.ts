@@ -7,7 +7,7 @@ import { loginSchema } from "@/schemas/auth";
 
 import { getUserByEmail } from "@/db/query/user";
 
-export default {
+export const authConfig = {
   providers: [
     Credentials({
       authorize: async (credentials) => {

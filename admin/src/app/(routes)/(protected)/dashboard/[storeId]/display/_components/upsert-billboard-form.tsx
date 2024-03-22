@@ -49,6 +49,7 @@ export function UpsertBillboardForm({
         <div className="grid grid-col-3 gap-8">
           <ImageUpload
             label="Background Image"
+            folder={`stores/${storeId}/billboard`}
             name="imageUrl"
           />
           <FormInput

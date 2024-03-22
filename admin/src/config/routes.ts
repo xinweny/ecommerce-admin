@@ -4,6 +4,9 @@ export const authRoutes = [
   "/auth/login",
 ] as string[];
 
-export const apiAuthPrefix = "/api/auth";
+export const publicApiRoutes = [
+  "/api/auth",
+  "/api/cloudinary",
+];
 
 export const DEFAULT_LOGIN_REDIRECT = "/dashboard";
