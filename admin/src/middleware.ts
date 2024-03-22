@@ -17,7 +17,7 @@ export default auth((req) => {
 
   const path = nextUrl.pathname;
 
-  if (publicApiRoutes.includes(path)) return;
+  if (publicApiRoutes.some((route) => route.includes(path))) return;
   
   if (authRoutes.includes(path)) {
     return isLoggedIn

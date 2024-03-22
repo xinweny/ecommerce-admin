@@ -13,7 +13,7 @@ import { FormTextarea } from "@/components/form/form-textarea";
 import { SubmitButton } from "@/components/form/submit-button";
 import { ImageUpload } from "@/components/form/image-upload";
 
-import { upsertBillboard } from "@/actions/billboard/upsert-billboard";
+import { upsertBillboard } from "@/actions/billboard";
 
 interface UpsertBillboardFormProps {
   storeId: string;

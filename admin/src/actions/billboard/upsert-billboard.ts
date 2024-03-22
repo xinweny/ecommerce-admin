@@ -23,7 +23,7 @@ export const upsertBillboard = async (storeId: string, values: UpsertBillboardSc
 
     revalidatePath(`/dashboard/${store.id}/display`);
 
-    return { success: `${store.name} billboard updated.` };
+    return { success: `${store.name} display updated.` };
   } catch {
     return { error: "Something went wrong." };
   }
