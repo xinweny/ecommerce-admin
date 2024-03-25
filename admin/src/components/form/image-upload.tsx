@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { useIsMounted } from "@/hooks";
 import { ImagePlus } from "lucide-react";
 import {
@@ -19,14 +18,13 @@ import {
   FormControl,
 } from "../ui/form";
 
-import { ImagePreview } from "./image-preview";
-
 interface ImageUploadProps {
   name: string;
   label: string;
   limit?: number;
   folder?: string;
   publicId?: string;
+  preview?: React.ReactNode;
 }
 
 export function ImageUpload({
@@ -35,6 +33,7 @@ export function ImageUpload({
   limit = 1,
   folder,
   publicId,
+  preview,
 }: ImageUploadProps) {
   const isMounted = useIsMounted();
 
@@ -62,14 +61,6 @@ export function ImageUpload({
           );
         };
 
-        const onRemove = (url: string) => {
-          field.onChange(
-            limit === 1
-              ? value.filter((u: string) => u !== url)
-              : null
-          );
-        };
-
         const onSuccess = (result: CloudinaryUploadWidgetResults) => {
           const info = result.info as CloudinaryUploadWidgetInfo;
           onChange(info.secure_url);
@@ -80,13 +71,7 @@ export function ImageUpload({
             <FormLabel>{label}</FormLabel>
             <FormControl>
               <div>
-                <ImagePreview
-                  urls={limit === 1 && value
-                    ? [value]
-                    : (value || [])}
-                  onDelete={onRemove}
-                  size={[970, 250]}
-                />
+                {preview}
                 <CldUploadWidget
                   uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
                   signatureEndpoint="/api/cloudinary/sign"

@@ -2,6 +2,9 @@
 
 import { db } from "@/db/client";
 import { revalidatePath } from "next/cache";
+import { extractPublicId } from "cloudinary-build-url";
+
+import { cloudinary } from "@/lib/cloudinary";
 
 import { upsertBillboardSchema, type UpsertBillboardSchema } from "@/schemas/billboard";
 
@@ -17,11 +20,32 @@ export const upsertBillboard = async (storeId: string, values: UpsertBillboardSc
 
     if (!store) return { error: "Store not found." };
 
-    await db.billboard.upsert({
-      where: { id: storeId },
-      update: { ...values },
-      create: { storeId, ...values },
+    const billboard = await db.billboard.findUnique({
+      where: { storeId: store.id },
     });
+
+    if (billboard) {
+      const { imageUrl } = billboard;
+
+      await Promise.all([
+        (async () => {
+          if (!values.imageUrl && imageUrl) await cloudinary.uploader.destroy(extractPublicId(imageUrl));
+
+          return;
+        })(),
+        db.billboard.update({
+          where: { storeId: store.id },
+          data: { ...values },
+        }),
+      ]);
+    } else {
+      await db.billboard.create({
+        data: {
+          storeId: store.id,
+          ...values,
+        },
+      });
+    }
 
     revalidatePath(`/dashboard/${store.id}/display`);
 

@@ -14,6 +14,7 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { ImageUpload } from "@/components/form/image-upload";
 
 import { upsertBillboard } from "@/actions/billboard";
+import { ImagePreview } from "@/components/form/image-preview";
 
 interface UpsertBillboardFormProps {
   storeId: string;
@@ -52,6 +53,13 @@ export function UpsertBillboardForm({
             folder="billboards"
             name="imageUrl"
             publicId={storeId}
+            preview={
+              <ImagePreview
+                name="imageUrl"
+                listClassName="mb-4 flex items-center gap-4"
+                containerClassName="w-[860px] h-[480px]"
+              />
+            }
           />
           <FormInput
             name="title"
