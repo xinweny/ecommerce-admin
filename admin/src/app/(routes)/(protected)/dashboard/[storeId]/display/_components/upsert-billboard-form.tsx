@@ -27,9 +27,9 @@ export function UpsertBillboardForm({
   const form = useForm<UpsertBillboardSchema>({
     resolver: zodResolver(upsertBillboardSchema),
     defaultValues: {
-      imageUrl: billboard?.imageUrl || undefined,
-      title: billboard?.title || undefined,
-      description: billboard?.description || undefined,
+      imageUrl: billboard?.imageUrl || "",
+      title: billboard?.title || "",
+      description: billboard?.description || "",
     },
   });
 
@@ -49,8 +49,9 @@ export function UpsertBillboardForm({
         <div className="grid grid-col-3 gap-8">
           <ImageUpload
             label="Background Image"
-            folder={`stores/${storeId}/billboard`}
+            folder="billboards"
             name="imageUrl"
+            publicId={storeId}
           />
           <FormInput
             name="title"

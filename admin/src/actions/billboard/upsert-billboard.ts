@@ -1,3 +1,5 @@
+"use server";
+
 import { db } from "@/db/client";
 import { revalidatePath } from "next/cache";
 
@@ -24,7 +26,7 @@ export const upsertBillboard = async (storeId: string, values: UpsertBillboardSc
     revalidatePath(`/dashboard/${store.id}/display`);
 
     return { success: `${store.name} display updated.` };
-  } catch {
+  } catch (error) {
     return { error: "Something went wrong." };
   }
 };

@@ -26,7 +26,7 @@ interface ImageUploadProps {
   label: string;
   limit?: number;
   folder?: string;
-  cleanup?: () => void;
+  publicId?: string;
 }
 
 export function ImageUpload({
@@ -34,15 +34,11 @@ export function ImageUpload({
   label,
   limit = 1,
   folder,
-  cleanup,
+  publicId,
 }: ImageUploadProps) {
   const isMounted = useIsMounted();
 
   const form = useFormContext();
-
-  useEffect(() => {
-    return cleanup;
-  }, [cleanup]);
 
   const {
     control,
@@ -92,15 +88,18 @@ export function ImageUpload({
                   size={[970, 250]}
                 />
                 <CldUploadWidget
+                  uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
                   signatureEndpoint="/api/cloudinary/sign"
                   onSuccess={onSuccess}
                   onError={() =>  { toast.error("Image upload failed."); }}
                   options={{
+                    publicId,
                     folder: `ecommerce/${folder || ''}`,
                     sources: ["local"],
                     maxFiles: limit,
                     multiple: limit > 1,
                     clientAllowedFormats: ["jpg", "jpeg", "png", "webp", "gif"],
+                    resourceType: "image",
                   }}
                 >
                   {({ open }) => (

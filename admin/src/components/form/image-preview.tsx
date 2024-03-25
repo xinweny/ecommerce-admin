@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { Trash } from "lucide-react";
 import Image from "next/image";
 
