@@ -81,15 +81,15 @@ model TwoFactorConfirmation {
 }
 
 model Store {
-  id          String   @id @default(cuid())
-  userId      String
-  name        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  billboard   Billboard?
+  billboard  Billboard?
   categories Category[]
-  brands Brand[]
+  brands     Brand[]
 }
 
 model Billboard {
@@ -99,23 +99,33 @@ model Billboard {
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  
-  storeId     String @unique
-  store       Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  storeId String @unique
+  store   Store  @relation(fields: [storeId], references: [id])
+
+  @@index([storeId])
 }
 
 model Category {
-  id String @id @default(cuid())
-  name String
-  
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   storeId String
-  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  store   Store  @relation(fields: [storeId], references: [id])
+
+  @@index([storeId])
 }
 
 model Brand {
-  id String @id @default(cuid())
-  name String
-  
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   storeId String
-  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  store   Store  @relation(fields: [storeId], references: [id])
+
+  @@index([storeId])
 }

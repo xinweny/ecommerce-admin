@@ -24,7 +24,8 @@ export const deleteStore = async (storeId: string) => {
     revalidatePath("/dashboard");
 
     return { success: `${store.name} store deleted.` };
-  } catch {
+  } catch (error) {
+    console.log(error);
     return { error: "Something went wrong. Make sure you delete all products and categories in this store first." };
   }
 };

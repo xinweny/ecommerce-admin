@@ -5,8 +5,6 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 
-import { useIsMounted } from "@/hooks";
-
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -21,10 +19,6 @@ export function MainNav({
   className,
 }: React.HTMLAttributes<HTMLElement>) {
   const { storeId } = useParams();
-  
-  const isMounted = useIsMounted();
-
-  if (!isMounted) return null;
 
   return (
     <NavigationMenu className={className}>
@@ -36,14 +30,17 @@ export function MainNav({
         {storeId && (
           <>
             <NavLinkItem
-              href={`/dashboard/${storeId}/display`}
-              label="Display"
+              href={`/dashboard/${storeId}/billboards`}
+              label="Billboards"
+            />
+            <NavLinkItem
+              href={`/dashboard/${storeId}/categories`}
+              label="Categories"
             />
             <NavDropdownItem
               triggerLabel="Filters"
               prefix={`/dashboard/${storeId}/filters`}
               links={[
-                { href: "/category", label: "Category" },
                 { href: "/brand", label: "Brand" },
               ]}
             />
