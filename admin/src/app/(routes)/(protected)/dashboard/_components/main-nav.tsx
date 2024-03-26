@@ -3,6 +3,8 @@
 import { useParams } from "next/navigation";
 import Link from "next/link";
 
+import { cn } from "@/lib/utils";
+
 import { useIsMounted } from "@/hooks";
 
 import {
@@ -15,7 +17,9 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
-export function MainNav() {
+export function MainNav({
+  className,
+}: React.HTMLAttributes<HTMLElement>) {
   const { storeId } = useParams();
   
   const isMounted = useIsMounted();
@@ -23,7 +27,7 @@ export function MainNav() {
   if (!isMounted) return null;
 
   return (
-    <NavigationMenu className="ml-4">
+    <NavigationMenu className={className}>
       <NavigationMenuList>
         <NavLinkItem
           href={storeId ? `/dashboard/${storeId}` : "/dashboard"}
@@ -93,7 +97,10 @@ function NavDropdownItem({
           {links.map(({ href, label }) => (
             <NavigationMenuLink
               key={href} 
-              className={navigationMenuTriggerStyle()}
+              className={cn(
+                navigationMenuTriggerStyle(),
+                "w-full rounded-none justify-start"
+              )}
               asChild
             >
               <Link href={prefix ? `${prefix}${href}` : href}>

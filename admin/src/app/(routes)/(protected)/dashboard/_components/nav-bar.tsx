@@ -1,6 +1,8 @@
 import { getStoresByCurrentUserId } from "@/db/query/store";
 
 import { UserButton } from "@/components/auth/user-button";
+import { ModeToggle } from "@/components/theme/mode-toggle";
+
 import { MainNav } from "./main-nav";
 import { StoreSwitcher } from "./store-switcher";
 
@@ -13,6 +15,7 @@ export async function NavBar() {
         <StoreSwitcher stores={stores} />
         <MainNav className="mx-6" />
         <div className="ml-auto flex items-center space-x-4">
+          <ModeToggle />
           <UserButton />
         </div>
       </div>
