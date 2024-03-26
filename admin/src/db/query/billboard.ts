@@ -1,19 +1,19 @@
 import { db } from "../client";
 
-import { currentUser } from "@/lib/auth";
-
-export const getBillboardByStoreId = async (storeId: string) => {
-  const user = await currentUser();
-
-  if (!user?.id) return null;
-
-  const store = await db.store.findUnique({
-    where: {
-      id: storeId,
-      userId: user.id,
-    },
-    include: { billboard: true }
+export const getBillboardById = async (billboardId: string) => {
+  const billboard = await db.billboard.findUnique({
+    where: { id: billboardId },
   });
 
-  return store?.billboard;
+  return billboard;
+};
+
+export const getBillboardsByStoreId = async (storeId: string) => {
+
+
+  const billboards = await db.billboard.findMany({
+    where: { storeId },
+  });
+
+  return billboards;
 };

@@ -9,8 +9,6 @@ interface StoreDashboardPageProps {
 export default async function StoreDashboardPage({ params }: StoreDashboardPageProps) {
   const store = await getStoreById(params.storeId);
 
-  if (!store) redirect("/dashboard");
-
   return (
     <div>
       Store ${store?.name}

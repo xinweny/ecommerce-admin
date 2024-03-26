@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import { getStoreById } from "@/db/query/store";
 
-import { FormHeader } from "@/components/form/form-header";
+import { FormHeader } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
 
 import { DeleteStoreButton } from "./_components/delete-store-button";

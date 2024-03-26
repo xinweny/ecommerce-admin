@@ -87,20 +87,21 @@ model Store {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  billboard  Billboard?
+  billboards Billboard[]
   categories Category[]
   brands     Brand[]
 }
 
 model Billboard {
   id          String   @id @default(cuid())
-  imageUrl    String?
+  imageUrl    String
+  label       String
   title       String?
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  storeId String @unique
+  storeId String
   store   Store  @relation(fields: [storeId], references: [id])
 
   @@index([storeId])

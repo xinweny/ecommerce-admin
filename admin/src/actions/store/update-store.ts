@@ -13,7 +13,7 @@ export const updateStore = async (storeId: string, values: z.infer<typeof update
   try {
     const validatedFields = updateStoreSchema.safeParse(values);
 
-    if (!validatedFields) return { error: "Invalid fields." };
+    if (!validatedFields.success) return { error: "Invalid fields." };
 
     const user = await currentUser();
 

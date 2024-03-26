@@ -5,37 +5,46 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 
-import { upsertBillboardSchema, type UpsertBillboardSchema } from "@/schemas/billboard";
+import { updateBillboardSchema, type UpdateBillboardSchema } from "@/schemas/billboard";
 
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
 import { FormTextarea } from "@/components/form/form-textarea";
 import { SubmitButton } from "@/components/form/submit-button";
 import { ImageUpload } from "@/components/form/image-upload";
-
-import { upsertBillboard } from "@/actions/billboard";
 import { ImagePreview } from "@/components/form/image-preview";
+import { Heading } from "@/components/shared/heading";
 
-interface UpsertBillboardFormProps {
-  storeId: string;
-  billboard?: Billboard | null;
+import { updateBillboard } from "@/actions/billboard";
+
+interface UpdateBillboardFormProps {
+  billboard: Billboard;
 }
 
-export function UpsertBillboardForm({
-  storeId,
+export function UpdateBillboardForm({
   billboard,
-}: UpsertBillboardFormProps) {
-  const form = useForm<UpsertBillboardSchema>({
-    resolver: zodResolver(upsertBillboardSchema),
+}: UpdateBillboardFormProps) {
+  const {
+    id,
+    label,
+    imageUrl,
+    title,
+    description,
+    storeId,
+  } = billboard;
+
+  const form = useForm<UpdateBillboardSchema>({
+    resolver: zodResolver(updateBillboardSchema),
     defaultValues: {
-      imageUrl: billboard?.imageUrl || "",
-      title: billboard?.title || "",
-      description: billboard?.description || "",
+      label,
+      imageUrl,
+      title: title || "",
+      description: description || "",
     },
   });
 
-  const onSubmit = async (values: UpsertBillboardSchema) => {
-    const { success, error } = await upsertBillboard(storeId, values);
+  const onSubmit = async (values: UpdateBillboardSchema) => {
+    const { success, error } = await updateBillboard(id, values);
 
     if (success) toast.success(success);
     if (error) toast.error(error);
@@ -43,16 +52,20 @@ export function UpsertBillboardForm({
 
   return (
     <Form {...form}>
+      <Heading title={`Update Billboard ${label}`} />
       <form
         onSubmit={form.handleSubmit(onSubmit)} 
         className="space-y-8 w-full"
       >
         <div className="grid grid-col-3 gap-8">
+          <FormInput
+            name="label"
+            label="Label"
+          />
           <ImageUpload
             label="Background Image"
-            folder="billboards"
+            folder={`stores/${storeId}/billboards`}
             name="imageUrl"
-            publicId={storeId}
             preview={
               <ImagePreview
                 name="imageUrl"
