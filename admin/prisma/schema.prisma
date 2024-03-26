@@ -88,6 +88,8 @@ model Store {
   updatedAt   DateTime @updatedAt
 
   billboard   Billboard?
+  categories Category[]
+  brands Brand[]
 }
 
 model Billboard {
@@ -100,4 +102,20 @@ model Billboard {
   
   storeId     String @unique
   store       Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id String @id @default(cuid())
+  name String
+  
+  storeId String
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+}
+
+model Brand {
+  id String @id @default(cuid())
+  name String
+  
+  storeId String
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
 }
