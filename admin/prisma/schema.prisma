@@ -116,8 +116,8 @@ model Category {
 
   storeId     String
   store       Store     @relation(fields: [storeId], references: [id])
-  billboardId String
-  billboard   Billboard @relation(fields: [billboardId], references: [id])
+  billboardId String?
+  billboard   Billboard? @relation(fields: [billboardId], references: [id])
 
   @@index([storeId])
 }

@@ -6,6 +6,7 @@ import {
   Edit,
   Copy,
   Trash,
+  Image as ImageIcon,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -19,13 +20,13 @@ import { Button } from "@/components/ui/button";
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { AlertModalContent } from "@/components/modals/alert-modal";
 
-import { BillboardRow } from "./columns";
+import { CategoryRow } from "./columns";
 
 import { deleteBillboard } from "@/actions/billboard";
 import { AlertDialog } from "@/components/ui/alert-dialog";
 
 interface CellActionProps {
-  data: BillboardRow;
+  data: CategoryRow;
 }
 
 export function CellAction({
@@ -69,8 +70,16 @@ export function CellAction({
             <Copy className="mr-2 h-4 w-4" />
             <span>Copy ID</span>
           </DropdownMenuItem>
+          {data.billboard && (
+            <DropdownMenuItem onClick={() => {
+              router.push(`/dashboard/${params.storeId}/billboards/${data.billboard!.id}`);
+            }}>
+              <ImageIcon className="mr-2 h-4 w-4" />
+              <span>Billboard</span>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem onClick={() => {
-            router.push(`/dashboard/${params.storeId}/billboards/${id}`);
+            router.push(`/dashboard/${params.storeId}/categories/${id}`);
           }}>
             <Edit className="mr-2 h-4 w-4" />
             <span>Edit</span>
@@ -84,7 +93,7 @@ export function CellAction({
         </DropdownMenuContent>
       </DropdownMenu>
       <AlertModalContent
-        title={`Delete billboard ${data.label}?`}
+        title={`Delete category ${data.name}?`}
         onConfirm={onDelete}
       />
     </AlertDialog>

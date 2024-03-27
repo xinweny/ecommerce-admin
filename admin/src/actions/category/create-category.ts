@@ -4,13 +4,13 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/db/client";
 
-import { billboardSchema, type BillboardSchema } from "@/schemas/billboard";
+import { categorySchema, type CategorySchema } from "@/schemas/category";
 
 import { getStoreById } from "@/db/query/store";
 
-export const createBillboard = async (storeId: string, values: BillboardSchema) => {
+export const createCategory = async (storeId: string, values: CategorySchema) => {
   try {
-    const validatedFields = billboardSchema.safeParse(values);
+    const validatedFields = categorySchema.safeParse(values);
 
     if (!validatedFields.success) return { error: "Invalid fields." };
 
@@ -18,16 +18,16 @@ export const createBillboard = async (storeId: string, values: BillboardSchema) 
 
     if (!store) return { error: "Store not found." };
 
-    const billboard = await db.billboard.create({
+    const category = await db.category.create({
       data: {
         storeId,
         ...values,
       },
     });
 
-    revalidatePath(`/dashboard/${storeId}/billboards`);
+    revalidatePath(`/dashboard/${storeId}/categories`);
 
-    return { success: `${billboard.label} created.` };
+    return { success: `${category.name} category created.` };
   } catch (error) {
     return { error: "Something went wrong." };
   }

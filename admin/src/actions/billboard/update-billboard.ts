@@ -6,13 +6,13 @@ import { extractPublicId } from "cloudinary-build-url";
 
 import { cloudinary } from "@/lib/cloudinary";
 
-import { updateBillboardSchema, type UpdateBillboardSchema } from "@/schemas/billboard";
+import { billboardSchema, type BillboardSchema } from "@/schemas/billboard";
 
 import { getBillboardById } from "@/db/query/billboard";
 
-export const updateBillboard = async (billboardId: string, values: UpdateBillboardSchema) => {
+export const updateBillboard = async (billboardId: string, values: BillboardSchema) => {
   try {
-    const validatedFields = updateBillboardSchema.safeParse(values);
+    const validatedFields = billboardSchema.safeParse(values);
 
     if (!validatedFields.success) return { error: "Invalid fields." };
 

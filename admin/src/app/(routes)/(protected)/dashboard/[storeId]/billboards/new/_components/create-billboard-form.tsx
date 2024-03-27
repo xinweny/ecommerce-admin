@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 
-import { createBillboardSchema, type CreateBillboardSchema } from "@/schemas/billboard";
+import { billboardSchema, type BillboardSchema } from "@/schemas/billboard";
 
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
@@ -25,8 +25,8 @@ export function CreateBillboardForm({
 }: CreateBillboardFormProps) {
   const router = useRouter();
 
-  const form = useForm<CreateBillboardSchema>({
-    resolver: zodResolver(createBillboardSchema),
+  const form = useForm<BillboardSchema>({
+    resolver: zodResolver(billboardSchema),
     defaultValues: {
       label: "",
       imageUrl: "",
@@ -35,7 +35,7 @@ export function CreateBillboardForm({
     },
   });
 
-  const onSubmit = async (values: CreateBillboardSchema) => {
+  const onSubmit = async (values: BillboardSchema) => {
     const { success, error } = await createBillboard(storeId, values);
 
     if (success) {

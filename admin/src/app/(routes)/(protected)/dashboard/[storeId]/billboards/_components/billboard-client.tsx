@@ -22,6 +22,13 @@ export function BillboardClient({
   const router = useRouter();
   const params = useParams();
 
+  const data = billboards.map(({ id, label, createdAt, storeId }) => ({
+    id,
+    label,
+    createdAt: format(createdAt, "dd/mm/yyyy"),
+    storeId,
+  }));
+
   return (
     <>
       <div className="flex items-center justify-between">
@@ -38,12 +45,7 @@ export function BillboardClient({
       </div>
       <Separator />
       <DataTable
-        data={billboards.map(({ id, label, createdAt, storeId }) => ({
-          id,
-          label,
-          createdAt: format(createdAt, "dd/mm/yyyy"),
-          storeId,
-        }))}
+        data={data}
         columns={columns}
         searchKey="label"
       />

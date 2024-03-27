@@ -6,31 +6,35 @@ import { ToggleSort } from "@/components/ui/data-table";
 
 import { CellAction } from "./cell-action";
 
-export interface BillboardRow {
+export interface CategoryRow {
   id: string;
-  label: string;
-  createdAt: string;
+  name: string;
   storeId: string;
+  billboard: {
+    id: string;
+    label: string;
+  } | null;
 }
- 
-export const columns: ColumnDef<BillboardRow>[] = [
+
+export const columns: ColumnDef<CategoryRow>[] = [
   {
-    accessorKey: "label",
+    accessorKey: "name",
     header: ({ column }) => (
       <ToggleSort
         column={column}
-        label="Label"
+        label="Name"
       />
     ),
   },
   {
-    accessorKey: "createdAt",
+    accessorKey: "billboard",
     header: ({ column }) => (
       <ToggleSort
         column={column}
-        label="Created"
+        label="Billboard"
       />
     ),
+    cell: (({ row }) => row.original.billboard?.label),
   },
   {
     id: "actions",

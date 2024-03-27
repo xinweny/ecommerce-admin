@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 
-import { updateBillboardSchema, type UpdateBillboardSchema } from "@/schemas/billboard";
+import { billboardSchema, type BillboardSchema } from "@/schemas/billboard";
 
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
@@ -32,8 +32,8 @@ export function UpdateBillboardForm({
     storeId,
   } = billboard;
 
-  const form = useForm<UpdateBillboardSchema>({
-    resolver: zodResolver(updateBillboardSchema),
+  const form = useForm<BillboardSchema>({
+    resolver: zodResolver(billboardSchema),
     defaultValues: {
       label,
       imageUrl,
@@ -42,7 +42,7 @@ export function UpdateBillboardForm({
     },
   });
 
-  const onSubmit = async (values: UpdateBillboardSchema) => {
+  const onSubmit = async (values: BillboardSchema) => {
     const { success, error } = await updateBillboard(id, values);
 
     if (success) toast.success(success);

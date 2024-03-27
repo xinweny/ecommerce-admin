@@ -64,7 +64,7 @@ export function CreateStoreForm({
               </FormItem>
             )}
           />
-          <DialogFooter className="pt-6 space-x-2 flex items-center justify-end w-full">
+          <DialogFooter>
             <CancelButton onClick={onClose}>Close</CancelButton>
             <SubmitButton>Create</SubmitButton>
           </DialogFooter>
