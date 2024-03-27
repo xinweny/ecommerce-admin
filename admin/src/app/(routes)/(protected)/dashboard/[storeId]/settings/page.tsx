@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import { getStoreById } from "@/db/query/store";
 
-import { FormHeader } from "@/components/shared/heading";
+import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
 
 import { DeleteStoreButton } from "./_components/delete-store-button";
@@ -22,7 +22,7 @@ export default async function StoreSettingsPage({
   return (
     <>
       <div className="flex items-center justify-between">
-        <FormHeader title="Settings" description="Manage store preferences" />
+        <Heading title="Settings" description="Manage store preferences" />
         <DeleteStoreButton store={store} />
       </div>
       <Separator />

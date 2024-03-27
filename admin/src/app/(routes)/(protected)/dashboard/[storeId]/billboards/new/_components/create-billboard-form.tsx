@@ -13,7 +13,6 @@ import { FormTextarea } from "@/components/form/form-textarea";
 import { SubmitButton } from "@/components/form/submit-button";
 import { ImageUpload } from "@/components/form/image-upload";
 import { ImagePreview } from "@/components/form/image-preview";
-import { Heading } from "@/components/shared/heading";
 
 import { createBillboard } from "@/actions/billboard";
 
@@ -48,7 +47,6 @@ export function CreateBillboardForm({
 
   return (
     <Form {...form}>
-      <Heading title="Create Billboard" />
       <form
         onSubmit={form.handleSubmit(onSubmit)} 
         className="space-y-8 w-full"

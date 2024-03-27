@@ -1,3 +1,6 @@
+import { Heading } from "@/components/shared/heading";
+import { Separator } from "@/components/ui/separator";
+
 import { CreateBillboardForm } from "./_components/create-billboard-form";
 
 interface CreateBillboardPageProps {
@@ -6,6 +9,13 @@ interface CreateBillboardPageProps {
 
 export default async function CreateBillboardPage({ params }: CreateBillboardPageProps) {
   return (
-    <CreateBillboardForm storeId={params.storeId} />
+    <>
+      <Heading
+        title="Create Billboard"
+        description="Create a display for your storefront"
+      />
+      <Separator />
+      <CreateBillboardForm storeId={params.storeId} />
+    </>
   );
 }

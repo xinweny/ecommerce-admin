@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
 
-import { columns } from "../columns";
+import { columns } from "./columns";
 
 interface BillboardClientProps {
   billboards: Billboard[];
@@ -44,6 +44,7 @@ export function BillboardClient({
           createdAt: format(createdAt, "dd/mm/yyyy"),
         }))}
         columns={columns}
+        searchKey="label"
       />
     </>
   );

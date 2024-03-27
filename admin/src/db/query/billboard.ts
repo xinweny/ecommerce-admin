@@ -9,8 +9,6 @@ export const getBillboardById = async (billboardId: string) => {
 };
 
 export const getBillboardsByStoreId = async (storeId: string) => {
-
-
   const billboards = await db.billboard.findMany({
     where: { storeId },
   });

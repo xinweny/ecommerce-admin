@@ -6,16 +6,10 @@ import { extractPublicId } from "cloudinary-build-url";
 
 import { cloudinary } from "@/lib/cloudinary";
 
-import { updateBillboardSchema, type UpdateBillboardSchema } from "@/schemas/billboard";
-
 import { getBillboardById } from "@/db/query/billboard";
 
-export const updateBillboard = async (billboardId: string, values: UpdateBillboardSchema) => {
+export const deleteBillboard = async (billboardId: string) => {
   try {
-    const validatedFields = updateBillboardSchema.safeParse(values);
-
-    if (!validatedFields.success) return { error: "Invalid fields." };
-
     const billboard = await getBillboardById(billboardId);
 
     if (!billboard) return { error: "Billboard not found." };
@@ -23,18 +17,17 @@ export const updateBillboard = async (billboardId: string, values: UpdateBillboa
     const { imageUrl } = billboard;
 
     await Promise.all([
-      (values.imageUrl !== imageUrl)
+      (imageUrl)
         ? cloudinary.uploader.destroy(extractPublicId(imageUrl))
         : Promise.resolve(),
-      db.billboard.update({
+      db.billboard.delete({
         where: { id: billboardId },
-        data: { ...values },
       }),
     ]);
 
     revalidatePath(`/dashboard/${billboard.storeId}/billboards`);
 
-    return { success: `${billboard.label} updated.` };
+    return { success: `${billboard.label} deleted.` };
   } catch {
     return { error: "Something went wrong." };
   }
