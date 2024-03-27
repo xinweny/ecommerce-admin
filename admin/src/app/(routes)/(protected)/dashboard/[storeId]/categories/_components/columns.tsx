@@ -34,7 +34,7 @@ export const columns: ColumnDef<CategoryRow>[] = [
         label="Billboard"
       />
     ),
-    cell: (({ row }) => row.original.billboard?.label),
+    cell: (({ row }) => row.original.billboard?.label || ""),
   },
   {
     id: "actions",

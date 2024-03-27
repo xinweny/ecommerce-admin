@@ -40,8 +40,9 @@ export function CreateCategoryForm({
     const { success, error } = await createCategory(storeId, values);
 
     if (success) {
+      form.reset();
       toast.success(success);
-      router.push(`/dashboard/${storeId}/categories`);
+      router.push('/dashboard');
     };
     if (error) toast.error(error);
   };
@@ -74,9 +75,11 @@ export function CreateCategoryForm({
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <SubmitButton className="ml-auto">
-            Create
-          </SubmitButton>
+          <DialogClose asChild>
+            <SubmitButton className="ml-auto">
+              Create
+            </SubmitButton>
+          </DialogClose>
         </DialogFooter>
       </form>
     </Form>

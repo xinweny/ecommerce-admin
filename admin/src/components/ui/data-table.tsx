@@ -11,6 +11,7 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table"
@@ -47,6 +48,7 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     onSortingChange: setSorting,
     state: {
@@ -145,7 +147,9 @@ export function ToggleSort<TData, TValue>({
   return (
     <Button
       variant="ghost"
-      onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      onClick={() => {
+        column.toggleSorting(column.getIsSorted() === "asc", true);
+      }}
     >
       <span>{label}</span>
       <ArrowUpDown className="ml-2 h-4 w-4" />

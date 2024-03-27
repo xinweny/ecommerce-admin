@@ -49,20 +49,21 @@ export function FormSelect({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
-          <FormControl>
             <Select
-              {...field}
               disabled={isSubmitting}
               onValueChange={field.onChange}
               value={field.value}
               defaultValue={field.value}
             >
-              <SelectTrigger>
-                <SelectValue
-                  defaultValue={field.value}
-                  placeholder={placeholder}
-                />
-              </SelectTrigger>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue
+                    ref={field.ref}
+                    defaultValue={field.value}
+                    placeholder={placeholder}
+                  />
+                </SelectTrigger>
+              </FormControl>
               <SelectContent>
                 {values.map(({ value, label }) => (
                   <SelectItem
@@ -74,7 +75,6 @@ export function FormSelect({
                 ))}
               </SelectContent>
             </Select>
-          </FormControl>
           <FormMessage />
         </FormItem>
       )}
