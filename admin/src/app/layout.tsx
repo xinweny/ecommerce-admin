@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 
 import { auth } from "@/auth";
 
-import { ModalProvider, ThemeProvider } from "@/providers";
+import { ThemeProvider } from "@/providers";
 
 import "./globals.css";
 
@@ -33,7 +33,6 @@ export default async function RootLayout({
             enableSystem
           >
             <Toaster />
-            <ModalProvider />
             {children}
           </ThemeProvider>
         </body>

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 interface CancelButtonProps {
   className?: string;
   children: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export function CancelButton({
@@ -26,7 +26,7 @@ export function CancelButton({
       }
       onClick={() => {
         methods.reset();
-        onClick();
+        if (onClick) onClick();
       }}
     >
       {children}

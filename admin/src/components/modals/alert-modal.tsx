@@ -14,7 +14,6 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
   AlertDialogAction,
-  AlertDialogPortal,
 } from "@/components/ui/alert-dialog";
 
 interface AlertModalProps {
@@ -40,9 +39,9 @@ export function AlertModal({
 
   return (
     <AlertDialog>
-      <AlertModalTrigger>
+      <AlertDialogTrigger asChild>
         {children}
-      </AlertModalTrigger>
+      </AlertDialogTrigger>
       <AlertModalContent
         title={title}
         description={description}
@@ -89,19 +88,5 @@ export function AlertModalContent({
         </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
-  );
-}
-
-interface AlertModalTriggerProps {
-  children: React.ReactNode;
-}
-
-export function AlertModalTrigger({
-  children,
-}: AlertModalTriggerProps) {
-  return (
-    <AlertDialogTrigger asChild>
-      {children}
-    </AlertDialogTrigger>
   );
 }

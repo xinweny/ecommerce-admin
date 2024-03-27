@@ -16,10 +16,8 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import {
-  AlertModalTrigger,
-  AlertModalContent,
-} from "@/components/modals/alert-modal";
+import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { AlertModalContent } from "@/components/modals/alert-modal";
 
 import { BillboardRow } from "./columns";
 
@@ -77,12 +75,12 @@ export function CellAction({
             <Edit className="mr-2 h-4 w-4" />
             <span>Edit</span>
           </DropdownMenuItem>
-          <AlertModalTrigger>
+          <AlertDialogTrigger asChild>
             <DropdownMenuItem>
               <Trash className="mr-2 h-4 w-4" />
               <span>Delete</span>
             </DropdownMenuItem>
-          </AlertModalTrigger>
+          </AlertDialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>
       <AlertModalContent

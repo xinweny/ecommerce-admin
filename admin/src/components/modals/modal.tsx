@@ -6,41 +6,57 @@ import {
   DialogContent,
   DialogTitle,
   DialogDescription,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 
 interface ModalProps {
   title: string;
   description: string;
-  isOpen: boolean;
-  onClose: () => void;
-  children?: React.ReactNode;
+  children: React.ReactNode;
+  trigger: React.ReactNode;
 }
 
 export function Modal({
   title,
   description,
-  isOpen,
-  onClose,
   children,
+  trigger,
 }: ModalProps) {
-  const onChange = (open: boolean) => {
-    if (!open) onClose();
-  };
-
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={onChange}
-    >
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
-        <div>
-          {children}
-        </div>
-      </DialogContent>
+    <Dialog>
+      <DialogTrigger asChild>
+        {trigger}
+      </DialogTrigger>
+      <ModalContent
+        title={title}
+        description={description}
+      >
+        {children}
+      </ModalContent>
     </Dialog>
+  );
+}
+
+interface ModalContentProps {
+  title: string;
+  description: string;
+  children: React.ReactNode;
+}
+
+export function ModalContent({
+  title,
+  description,
+  children,
+}: ModalContentProps) {
+  return (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{title}</DialogTitle>
+        <DialogDescription>{description}</DialogDescription>
+      </DialogHeader>
+      <div>
+        {children}
+      </div>
+    </DialogContent>
   );
 }

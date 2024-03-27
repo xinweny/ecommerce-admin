@@ -7,8 +7,6 @@ import { useRouter } from "next/navigation";
 
 import { createStoreSchema, type CreateStoreSchema } from "@/schemas/store";
 
-import { useStoreModal } from "@/hooks";
-
 import {
   Form,
   FormControl,
@@ -17,14 +15,19 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { DialogFooter } from "@/components/ui/dialog";
 import { SubmitButton } from "@/components/form/submit-button";
 import { CancelButton } from "@/components/form/cancel-button";
 
 import { createStore } from "@/actions/store";
 
-export function CreateStoreForm() {
-  const { onClose } = useStoreModal();
+interface CreateStoreFormProps {
+  onClose: () => void;
+}
 
+export function CreateStoreForm({
+  onClose,
+}: CreateStoreFormProps) {
   const router = useRouter();
 
   const form = useForm<CreateStoreSchema>({
@@ -61,10 +64,10 @@ export function CreateStoreForm() {
               </FormItem>
             )}
           />
-          <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-            <CancelButton onClick={onClose}>Cancel</CancelButton>
+          <DialogFooter className="pt-6 space-x-2 flex items-center justify-end w-full">
+            <CancelButton onClick={onClose}>Close</CancelButton>
             <SubmitButton>Create</SubmitButton>
-          </div>
+          </DialogFooter>
         </form>
       </Form>
     </div>
