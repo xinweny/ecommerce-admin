@@ -62,7 +62,7 @@ export function CreateCategoryForm({
             label="Billboard"
             placeholder="Select a billboard"
             values={[
-              { value: null, label: "" },
+              { value: null, label: "null" },
               ...billboards.map(({ id, label }) => ({
                 value: id,
                 label,

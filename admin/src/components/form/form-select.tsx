@@ -49,32 +49,32 @@ export function FormSelect({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
-          <Select
-            {...field}
-            disabled={isSubmitting}
-            onValueChange={field.onChange}
-            value={field.value}
-            defaultValue={field.value}
-          >
-            <FormControl>
+          <FormControl>
+            <Select
+              {...field}
+              disabled={isSubmitting}
+              onValueChange={field.onChange}
+              value={field.value}
+              defaultValue={field.value}
+            >
               <SelectTrigger>
                 <SelectValue
                   defaultValue={field.value}
                   placeholder={placeholder}
                 />
               </SelectTrigger>
-            </FormControl>
-            <SelectContent>
-              {values.map(({ value, label }) => (
-                <SelectItem
-                  key={value}
-                  value={value}
-                >
-                  {label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+              <SelectContent>
+                {values.map(({ value, label }) => (
+                  <SelectItem
+                    key={value}
+                    value={value}
+                  >
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormControl>
           <FormMessage />
         </FormItem>
       )}
