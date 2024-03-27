@@ -1,9 +1,9 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
 
 import { createBillboardSchema, type CreateBillboardSchema } from "@/schemas/billboard";
 
@@ -24,6 +24,7 @@ interface CreateBillboardFormProps {
 export function CreateBillboardForm({
   storeId,
 }: CreateBillboardFormProps) {
+  const router = useRouter();
 
   const form = useForm<CreateBillboardSchema>({
     resolver: zodResolver(createBillboardSchema),
@@ -40,7 +41,7 @@ export function CreateBillboardForm({
 
     if (success) {
       toast.success(success);
-      redirect(`/dashboard/${storeId}/billboards`);
+      router.push(`/dashboard/${storeId}/billboards`);
     };
     if (error) toast.error(error);
   };

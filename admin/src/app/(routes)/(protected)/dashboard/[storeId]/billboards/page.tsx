@@ -1,6 +1,6 @@
 import { getBillboardsByStoreId } from "@/db/query/billboard";
 
-import { BillboardPageHeader } from "./_components/billboard-page-header";
+import { BillboardClient } from "./_components/billboard-client";
 
 interface StoreDisplayPageProps {
   params: { storeId: string };
@@ -12,8 +12,8 @@ export default async function BillboardsPage({ params }: StoreDisplayPageProps) 
   const billboards = await getBillboardsByStoreId(storeId);
 
   return (
-    <>
-      <BillboardPageHeader />
-    </>
+    <BillboardClient
+      billboards={billboards}
+    />
   );
 }

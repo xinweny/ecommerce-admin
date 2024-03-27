@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
@@ -64,10 +64,15 @@ function NavLinkItem({
   href,
   label,
 }: NavLinkItemProps) {
+  const pathname = usePathname();
+
   return (
     <NavigationMenuItem>
       <Link href={href} legacyBehavior passHref>
-        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+        <NavigationMenuLink className={cn(
+          navigationMenuTriggerStyle(),
+          (pathname === href) && "bg-accent"
+        )}>
           {label}
         </NavigationMenuLink>
       </Link>
@@ -78,7 +83,7 @@ function NavLinkItem({
 interface NavDropdownItemProps {
   triggerLabel: string;
   links: NavLinkItemProps[];
-  prefix?: string;
+  prefix: string;
 }
 
 function NavDropdownItem({
@@ -86,26 +91,33 @@ function NavDropdownItem({
   links,
   prefix,
 }: NavDropdownItemProps) {
+  const pathname = usePathname();
+
   return (
     <NavigationMenuItem>
-      <NavigationMenuTrigger>{triggerLabel}</NavigationMenuTrigger>
+      <NavigationMenuTrigger
+        className={pathname.includes(prefix)
+          ? "bg-accent"
+          : undefined
+        }
+      >
+        {triggerLabel}
+      </NavigationMenuTrigger>
       <NavigationMenuContent>
-        <div>
-          {links.map(({ href, label }) => (
-            <NavigationMenuLink
-              key={href} 
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "w-full rounded-none justify-start"
-              )}
-              asChild
-            >
-              <Link href={prefix ? `${prefix}${href}` : href}>
-                {label}
-              </Link>
-            </NavigationMenuLink>
-          ))}
-        </div>
+        {links.map(({ href, label }) => (
+          <NavigationMenuLink
+            key={href} 
+            className={cn(
+              navigationMenuTriggerStyle(),
+              "w-full rounded-none justify-start"
+            )}
+            asChild
+          >
+            <Link href={`${prefix}${href}`}>
+              {label}
+            </Link>
+          </NavigationMenuLink>
+        ))}
       </NavigationMenuContent>
     </NavigationMenuItem>
   );
