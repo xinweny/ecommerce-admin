@@ -12,13 +12,19 @@ import toast from "react-hot-toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import {
+  AlertModalTrigger,
+  AlertModalContent,
+} from "@/components/modals/alert-modal";
 
 import { BillboardRow } from "./columns";
+
+import { deleteBillboard } from "@/actions/billboard";
+import { AlertDialog } from "@/components/ui/alert-dialog";
 
 interface CellActionProps {
   data: BillboardRow;
@@ -32,34 +38,57 @@ export function CellAction({
 
   const { id } = data;
 
+  const onCopy = (id: string) => {
+    navigator.clipboard.writeText(id);
+    toast.success(`Billboard ID ${id} copied!`);
+  }
+
+  const onDelete = async () => {
+    const { success, error } = await deleteBillboard(data.id);
+
+    if (error) {
+      toast.error(error);
+      return;
+    }
+
+    if (success) {
+      toast.success(success);
+      router.push(`/dashboard/${data.storeId}/billboards`);
+    }
+  };
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => {
-          navigator.clipboard.writeText(id);
-          toast.success(`Billboard ID ${id} copied!`);
-        }}>
-          <Copy className="mr-2 h-4 w-4" />
-          <span>Copy ID</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => {
-          router.push(`/dashboard/${params.storeId}/billboards/${id}`);
-        }}>
-          <Edit className="mr-2 h-4 w-4" />
-          <span>Edit</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Trash className="mr-2 h-4 w-4" />
-          <span>Delete</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <AlertDialog>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => { onCopy(id); }}>
+            <Copy className="mr-2 h-4 w-4" />
+            <span>Copy ID</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => {
+            router.push(`/dashboard/${params.storeId}/billboards/${id}`);
+          }}>
+            <Edit className="mr-2 h-4 w-4" />
+            <span>Edit</span>
+          </DropdownMenuItem>
+          <AlertModalTrigger>
+            <DropdownMenuItem>
+              <Trash className="mr-2 h-4 w-4" />
+              <span>Delete</span>
+            </DropdownMenuItem>
+          </AlertModalTrigger>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <AlertModalContent
+        title={`Delete billboard ${data.label} ?`}
+        onConfirm={onDelete}
+      />
+    </AlertDialog>
   );
 }

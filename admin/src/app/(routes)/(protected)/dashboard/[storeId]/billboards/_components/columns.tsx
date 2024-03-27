@@ -10,6 +10,7 @@ export interface BillboardRow {
   id: string;
   label: string;
   createdAt: string;
+  storeId: string;
 }
  
 export const columns: ColumnDef<BillboardRow>[] = [

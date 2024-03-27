@@ -4,58 +4,104 @@ import { useTransition } from "react";
 
 import { useIsMounted } from "@/hooks";
 
-import { Button } from "../ui/button";
-
-import { Modal } from "./modal";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+  AlertDialogPortal,
+} from "@/components/ui/alert-dialog";
 
 interface AlertModalProps {
   title?: string;
   description?: string;
-  isOpen: boolean;
-  onClose: () => void;
+  onConfirm: () => void;
+  closeLabel?: string;
+  confirmLabel?: string;
+  children: React.ReactNode;
+}
+
+export function AlertModal({
+  title,
+  description,
+  onConfirm,
+  closeLabel,
+  confirmLabel,
+  children,
+}: AlertModalProps) {
+  const isMounted = useIsMounted();
+
+  if (!isMounted) return null;
+
+  return (
+    <AlertDialog>
+      <AlertModalTrigger>
+        {children}
+      </AlertModalTrigger>
+      <AlertModalContent
+        title={title}
+        description={description}
+        onConfirm={onConfirm}
+        closeLabel={closeLabel}
+        confirmLabel={confirmLabel}
+      />
+    </AlertDialog>
+  );
+}
+
+interface AlertModalContentProps {
+  title?: string;
+  description?: string;
   onConfirm: () => void;
   closeLabel?: string;
   confirmLabel?: string;
 }
 
-export function AlertModal({
+export function AlertModalContent({
   title = "Are you sure?",
   description = "This action cannot be undone.",
-  isOpen,
-  onClose,
   onConfirm,
   closeLabel = "Cancel",
   confirmLabel = "Confirm",
-}: AlertModalProps) {
-  const isMounted = useIsMounted();
-
+}: AlertModalContentProps) {
   const [isPending, startTransition] = useTransition();
 
-  if (!isMounted) return null;
-
   return (
-    <Modal
-      title={title}
-      description={description}
-      isOpen={isOpen}
-      onClose={onClose}
-    >
-      <div className="pt-6 space-x-2 items-center justify-end w-full">
-        <Button
-          disabled={isPending}
-          variant="outline"
-          onClick={onClose}
-        >
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>{title}</AlertDialogTitle>
+        <AlertDialogDescription>{description}</AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel disabled={isPending}>
           {closeLabel}
-        </Button>
-        <Button
+        </AlertDialogCancel>
+        <AlertDialogAction
           disabled={isPending}
-          variant="destructive"
           onClick={() => { startTransition(onConfirm); }}
         >
           {confirmLabel}
-        </Button>
-      </div>
-    </Modal>
+        </AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  );
+}
+
+interface AlertModalTriggerProps {
+  children: React.ReactNode;
+}
+
+export function AlertModalTrigger({
+  children,
+}: AlertModalTriggerProps) {
+  return (
+    <AlertDialogTrigger asChild>
+      {children}
+    </AlertDialogTrigger>
   );
 }

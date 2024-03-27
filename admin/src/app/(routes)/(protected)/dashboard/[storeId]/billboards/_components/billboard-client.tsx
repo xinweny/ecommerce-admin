@@ -38,10 +38,11 @@ export function BillboardClient({
       </div>
       <Separator />
       <DataTable
-        data={billboards.map(({ id, label, createdAt }) => ({
+        data={billboards.map(({ id, label, createdAt, storeId }) => ({
           id,
           label,
           createdAt: format(createdAt, "dd/mm/yyyy"),
+          storeId,
         }))}
         columns={columns}
         searchKey="label"
