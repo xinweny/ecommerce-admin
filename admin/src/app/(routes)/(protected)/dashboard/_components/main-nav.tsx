@@ -41,7 +41,7 @@ export function MainNav({
               triggerLabel="Filters"
               prefix={`/dashboard/${storeId}/filters`}
               links={[
-                { href: "/brand", label: "Brand" },
+                { href: "/brands", label: "Brand" },
               ]}
             />
             <NavLinkItem

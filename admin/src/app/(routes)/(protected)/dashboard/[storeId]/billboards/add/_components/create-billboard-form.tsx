@@ -51,7 +51,7 @@ export function CreateBillboardForm({
         onSubmit={form.handleSubmit(onSubmit)} 
         className="space-y-8 w-full"
       >
-        <div className="grid grid-col-3 gap-8">
+        <div className="flex flex-col gap-8">
           <FormInput
             name="label"
             label="Label"

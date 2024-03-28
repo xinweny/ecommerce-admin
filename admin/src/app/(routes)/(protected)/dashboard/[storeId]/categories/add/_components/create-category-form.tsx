@@ -53,7 +53,7 @@ export function CreateCategoryForm({
         onSubmit={form.handleSubmit(onSubmit)} 
         className="space-y-8 w-full"
       >
-        <div className="grid grid-col-3 gap-8">
+        <div className="grid grid-cols-2 gap-8">
           <FormInput
             name="name"
             label="Name"
