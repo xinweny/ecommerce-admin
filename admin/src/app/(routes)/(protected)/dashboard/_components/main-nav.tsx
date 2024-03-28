@@ -42,6 +42,7 @@ export function MainNav({
               prefix={`/dashboard/${storeId}/filters`}
               links={[
                 { href: "/brands", label: "Brand" },
+                { href: "/subcategories", label: "Subcategory" },
               ]}
             />
             <NavLinkItem
