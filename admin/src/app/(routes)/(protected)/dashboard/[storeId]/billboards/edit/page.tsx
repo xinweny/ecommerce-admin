@@ -8,17 +8,16 @@ import { Separator } from "@/components/ui/separator";
 import { UpdateBillboardForm } from "./_components/update-billboard-form";
 import { DeleteBillboardButton } from "./_components/delete-billboard-button";
 
-interface BillboardPageProps {
-  params: {
-    storeId: string;
-    billboardId: string;
-  };
+interface EditBillboardPageProps {
+  params: { storeId: string };
+  searchParams: { billboardId: string };
 }
 
-export default async function BillboardPage({
+export default async function EditBillboardPage({
   params,
-}: BillboardPageProps) {
-  const billboard = await getBillboardById(params.billboardId);
+  searchParams,
+}: EditBillboardPageProps) {
+  const billboard = await getBillboardById(searchParams.billboardId);
 
   if (!billboard) redirect(`/dashboard/${params.storeId}/billboards`);
 

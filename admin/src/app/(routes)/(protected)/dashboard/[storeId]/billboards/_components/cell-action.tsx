@@ -70,7 +70,7 @@ export function CellAction({
             <span>Copy ID</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => {
-            router.push(`/dashboard/${params.storeId}/billboards/${id}`);
+            router.push(`/dashboard/${params.storeId}/billboards/edit?billboardId=${data.id}`);
           }}>
             <Edit className="mr-2 h-4 w-4" />
             <span>Edit</span>

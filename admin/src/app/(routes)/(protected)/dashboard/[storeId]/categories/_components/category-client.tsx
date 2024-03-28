@@ -42,9 +42,9 @@ export function CategoryClient({
     <>
       <div className="flex items-center justify-between">
       <Heading
-          title={`Categories - ${categories.length}`}
-          description="Manage product categories"
-        />
+        title={`Categories - ${categories.length}`}
+        description="Manage product categories"
+      />
         <Modal
           title="Create Category"
           description="Add a new product category"
