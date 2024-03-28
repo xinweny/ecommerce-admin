@@ -18,9 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { AlertModalContent } from "@/components/modals/alert-modal";
-import { ModalContent } from "@/components/modals/modal";
 
 import { CategoryRow } from "./columns";
 
@@ -58,53 +56,45 @@ export function CellAction({
   };
 
   return (
-    <Dialog>
-      <AlertDialog>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => { onCopy(id); }}>
-              <Copy className="mr-2 h-4 w-4" />
-              <span>Copy ID</span>
+    <AlertDialog>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => { onCopy(id); }}>
+            <Copy className="mr-2 h-4 w-4" />
+            <span>Copy ID</span>
+          </DropdownMenuItem>
+          {data.billboard && (
+            <DropdownMenuItem onClick={() => {
+              router.push(`/dashboard/${params.storeId}/billboards/${data.billboard!.id}`);
+            }}>
+              <ImageIcon className="mr-2 h-4 w-4" />
+              <span>Manage Billboard</span>
             </DropdownMenuItem>
-            {data.billboard && (
-              <DropdownMenuItem onClick={() => {
-                router.push(`/dashboard/${params.storeId}/billboards/${data.billboard!.id}`);
-              }}>
-                <ImageIcon className="mr-2 h-4 w-4" />
-                <span>Manage Billboard</span>
-              </DropdownMenuItem>
-            )}
-            <DialogTrigger asChild>
-              <DropdownMenuItem>
-                <Edit className="mr-2 h-4 w-4" />
-                <span>Edit</span>
-              </DropdownMenuItem>
-            </DialogTrigger>
-            <AlertDialogTrigger asChild>
-              <DropdownMenuItem>
-                <Trash className="mr-2 h-4 w-4" />
-                <span>Delete</span>
-              </DropdownMenuItem>
-            </AlertDialogTrigger>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <AlertModalContent
-          title={`Delete category ${data.name}?`}
-          onConfirm={onDelete}
-        />
-      </AlertDialog>
-      <ModalContent
-        title="Update Category"
-        description={`Edit ${data.name}`}
-      >
-        hello
-      </ModalContent>
-    </Dialog>
+          )}
+          <DropdownMenuItem onSelect={() => {
+            router.push(`/dashboard/${data.storeId}/categories/edit?categoryId=${data.id}`);
+          }}>
+            <Edit className="mr-2 h-4 w-4" />
+            <span>Edit</span>
+          </DropdownMenuItem>
+          <AlertDialogTrigger asChild>
+            <DropdownMenuItem>
+              <Trash className="mr-2 h-4 w-4" />
+              <span>Delete</span>
+            </DropdownMenuItem>
+          </AlertDialogTrigger>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <AlertModalContent
+        title={`Delete category ${data.name}?`}
+        onConfirm={onDelete}
+      />
+    </AlertDialog>
   );
 }

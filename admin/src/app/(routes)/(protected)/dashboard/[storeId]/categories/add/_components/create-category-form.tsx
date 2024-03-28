@@ -71,16 +71,9 @@ export function CreateCategoryForm({
             ]}
           />
         </div>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <DialogClose asChild>
-            <SubmitButton className="ml-auto">
-              Save
-            </SubmitButton>
-          </DialogClose>
-        </DialogFooter>
+        <SubmitButton className="ml-auto">
+          Create Category
+        </SubmitButton>
       </form>
     </Form>
   );

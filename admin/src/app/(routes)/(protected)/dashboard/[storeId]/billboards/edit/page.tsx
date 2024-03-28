@@ -8,15 +8,15 @@ import { Separator } from "@/components/ui/separator";
 import { UpdateBillboardForm } from "./_components/update-billboard-form";
 import { DeleteBillboardButton } from "./_components/delete-billboard-button";
 
-interface EditBillboardPageProps {
+interface UpdateBillboardPageProps {
   params: { storeId: string };
   searchParams: { billboardId: string };
 }
 
-export default async function EditBillboardPage({
+export default async function UpdateBillboardPage({
   params,
   searchParams,
-}: EditBillboardPageProps) {
+}: UpdateBillboardPageProps) {
   const billboard = await getBillboardById(searchParams.billboardId);
 
   if (!billboard) redirect(`/dashboard/${params.storeId}/billboards`);
@@ -24,7 +24,7 @@ export default async function EditBillboardPage({
   return (
     <>
       <div className="flex items-center justify-between">
-        <Heading title="Billboard Settings" description={`Manage ${billboard.label}`} />
+        <Heading title="Edit Billboard" description={`Manage ${billboard.label}`} />
         <DeleteBillboardButton billboard={billboard} />
       </div>
       <Separator />

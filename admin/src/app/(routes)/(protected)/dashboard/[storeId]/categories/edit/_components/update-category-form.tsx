@@ -4,45 +4,43 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { Billboard } from "@prisma/client";
+import { Billboard, Category } from "@prisma/client";
 
 import { categorySchema, type CategorySchema } from "@/schemas/category";
 
 import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { FormInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { SubmitButton } from "@/components/form/submit-button";
 
 import { createCategory } from "@/actions/category";
 
-interface CreateCategoryFormProps {
-  storeId: string;
+interface UpdateCategoryFormProps {
+  category: Category;
   billboards: Billboard[];
 }
 
-export function CreateCategoryForm({
-  storeId,
+export function UpdateCategoryForm({
+  category,
   billboards,
-}: CreateCategoryFormProps) {
+}: UpdateCategoryFormProps) {
   const router = useRouter();
 
   const form = useForm<CategorySchema>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
-      name: "",
-      billboardId: null,
+      name: category.name,
+      billboardId: category.billboardId,
     },
   });
 
   const onSubmit = async (values: CategorySchema) => {
-    const { success, error } = await createCategory(storeId, values);
+    const { success, error } = await createCategory(category.storeId, values);
 
     if (success) {
       form.reset();
       toast.success(success);
-      router.push('/dashboard');
+      router.push(`/dashboard/${category.storeId}/categories`);
     };
     if (error) toast.error(error);
   };
@@ -71,16 +69,9 @@ export function CreateCategoryForm({
             ]}
           />
         </div>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <DialogClose asChild>
-            <SubmitButton className="ml-auto">
-              Create
-            </SubmitButton>
-          </DialogClose>
-        </DialogFooter>
+        <SubmitButton className="ml-auto">
+          Save Changes
+        </SubmitButton>
       </form>
     </Form>
   );

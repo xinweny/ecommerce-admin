@@ -82,7 +82,7 @@ export function UpdateBillboardForm({
           />
         </div>
         <SubmitButton className="ml-auto">
-          {`${billboard ? "Update" : "Create"} Billboard`}
+          Save Changes
         </SubmitButton>
       </form>
     </Form>
