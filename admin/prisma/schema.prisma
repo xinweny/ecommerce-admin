@@ -8,8 +8,8 @@ datasource db {
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
+  id String @id @default(cuid())
+
   type              String
   provider          String
   providerAccountId String
@@ -21,7 +21,8 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -32,7 +33,8 @@ enum UserRole {
 }
 
 model User {
-  id                    String                 @id @default(cuid())
+  id String @id @default(cuid())
+
   firstName             String
   lastName              String
   email                 String?                @unique
@@ -40,13 +42,17 @@ model User {
   emailVerified         DateTime?
   image                 String?
   role                  UserRole               @default(user)
-  accounts              Account[]
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+
+  accounts  Account[]
+  addresses UserAddress[]
+  reviews   Review[]
 }
 
 model TwoFactorToken {
-  id      String   @id @default(cuid())
+  id String @id @default(cuid())
+
   email   String
   token   String   @unique
   expires DateTime
@@ -55,7 +61,8 @@ model TwoFactorToken {
 }
 
 model VerificationToken {
-  id      String   @id @default(cuid())
+  id String @id @default(cuid())
+
   email   String
   token   String   @unique
   expires DateTime
@@ -64,7 +71,8 @@ model VerificationToken {
 }
 
 model PasswordResetToken {
-  id      String   @id @default(cuid())
+  id String @id @default(cuid())
+
   email   String
   token   String   @unique
   expires DateTime
@@ -73,27 +81,42 @@ model PasswordResetToken {
 }
 
 model TwoFactorConfirmation {
-  id     String @id @default(cuid())
+  id String @id @default(cuid())
+
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
 }
 
+model UserAddress {
+  id         Int     @id @default(autoincrement())
+  street1    String
+  street2    String?
+  street3    String?
+  postalCode String
+  state      String
+  country    String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
 model Store {
-  id        String   @id @default(cuid())
+  id Int @id @default(autoincrement())
+
   userId    String
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  billboards Billboard[]
-  categories Category[]
-  brands     Brand[]
+  items  StoreItem[]
+  orders Order[]
 }
 
 model Billboard {
-  id          String   @id @default(cuid())
+  id Int @id @default(autoincrement())
+
   imageUrl    String
   label       String
   title       String?
@@ -101,35 +124,194 @@ model Billboard {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  storeId    String
-  store      Store      @relation(fields: [storeId], references: [id])
   categories Category[]
-
-  @@index([storeId])
 }
 
 model Category {
-  id        String   @id @default(cuid())
+  id Int @id @default(autoincrement())
+
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  storeId     String
-  store       Store     @relation(fields: [storeId], references: [id])
-  billboardId String?
+  billboardId Int?
   billboard   Billboard? @relation(fields: [billboardId], references: [id])
 
-  @@index([storeId])
+  categoryBrands CategoryBrand[]
+  subcategories  Subcategory[]
+  products       Product[]
 }
 
 model Brand {
-  id        String   @id @default(cuid())
+  id Int @id @default(autoincrement())
+
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  imageUrl  String?
 
-  storeId String
-  store   Store  @relation(fields: [storeId], references: [id])
+  categoryBrands CategoryBrand[]
+  series         Series[]
+  products       Product[]
+  finishes       Finish[]
+}
 
-  @@index([storeId])
+model CategoryBrand {
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  brandId    Int
+  brand      Brand    @relation(fields: [brandId], references: [id])
+
+  @@id([categoryId, brandId])
+}
+
+model Series {
+  id Int @id @default(autoincrement())
+
+  name String
+
+  brandId Int
+  brand   Brand @relation(fields: [brandId], references: [id])
+
+  products Product[]
+}
+
+model Subcategory {
+  id Int @id @default(autoincrement())
+
+  name String
+
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  products       Product[]
+  specifications Specification[]
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+
+  name        String
+  sku         String
+  model       String?
+  description String
+  videoUrl    String?
+
+  categoryId    Int
+  category      Category    @relation(fields: [categoryId], references: [id])
+  subcategoryId Int
+  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
+  brandId       Int
+  brand         Brand       @relation(fields: [brandId], references: [id])
+  seriesId      Int?
+  series        Series?     @relation(fields: [seriesId], references: [id])
+
+  reviews        Review[]
+  specifications ProductSpecification[]
+}
+
+model Finish {
+  id Int @id @default(autoincrement())
+
+  name  String
+  value String
+
+  brandId Int
+  brand   Brand @relation(fields: [brandId], references: [id])
+
+  productItems ProductItem[]
+}
+
+model Specification {
+  id Int @id @default(autoincrement())
+
+  key String
+
+  subcategoryId Int
+  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
+
+  products ProductSpecification[]
+}
+
+model ProductItem {
+  id Int @id @default(autoincrement())
+
+  price Int
+
+  finishId Int?
+  finish   Finish? @relation(fields: [finishId], references: [id])
+
+  images     ProductItemImage[]
+  storeItems StoreItem[]
+}
+
+model ProductItemImage {
+  id Int @id @default(autoincrement())
+
+  imageUrl String
+
+  productItemId Int
+  productItem   ProductItem @relation(fields: [productItemId], references: [id])
+
+  @@index([productItemId])
+}
+
+model ProductSpecification {
+  productId       Int
+  product         Product       @relation(fields: [productId], references: [id])
+  specificationId Int
+  specification   Specification @relation(fields: [specificationId], references: [id])
+
+  value String
+
+  @@id([productId, specificationId])
+}
+
+model StoreItem {
+  id Int @id @default(autoincrement())
+
+  stock           Int
+  discountedPrice Int?
+
+  productItemId Int
+  productItem   ProductItem @relation(fields: [productItemId], references: [id])
+  storeId       Int
+  store         Store       @relation(fields: [storeId], references: [id])
+}
+
+model Order {
+  id String @id @default(cuid())
+
+  storeId Int
+  store   Store @relation(fields: [storeId], references: [id])
+
+  timeline OrderTimeline[]
+}
+
+model OrderTimeline {
+  id Int @id @default(autoincrement())
+
+  status    OrderStatus
+  createdAt DateTime    @default(now())
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id])
+}
+
+enum OrderStatus {
+  processing
+  fulfilled
+  cancelled
+}
+
+model Review {
+  id Int @id @default(autoincrement())
+
+  rating  Int
+  comment String?
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
 }
