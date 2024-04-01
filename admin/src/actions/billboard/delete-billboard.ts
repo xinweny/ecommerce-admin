@@ -8,7 +8,7 @@ import { cloudinary } from "@/lib/cloudinary";
 
 import { getBillboardById } from "@/db/query/billboard";
 
-export const deleteBillboard = async (billboardId: string) => {
+export const deleteBillboard = async (billboardId: number) => {
   try {
     const billboard = await getBillboardById(billboardId);
 
@@ -25,7 +25,7 @@ export const deleteBillboard = async (billboardId: string) => {
       }),
     ]);
 
-    revalidatePath(`/dashboard/${billboard.storeId}/billboards`);
+    revalidatePath("/dashboard/billboards");
 
     return { success: `${billboard.label} deleted.` };
   } catch {

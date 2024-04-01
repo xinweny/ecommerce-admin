@@ -37,7 +37,7 @@ model User {
 
   firstName             String
   lastName              String
-  email                 String?                @unique
+  email                 String?
   password              String?
   emailVerified         DateTime?
   image                 String?
@@ -47,7 +47,10 @@ model User {
 
   accounts  Account[]
   addresses UserAddress[]
+  orders Order[]
   reviews   Review[]
+
+  @@unique([email, role])
 }
 
 model TwoFactorToken {
@@ -90,7 +93,7 @@ model TwoFactorConfirmation {
 }
 
 model UserAddress {
-  id         Int     @id @default(autoincrement())
+  id         String     @id @default(cuid())
   street1    String
   street2    String?
   street3    String?
@@ -100,17 +103,7 @@ model UserAddress {
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
-}
 
-model Store {
-  id Int @id @default(autoincrement())
-
-  userId    String
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  items  StoreItem[]
   orders Order[]
 }
 
@@ -237,12 +230,13 @@ model ProductItem {
   id Int @id @default(autoincrement())
 
   price Int
+  stock Int
 
   finishId Int?
   finish   Finish? @relation(fields: [finishId], references: [id])
 
   images     ProductItemImage[]
-  storeItems StoreItem[]
+  orders OrderItem[]
 }
 
 model ProductItemImage {
@@ -267,25 +261,24 @@ model ProductSpecification {
   @@id([productId, specificationId])
 }
 
-model StoreItem {
-  id Int @id @default(autoincrement())
-
-  stock           Int
-  discountedPrice Int?
-
-  productItemId Int
-  productItem   ProductItem @relation(fields: [productItemId], references: [id])
-  storeId       Int
-  store         Store       @relation(fields: [storeId], references: [id])
-}
-
 model Order {
   id String @id @default(cuid())
 
-  storeId Int
-  store   Store @relation(fields: [storeId], references: [id])
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  addressId String
+  address UserAddress @relation(fields: [addressId], references: [id])
 
   timeline OrderTimeline[]
+}
+
+model OrderItem {
+  id String @id @default(cuid())
+
+  quantity Int
+
+  productItemId Int
+  productItem ProductItem @relation(fields: [productItemId], references: [id])
 }
 
 model OrderTimeline {

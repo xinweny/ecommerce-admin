@@ -19,7 +19,7 @@ export const {
     signIn: async ({ user }) => {
       const existingUser = await getUserById(user.id as string);
 
-      if (!existingUser || existingUser.role !== "admin") return false;
+      if (!existingUser || existingUser.role !== UserRole.admin) return false;
 
       return true;
     },

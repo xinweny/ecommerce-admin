@@ -10,7 +10,7 @@ import { billboardSchema, type BillboardSchema } from "@/schemas/billboard";
 
 import { getBillboardById } from "@/db/query/billboard";
 
-export const updateBillboard = async (billboardId: string, values: BillboardSchema) => {
+export const updateBillboard = async (billboardId: number, values: BillboardSchema) => {
   try {
     const validatedFields = billboardSchema.safeParse(values);
 
@@ -32,7 +32,7 @@ export const updateBillboard = async (billboardId: string, values: BillboardSche
       }),
     ]);
 
-    revalidatePath(`/dashboard/${billboard.storeId}/billboards`);
+    revalidatePath(`/dashboard/billboards/${billboard.id}`);
 
     return { success: `${billboard.label} updated.` };
   } catch {

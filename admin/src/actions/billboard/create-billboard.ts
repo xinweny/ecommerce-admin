@@ -6,26 +6,19 @@ import { db } from "@/db/client";
 
 import { billboardSchema, type BillboardSchema } from "@/schemas/billboard";
 
-import { getStoreById } from "@/db/query/store";
-
-export const createBillboard = async (storeId: string, values: BillboardSchema) => {
+export const createBillboard = async (values: BillboardSchema) => {
   try {
     const validatedFields = billboardSchema.safeParse(values);
 
     if (!validatedFields.success) return { error: "Invalid fields." };
 
-    const store = await getStoreById(storeId);
-
-    if (!store) return { error: "Store not found." };
-
     const billboard = await db.billboard.create({
       data: {
-        storeId,
         ...values,
       },
     });
 
-    revalidatePath(`/dashboard/${storeId}/billboards`);
+    revalidatePath("/dashboard/billboards");
 
     return { success: `${billboard.label} created.` };
   } catch (error) {

@@ -6,7 +6,7 @@ import { db } from "@/db/client";
 
 import { currentUser } from "@/lib/auth";
 
-export const deleteStore = async (storeId: string) => {
+export const deleteStore = async (storeId: number) => {
   try {
     const user = await currentUser();
 

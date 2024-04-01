@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { categorySchema, type CategorySchema } from "@/schemas/category";
 
-export const updateCategory = async (categoryId: string, values: CategorySchema) => {
+export const updateCategory = async (categoryId: number, values: CategorySchema) => {
   try {
     const validatedFields = categorySchema.safeParse(values);
 
@@ -16,7 +16,7 @@ export const updateCategory = async (categoryId: string, values: CategorySchema)
       data: { ...values },
     });
 
-    revalidatePath(`/dashboard/${category.storeId}/categories`);
+    revalidatePath(`/dashboard/categories/${category.id}`);
 
     return { success: `${category.name} updated.` };
   } catch {
