@@ -65,7 +65,7 @@ export function CellAction({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => { onCopy(id); }}>
+          <DropdownMenuItem onClick={() => { onCopy(id.toString()); }}>
             <Copy className="mr-2 h-4 w-4" />
             <span>Copy ID</span>
           </DropdownMenuItem>

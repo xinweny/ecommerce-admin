@@ -7,11 +7,11 @@ import { ToggleSort } from "@/components/ui/data-table";
 import { CellAction } from "./cell-action";
 
 export interface CategoryRow {
-  id: string;
+  id: number;
   name: string;
   storeId: string;
   billboard: {
-    id: string;
+    id: number;
     label: string;
   } | null;
 }

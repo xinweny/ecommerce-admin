@@ -35,15 +35,15 @@ export function MainNav({
         />
         <NavDropdownItem
           triggerLabel="Filters"
-          prefix="/dashboard/categories"
+          prefix="/dashboard/filters"
           links={[
             { href: "/brands", label: "Brand" },
             { href: "/subcategories", label: "Subcategory" },
           ]}
         />
         <NavLinkItem
-          href={`/dashboard/settings`}
-          label="Settings"
+          href="/dashboard/store"
+          label="Store"
         />
       </NavigationMenuList>
     </NavigationMenu>

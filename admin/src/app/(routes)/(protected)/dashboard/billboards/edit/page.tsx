@@ -10,7 +10,7 @@ import { DeleteBillboardButton } from "./_components/delete-billboard-button";
 
 interface UpdateBillboardPageProps {
   params: { storeId: string };
-  searchParams: { billboardId: number };
+  searchParams: { billboardId: string };
 }
 
 export default async function UpdateBillboardPage({

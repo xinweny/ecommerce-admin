@@ -35,12 +35,12 @@ export function UpdateCategoryForm({
   });
 
   const onSubmit = async (values: CategorySchema) => {
-    const { success, error } = await createCategory(category.storeId, values);
+    const { success, error } = await createCategory(values);
 
     if (success) {
       form.reset();
       toast.success(success);
-      router.push(`/dashboard/${category.storeId}/categories`);
+      router.push("/dashboard/categories");
     };
     if (error) toast.error(error);
   };

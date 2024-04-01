@@ -94,9 +94,10 @@ model TwoFactorConfirmation {
 
 model UserAddress {
   id         String  @id @default(cuid())
-  street1    String
-  street2    String?
-  street3    String?
+  line1      String
+  line2      String?
+  line3      String?
+  city       String
   postalCode String
   state      String
   country    String
@@ -199,6 +200,7 @@ model Product {
   seriesId      Int?
   series        Series?     @relation(fields: [seriesId], references: [id])
 
+  orders         OrderItem[]
   reviews        Review[]
   specifications ProductSpecification[]
 }
@@ -277,6 +279,8 @@ model OrderItem {
 
   quantity Int
 
+  productId     Int
+  product       Product     @relation(fields: [productId], references: [id])
   productItemId Int
   productItem   ProductItem @relation(fields: [productItemId], references: [id])
 }
@@ -307,4 +311,17 @@ model Review {
   product   Product @relation(fields: [productId], references: [id])
   userId    String
   user      User    @relation(fields: [userId], references: [id])
+}
+
+model Store {
+  id Int @id @default(autoincrement())
+
+  name       String
+  line1      String
+  line2      String?
+  line3      String?
+  city       String
+  postalCode String
+  state      String
+  country    String
 }

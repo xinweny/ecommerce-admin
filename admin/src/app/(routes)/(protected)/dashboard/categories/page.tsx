@@ -1,17 +1,11 @@
-import { getBillboardsByStoreId } from "@/db/query/billboard";
-import { getCategoriesByStoreId } from "@/db/query/category";
+import { getBillboards } from "@/db/query/billboard";
+import { getCategories } from "@/db/query/category";
 import { CategoryClient } from "./_components/category-client";
 
-interface CategoriesPageProps {
-  params: { storeId: string };
-}
-
-export default async function CategoriesPage({ params }: CategoriesPageProps) {
-  const { storeId } = params;
-
+export default async function CategoriesPage() {
   const [categories, billboards] = await Promise.all([
-    getCategoriesByStoreId(storeId),
-    getBillboardsByStoreId(storeId),
+    getCategories(),
+    getBillboards(),
   ]);
 
   return (

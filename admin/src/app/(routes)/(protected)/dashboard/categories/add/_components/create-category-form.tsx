@@ -9,8 +9,6 @@ import { Billboard } from "@prisma/client";
 import { categorySchema, type CategorySchema } from "@/schemas/category";
 
 import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { FormInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { SubmitButton } from "@/components/form/submit-button";
@@ -37,7 +35,7 @@ export function CreateCategoryForm({
   });
 
   const onSubmit = async (values: CategorySchema) => {
-    const { success, error } = await createCategory(storeId, values);
+    const { success, error } = await createCategory(values);
 
     if (success) {
       form.reset();

@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
 
-import { columns } from "./columns";
+import { CategoryRow, columns } from "./columns";
 
 interface CategoryClientProps {
   categories: Category[];
@@ -23,17 +23,16 @@ export function CategoryClient({
   const router = useRouter();
   const params = useParams();
 
-  const data = categories.map(({ id, name, storeId, billboardId }) => {
+  const data = categories.map(({ id, name, billboardId }) => {
     const billboard = billboards.find(billboard => billboard.id === billboardId);
 
     return {
       id,
       name,
-      storeId,
       billboard: billboard
         ? { id: billboard.id, label: billboard.label }
         : null,
-    };
+    } as CategoryRow;
   });
 
   return (

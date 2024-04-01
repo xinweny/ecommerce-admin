@@ -35,8 +35,8 @@ export function CellAction({
 
   const { id } = data;
 
-  const onCopy = (id: number) => {
-    navigator.clipboard.writeText(id.toString());
+  const onCopy = (id: string) => {
+    navigator.clipboard.writeText(id);
     toast.success(`Billboard ID ${id} copied!`);
   }
 
@@ -64,7 +64,7 @@ export function CellAction({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => { onCopy(id); }}>
+          <DropdownMenuItem onClick={() => { onCopy(id.toString()); }}>
             <Copy className="mr-2 h-4 w-4" />
             <span>Copy ID</span>
           </DropdownMenuItem>
