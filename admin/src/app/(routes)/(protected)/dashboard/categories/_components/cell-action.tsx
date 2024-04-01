@@ -51,7 +51,7 @@ export function CellAction({
 
     if (success) {
       toast.success(success);
-      router.push(`/dashboard/${data.storeId}/categories`);
+      router.push("/dashboard/categories");
     }
   };
 
@@ -78,7 +78,7 @@ export function CellAction({
             </DropdownMenuItem>
           )}
           <DropdownMenuItem onSelect={() => {
-            router.push(`/dashboard/${data.storeId}/categories/edit?categoryId=${data.id}`);
+            router.push(`/dashboard/categories/edit?categoryId=${data.id}`);
           }}>
             <Edit className="mr-2 h-4 w-4" />
             <span>Edit</span>

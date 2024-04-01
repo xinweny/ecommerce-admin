@@ -13,7 +13,7 @@ import { FormInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { SubmitButton } from "@/components/form/submit-button";
 
-import { createCategory } from "@/actions/category";
+import { updateCategory } from "@/actions/category";
 
 interface UpdateCategoryFormProps {
   category: Category;
@@ -35,7 +35,7 @@ export function UpdateCategoryForm({
   });
 
   const onSubmit = async (values: CategorySchema) => {
-    const { success, error } = await createCategory(values);
+    const { success, error } = await updateCategory(category.id, values);
 
     if (success) {
       form.reset();
@@ -63,7 +63,7 @@ export function UpdateCategoryForm({
             values={[
               { value: null, label: "null" },
               ...billboards.map(({ id, label }) => ({
-                value: id,
+                value: id.toString(),
                 label,
               })),
             ]}

@@ -9,7 +9,6 @@ import { CellAction } from "./cell-action";
 export interface CategoryRow {
   id: number;
   name: string;
-  storeId: string;
   billboard: {
     id: number;
     label: string;
