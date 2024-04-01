@@ -1,7 +1,5 @@
-export default async function DashboardPage() {
-  return (
-    <div>
-      <span>Dashboard</span>
-    </div>
-  );
+import { redirect } from "next/navigation";
+
+export default function DashboardPage() {
+  redirect("/dashboard/overview");
 }

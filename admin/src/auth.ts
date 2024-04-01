@@ -1,13 +1,11 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
-import { UserRole } from "@prisma/client";
-
 import { db } from "@/db/client";
 
 import { authConfig } from "./config/auth";
 
-import { getUserById } from "@/db/query/user";
+import { getAdminById } from "@/db/query/user";
 
 export const {
   handlers: { GET, POST },
@@ -17,9 +15,9 @@ export const {
 } = NextAuth({
   callbacks: {
     signIn: async ({ user }) => {
-      const existingUser = await getUserById(user.id as string);
+      const admin = await getAdminById(user.id as string);
 
-      if (!existingUser || existingUser.role !== UserRole.admin) return false;
+      if (!admin) return false;
 
       return true;
     },
@@ -35,12 +33,12 @@ export const {
     jwt: async ({ token }) => {
       if (!token.sub) return token;
 
-      const user = await getUserById(token.sub);
+      const admin = await getAdminById(token.sub);
 
-      if (!user) return token;
+      if (!admin) return token;
 
-      token.firstName = user.firstName;
-      token.lastName = user.lastName;
+      token.firstName = admin.firstName;
+      token.lastName = admin.lastName;
 
       return token;
     },

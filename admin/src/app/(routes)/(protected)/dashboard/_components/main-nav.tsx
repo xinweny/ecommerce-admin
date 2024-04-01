@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
@@ -18,39 +18,33 @@ import {
 export function MainNav({
   className,
 }: React.HTMLAttributes<HTMLElement>) {
-  const { storeId } = useParams();
-
   return (
     <NavigationMenu className={className}>
       <NavigationMenuList>
         <NavLinkItem
-          href={storeId ? `/dashboard/${storeId}` : "/dashboard"}
+          href="/dashboard/overview"
           label="Overview"
         />
-        {storeId && (
-          <>
-            <NavLinkItem
-              href={`/dashboard/${storeId}/billboards`}
-              label="Billboards"
-            />
-            <NavLinkItem
-              href={`/dashboard/${storeId}/categories`}
-              label="Categories"
-            />
-            <NavDropdownItem
-              triggerLabel="Filters"
-              prefix={`/dashboard/${storeId}/filters`}
-              links={[
-                { href: "/brands", label: "Brand" },
-                { href: "/subcategories", label: "Subcategory" },
-              ]}
-            />
-            <NavLinkItem
-              href={`/dashboard/${storeId}/settings`}
-              label="Settings"
-            />
-          </>
-        )}
+        <NavLinkItem
+          href="/dashboard/billboards"
+          label="Billboards"
+        />
+        <NavLinkItem
+          href="/dashboard/categories"
+          label="Categories"
+        />
+        <NavDropdownItem
+          triggerLabel="Filters"
+          prefix="/dashboard/categories"
+          links={[
+            { href: "/brands", label: "Brand" },
+            { href: "/subcategories", label: "Subcategory" },
+          ]}
+        />
+        <NavLinkItem
+          href={`/dashboard/settings`}
+          label="Settings"
+        />
       </NavigationMenuList>
     </NavigationMenu>
   );

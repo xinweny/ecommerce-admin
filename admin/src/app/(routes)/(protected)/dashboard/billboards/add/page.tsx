@@ -3,11 +3,7 @@ import { Separator } from "@/components/ui/separator";
 
 import { CreateBillboardForm } from "./_components/create-billboard-form";
 
-interface CreateBillboardPageProps {
-  params: { storeId: string };
-};
-
-export default async function CreateBillboardPage({ params }: CreateBillboardPageProps) {
+export default async function CreateBillboardPage() {
   return (
     <>
       <Heading
@@ -15,7 +11,7 @@ export default async function CreateBillboardPage({ params }: CreateBillboardPag
         description="Create a display for your storefront"
       />
       <Separator />
-      <CreateBillboardForm storeId={params.storeId} />
+      <CreateBillboardForm />
     </>
   );
 }

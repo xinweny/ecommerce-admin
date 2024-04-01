@@ -27,7 +27,7 @@ export function DeleteBillboardButton({
 
     if (success) {
       toast.success(success);
-      redirect(`/dashboard/${billboard.storeId}/billboards`);
+      redirect("/dashboard/billboards");
     }
   };
 

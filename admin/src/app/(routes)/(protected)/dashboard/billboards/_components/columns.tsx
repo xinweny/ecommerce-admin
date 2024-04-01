@@ -7,7 +7,7 @@ import { ToggleSort } from "@/components/ui/data-table";
 import { CellAction } from "./cell-action";
 
 export interface BillboardRow {
-  id: string;
+  id: number;
   label: string;
   createdAt: string;
   storeId: string;

@@ -1,8 +1,15 @@
 import { db } from "@/db/client";
 
-export const getUserByEmail = async (email: string) => {
+import { UserRole } from "@prisma/client";
+
+export const getAdminByEmail = async (email: string) => {
   try {
-    const user = await db.user.findUnique({ where: { email } });
+    const user = await db.user.findFirst({
+      where: {
+        email,
+        role: UserRole.admin,
+      },
+    });
 
     return user;
   } catch {
@@ -10,9 +17,14 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
-export const getUserById = async (id: string) => {
+export const getAdminById = async (id: string) => {
   try {
-    const user = await db.user.findUnique({ where: { id } });
+    const user = await db.user.findUnique({
+      where: {
+        id,
+        role: UserRole.admin,
+      },
+    });
 
     return user;
   } catch {

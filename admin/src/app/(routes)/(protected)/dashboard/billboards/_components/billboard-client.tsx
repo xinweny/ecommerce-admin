@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
 
-import { columns } from "./columns";
+import { BillboardRow, columns } from "./columns";
 
 interface BillboardClientProps {
   billboards: Billboard[];
@@ -22,12 +22,11 @@ export function BillboardClient({
   const router = useRouter();
   const params = useParams();
 
-  const data = billboards.map(({ id, label, createdAt, storeId }) => ({
+  const data = billboards.map(({ id, label, createdAt }) => ({
     id,
     label,
     createdAt: format(createdAt, "dd/mm/yyyy"),
-    storeId,
-  }));
+  } as BillboardRow));
 
   return (
     <>

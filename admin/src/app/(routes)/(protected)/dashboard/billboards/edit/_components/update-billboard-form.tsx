@@ -29,7 +29,6 @@ export function UpdateBillboardForm({
     imageUrl,
     title,
     description,
-    storeId,
   } = billboard;
 
   const form = useForm<BillboardSchema>({
@@ -62,7 +61,7 @@ export function UpdateBillboardForm({
           />
           <ImageUpload
             label="Background Image"
-            folder={`stores/${storeId}/billboards`}
+            folder="/billboards"
             name="imageUrl"
             preview={
               <ImagePreview

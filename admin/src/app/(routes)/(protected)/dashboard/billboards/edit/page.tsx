@@ -10,14 +10,14 @@ import { DeleteBillboardButton } from "./_components/delete-billboard-button";
 
 interface UpdateBillboardPageProps {
   params: { storeId: string };
-  searchParams: { billboardId: string };
+  searchParams: { billboardId: number };
 }
 
 export default async function UpdateBillboardPage({
   params,
   searchParams,
 }: UpdateBillboardPageProps) {
-  const billboard = await getBillboardById(searchParams.billboardId);
+  const billboard = await getBillboardById(+searchParams.billboardId);
 
   if (!billboard) redirect(`/dashboard/${params.storeId}/billboards`);
 

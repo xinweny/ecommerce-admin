@@ -32,12 +32,11 @@ export function CellAction({
   data,
 }: CellActionProps) {
   const router = useRouter();
-  const params = useParams();
 
   const { id } = data;
 
-  const onCopy = (id: string) => {
-    navigator.clipboard.writeText(id);
+  const onCopy = (id: number) => {
+    navigator.clipboard.writeText(id.toString());
     toast.success(`Billboard ID ${id} copied!`);
   }
 
@@ -70,7 +69,7 @@ export function CellAction({
             <span>Copy ID</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => {
-            router.push(`/dashboard/${params.storeId}/billboards/edit?billboardId=${data.id}`);
+            router.push(`/dashboard/billboards/edit?billboardId=${data.id}`);
           }}>
             <Edit className="mr-2 h-4 w-4" />
             <span>Edit</span>

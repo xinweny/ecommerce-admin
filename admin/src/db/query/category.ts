@@ -1,6 +1,6 @@
 import { db } from "../client";
 
-export const getCategoryById = async (categoryId: string) => {
+export const getCategoryById = async (categoryId: number) => {
   const billboard = await db.category.findUnique({
     where: { id: categoryId },
   });
@@ -8,10 +8,8 @@ export const getCategoryById = async (categoryId: string) => {
   return billboard;
 };
 
-export const getCategoriesByStoreId = async (storeId: string) => {
-  const categories = await db.category.findMany({
-    where: { storeId },
-  });
+export const getCategories = async () => {
+  const categories = await db.category.findMany();
 
   return categories;
 };

@@ -16,13 +16,7 @@ import { ImagePreview } from "@/components/form/image-preview";
 
 import { createBillboard } from "@/actions/billboard";
 
-interface CreateBillboardFormProps {
-  storeId: string;
-}
-
-export function CreateBillboardForm({
-  storeId,
-}: CreateBillboardFormProps) {
+export function CreateBillboardForm() {
   const router = useRouter();
 
   const form = useForm<BillboardSchema>({
@@ -36,11 +30,11 @@ export function CreateBillboardForm({
   });
 
   const onSubmit = async (values: BillboardSchema) => {
-    const { success, error } = await createBillboard(storeId, values);
+    const { success, error } = await createBillboard(values);
 
     if (success) {
       toast.success(success);
-      router.push(`/dashboard/${storeId}/billboards`);
+      router.push("/dashboard/billboards");
     };
     if (error) toast.error(error);
   };
@@ -58,7 +52,7 @@ export function CreateBillboardForm({
           />
           <ImageUpload
             label="Background Image"
-            folder={`stores/${storeId}/billboards`}
+            folder="/billboards"
             name="imageUrl"
             preview={
               <ImagePreview
