@@ -1,7 +1,13 @@
 import { Navbar } from "./_components/navbar";
 import { Sidebar } from "./_components/sidebar";
 
-export default async function DashboardLayout({ children }: any) {
+interface DashboardLayoutProps {
+  children: React.ReactNode;
+}
+
+export default async function DashboardLayout({
+  children,
+}: DashboardLayoutProps) {
   return (
     <div className="flex h-full">
       <Sidebar className="border-r fixed top-0 left-0" />

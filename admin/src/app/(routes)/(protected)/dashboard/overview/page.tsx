@@ -1,7 +1,7 @@
 export default async function DashboardPage() {
   return (
     <div>
-      <span>Dashboard</span>
+      <span>Overview</span>
     </div>
   );
 }

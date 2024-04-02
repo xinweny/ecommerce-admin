@@ -46,7 +46,8 @@ export function SidebarDesktopButton({
     <Button
       className={cn(
         "gap-2 justify-start w-full",
-        className
+        className,
+        "md:display-hidden"
       )}
       variant={isActive ? "default" : "ghost"}
       {...props}

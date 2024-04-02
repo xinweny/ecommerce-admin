@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   BarChart,
@@ -44,12 +45,13 @@ export function Sidebar({
 
   return (
     <SidebarDesktop {...props}>
-      <SidebarDesktopHeader>Dashboard</SidebarDesktopHeader>
-      <div className="mt-5">
+      <Link href="/dashboard">
+        <SidebarDesktopHeader>Dashboard</SidebarDesktopHeader>
+      </Link>
+      <div className="mt-5 flex flex-col gap-1">
         {links.map(({ href, label, icon }) => (
           <SidebarDesktopLinkButton
             key={href}
-            className="mt-1"
             href={href}
             label={label}
             icon={icon}
@@ -57,7 +59,6 @@ export function Sidebar({
           />
         ))}
       </div>
-      
     </SidebarDesktop>
   );
 }
