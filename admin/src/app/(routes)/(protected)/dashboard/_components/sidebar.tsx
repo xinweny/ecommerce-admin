@@ -1,50 +1,63 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import {
-  LucideIcon,
   BarChart,
+  Image,
+  Shapes,
+  Store,
 } from "lucide-react";
-import Link from "next/link";
 
 import {
   SidebarDesktop,
-  SidebarDesktopButton,
+  SidebarDesktopHeader,
+  SidebarDesktopLinkButton,
 } from "@/components/ui/sidebar";
-
-
-interface SidebarItems {
-  links: {
-    label: string;
-    href: string;
-    icon?: LucideIcon;
-  }[];
-}
 
 export function Sidebar({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const sidebarItems = {
-    links: [
-      {
-        label: "Overview",
-        href: "/dashboard/overview",
-        icon: BarChart,
-      }
-    ],
-  } as SidebarItems;
+  const pathname = usePathname();
+
+  const links = [
+    {
+      label: "Overview",
+      href: "/dashboard/overview",
+      icon: BarChart,
+    },
+    {
+      label: "Billboards",
+      href: "/dashboard/billboards",
+      icon: Image,
+    },
+    {
+      label: "Categories",
+      href: "/dashboard/categories",
+      icon: Shapes,
+    },
+    {
+      label: "Store",
+      href: "/dashboard/store",
+      icon: Store,
+    },
+  ];
 
   return (
     <SidebarDesktop {...props}>
+      <SidebarDesktopHeader>Dashboard</SidebarDesktopHeader>
       <div className="mt-5">
-        {sidebarItems.links.map(({ href, label, icon }) => (
-          <Link key={href} href={href}>
-            <SidebarDesktopButton
-              label={label}
-              icon={icon}
-            />
-          </Link>
+        {links.map(({ href, label, icon }) => (
+          <SidebarDesktopLinkButton
+            key={href}
+            className="mt-1"
+            href={href}
+            label={label}
+            icon={icon}
+            isActive={pathname === href}
+          />
         ))}
       </div>
+      
     </SidebarDesktop>
   );
 }
