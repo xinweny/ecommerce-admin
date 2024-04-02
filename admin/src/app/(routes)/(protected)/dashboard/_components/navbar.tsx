@@ -3,7 +3,7 @@ import { ModeToggle } from "@/components/theme/mode-toggle";
 
 import { MainNav } from "./main-nav";
 
-export async function NavBar() {
+export async function Navbar() {
   return (
     <div className="border-b">
       <div className="flex h-16 items-center px-4">
