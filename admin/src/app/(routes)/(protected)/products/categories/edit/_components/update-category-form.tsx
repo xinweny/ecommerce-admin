@@ -40,7 +40,7 @@ export function UpdateCategoryForm({
     if (success) {
       form.reset();
       toast.success(success);
-      router.push("/dashboard/categories");
+      router.push("/products/categories");
     };
     if (error) toast.error(error);
   };

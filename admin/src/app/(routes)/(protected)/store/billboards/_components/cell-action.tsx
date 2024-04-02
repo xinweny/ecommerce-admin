@@ -50,7 +50,7 @@ export function CellAction({
 
     if (success) {
       toast.success(success);
-      router.push(`/dashboard/${data.storeId}/billboards`);
+      router.push("/store/billboards");
     }
   };
 
@@ -69,7 +69,7 @@ export function CellAction({
             <span>Copy ID</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => {
-            router.push(`/dashboard/billboards/edit?billboardId=${data.id}`);
+            router.push(`/store/billboards/edit?billboardId=${data.id}`);
           }}>
             <Edit className="mr-2 h-4 w-4" />
             <span>Edit</span>

@@ -34,7 +34,7 @@ export function CreateBillboardForm() {
 
     if (success) {
       toast.success(success);
-      router.push("/dashboard/billboards");
+      router.push("/store/billboards");
     };
     if (error) toast.error(error);
   };

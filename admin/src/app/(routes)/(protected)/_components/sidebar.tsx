@@ -3,9 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  BarChart,
-  Image,
-  Shapes,
+  LayoutDashboard,
   Store,
 } from "lucide-react";
 
@@ -22,23 +20,13 @@ export function Sidebar({
 
   const links = [
     {
-      label: "Overview",
-      href: "/dashboard/overview",
-      icon: BarChart,
-    },
-    {
-      label: "Billboards",
-      href: "/dashboard/billboards",
-      icon: Image,
-    },
-    {
-      label: "Categories",
-      href: "/dashboard/categories",
-      icon: Shapes,
+      label: "Dashboard",
+      href: "/dashboard",
+      icon: LayoutDashboard,
     },
     {
       label: "Store",
-      href: "/dashboard/store",
+      href: "/store",
       icon: Store,
     },
   ];
@@ -46,7 +34,7 @@ export function Sidebar({
   return (
     <SidebarDesktop {...props}>
       <Link href="/dashboard">
-        <SidebarDesktopHeader>Dashboard</SidebarDesktopHeader>
+        <SidebarDesktopHeader>Songbird</SidebarDesktopHeader>
       </Link>
       <div className="mt-5 flex flex-col gap-1">
         {links.map(({ href, label, icon }) => (
@@ -55,7 +43,7 @@ export function Sidebar({
             href={href}
             label={label}
             icon={icon}
-            isActive={pathname === href}
+            isActive={pathname.includes(href)}
           />
         ))}
       </div>

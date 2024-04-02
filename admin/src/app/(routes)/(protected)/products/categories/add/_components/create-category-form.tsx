@@ -16,12 +16,10 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { createCategory } from "@/actions/category";
 
 interface CreateCategoryFormProps {
-  storeId: string;
   billboards: Billboard[];
 }
 
 export function CreateCategoryForm({
-  storeId,
   billboards,
 }: CreateCategoryFormProps) {
   const router = useRouter();
@@ -40,7 +38,7 @@ export function CreateCategoryForm({
     if (success) {
       form.reset();
       toast.success(success);
-      router.push(`/dashboard/${storeId}/categories`);
+      router.push("/products/categories");
     };
     if (error) toast.error(error);
   };
