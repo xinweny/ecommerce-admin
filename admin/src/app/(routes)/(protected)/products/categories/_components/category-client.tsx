@@ -1,8 +1,10 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
-import { Billboard, Category } from "@prisma/client";
+import { Billboard } from "@prisma/client";
+
+import { CategoryWithProductsCount } from "@/db/query/category";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -12,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { CategoryRow, columns } from "./columns";
 
 interface CategoryClientProps {
-  categories: Category[];
+  categories: CategoryWithProductsCount[];
   billboards: Billboard[];
 }
 
@@ -21,15 +23,15 @@ export function CategoryClient({
   billboards,
 }: CategoryClientProps) {
   const router = useRouter();
-  const params = useParams();
 
-  const data = categories.map(({ id, name, slug, billboardId }) => {
+  const data = categories.map(({ id, name, slug, billboardId, _count }) => {
     const billboard = billboards.find(billboard => billboard.id === billboardId);
 
     return {
       id,
       name,
       slug,
+      productCount: _count.products,
       billboard: billboard
         ? { id: billboard.id, label: billboard.label }
         : null,

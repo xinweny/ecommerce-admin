@@ -15,6 +15,7 @@ export interface CategoryRow {
     id: number;
     label: string;
   } | null;
+  productCount: number;
 }
 
 export const columns: ColumnDef<CategoryRow>[] = [
@@ -51,6 +52,10 @@ export const columns: ColumnDef<CategoryRow>[] = [
       />
     ),
     cell: (({ row }) => row.original.billboard?.label || ""),
+  },
+  {
+    accessorKey: "productCount",
+    header: "Products",
   },
   {
     id: "actions",
