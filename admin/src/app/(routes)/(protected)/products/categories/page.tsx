@@ -1,10 +1,24 @@
+import { cache } from "react";
+
 import { getBillboards } from "@/db/query/billboard";
-import { getCategoriesWithProductsCount } from "@/db/query/category";
+import { getCategoriesCount, getCategoriesWithProductsCount } from "@/db/query/category";
 import { CategoryClient } from "./_components/category-client";
 
-export default async function CategoriesPage() {
-  const [categories, billboards] = await Promise.all([
-    getCategoriesWithProductsCount(),
+interface CategoriesPageProps {
+  searchParams: {
+    page?: string;
+  }
+}
+
+export default async function CategoriesPage({
+  searchParams: { page = "1" },
+}: CategoriesPageProps) {
+  const [categories, totalCount, billboards] = await Promise.all([
+    getCategoriesWithProductsCount({
+      page: Number(page),
+      limit: 20,
+    }),
+    getCategoriesCount(),
     getBillboards(),
   ]);
 
@@ -13,6 +27,7 @@ export default async function CategoriesPage() {
       <CategoryClient
         categories={categories}
         billboards={billboards}
+        totalCount={totalCount}
       />
     </>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { ArrowUpDown } from "lucide-react";
 
 import {
@@ -10,11 +11,10 @@ import {
   SortingState,
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
  
 import {
   Table,
@@ -24,6 +24,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 import { Button } from "./button";
 import { Input } from "./input";
@@ -32,12 +40,14 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchKey: string;
+  totalCount: number;
 }
  
 export function DataTable<TData, TValue>({
   columns,
   data,
   searchKey,
+  totalCount,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -46,7 +56,6 @@ export function DataTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
@@ -55,6 +64,9 @@ export function DataTable<TData, TValue>({
       sorting,
       columnFilters,
     },
+    manualPagination: true,
+    manualSorting: true,
+    rowCount: totalCount,
   });
  
   return (
@@ -113,24 +125,10 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </div>
+      <DataTablePagination
+        totalCount={totalCount}
+        className="mt-4"
+      />
     </div>
   );
 }
@@ -154,5 +152,67 @@ export function ToggleSort<TData, TValue>({
       <span>{label}</span>
       <ArrowUpDown className="ml-2 h-4 w-4" />
     </Button>
+  );
+}
+
+interface DataTablePaginationProps extends React.ComponentProps<"nav"> {
+  totalCount: number;
+}
+
+export function DataTablePagination({
+  totalCount,
+  ...props
+}: DataTablePaginationProps) {
+  const pathname = usePathname();
+
+  const searchParams = useSearchParams();
+  const page = Number(searchParams.get("page")) || 1;
+  const limit = Number(searchParams.get("limit")) || 20;
+
+  const totalPages = Math.ceil(totalCount / limit);
+
+  const isWithinRange = page > 1 && page < totalPages;
+
+  return (
+    <Pagination {...props}>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
+            href={`${pathname}?page=${page - 1}&limit=${limit}`}
+            aria-disabled={!isWithinRange}
+            tabIndex={!isWithinRange ? -1 : undefined}
+            className={!isWithinRange
+              ? "pointer-events-none opacity-50"
+              : undefined
+            }
+            />
+        </PaginationItem>
+        {Array.from(Array(totalPages).keys()).map(i => {
+          const n = i + 1;
+
+          return (
+            <PaginationItem key={n}>
+              <PaginationLink
+                href={`${pathname}?page=${n}&limit=${limit}`}
+                isActive={page === n}
+              >
+                {n}
+              </PaginationLink>
+            </PaginationItem>
+          );
+        })}
+        <PaginationItem>
+          <PaginationNext
+            href={`${pathname}?page=${page + 1}&limit=${limit}`}
+            aria-disabled={!isWithinRange}
+            tabIndex={!isWithinRange ? -1 : undefined}
+            className={!isWithinRange
+              ? "pointer-events-none opacity-50"
+              : undefined
+            }
+            />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   );
 }

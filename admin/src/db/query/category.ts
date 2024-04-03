@@ -28,8 +28,6 @@ export const getCategoriesWithProductsCount = cache(async (pagination: Paginatio
     ...paginate(pagination),
   });
 
-  console.log(paginate(pagination));
-
   return categories;
 });
 

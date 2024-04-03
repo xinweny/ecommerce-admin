@@ -16,11 +16,13 @@ import { CategoryRow, columns } from "./columns";
 interface CategoryClientProps {
   categories: CategoryWithProductsCount[];
   billboards: Billboard[];
+  totalCount: number;
 }
 
 export function CategoryClient({
   categories,
   billboards,
+  totalCount,
 }: CategoryClientProps) {
   const router = useRouter();
 
@@ -42,7 +44,7 @@ export function CategoryClient({
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Categories - ${categories.length}`}
+          title={`Categories - ${totalCount}`}
           description="Manage product categories"
         />
         <Button onClick={() => {
@@ -57,6 +59,7 @@ export function CategoryClient({
         data={data}
         columns={columns}
         searchKey="name"
+        totalCount={totalCount}
       />
     </>
   );
