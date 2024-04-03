@@ -10,8 +10,8 @@ export default async function DashboardLayout({
 }: DashboardLayoutProps) {
   return (
     <div className="flex h-full">
-      <Sidebar className="border-r fixed top-0 left-0" />
-      <div className="ml-[270px] flex-grow flex-col">
+      <Sidebar className="border-r" />
+      <div className="flex-grow flex-col overflow-y-auto">
         <Navbar />
         <div className="flex-col flex-grow overflow-hidden">
           <div className="flex-1 space-y-4 p-8 pt-6">
