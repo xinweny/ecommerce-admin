@@ -1,15 +1,17 @@
+import { cache } from "react";
+
 import { db } from "../client";
 
-export const getBillboardById = async (billboardId: number) => {
+export const getBillboardById = cache(async (billboardId: number) => {
   const billboard = await db.billboard.findUnique({
     where: { id: billboardId },
   });
 
   return billboard;
-};
+});
 
-export const getBillboards = async () => {
+export const getBillboards = cache(async () => {
   const billboards = await db.billboard.findMany();
 
   return billboards;
-};
+});
