@@ -9,7 +9,7 @@ export const deleteCategory = async (categoryId: number) => {
       where: { id: categoryId },
     });
 
-    revalidatePath("/dashboard/categories");
+    revalidatePath("/products/categories");
 
     return { success: `${category.name} category deleted.` };
   } catch {

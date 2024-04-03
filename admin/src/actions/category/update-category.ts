@@ -11,15 +11,18 @@ export const updateCategory = async (categoryId: number, values: CategorySchema)
 
     if (!validatedFields.success) return { error: "Invalid fields." };
 
+    console.log(values);
+
     const category = await db.category.update({
       where: { id: categoryId },
       data: { ...values },
     });
 
-    revalidatePath(`/dashboard/categories/${category.id}`);
+    revalidatePath(`/products/categories/${category.id}`);
 
     return { success: `${category.name} updated.` };
-  } catch {
+  } catch (error) {
+    console.log(error);
     return { error: "Something went wrong." };
   }
 };

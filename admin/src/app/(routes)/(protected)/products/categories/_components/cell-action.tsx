@@ -71,14 +71,14 @@ export function CellAction({
           </DropdownMenuItem>
           {data.billboard && (
             <DropdownMenuItem onClick={() => {
-              router.push(`/dashboard/${params.storeId}/billboards/${data.billboard!.id}`);
+              router.push(`/store/billboards/${data.billboard!.id}`);
             }}>
               <ImageIcon className="mr-2 h-4 w-4" />
               <span>Manage Billboard</span>
             </DropdownMenuItem>
           )}
           <DropdownMenuItem onSelect={() => {
-            router.push(`/dashboard/categories/edit?categoryId=${data.id}`);
+            router.push(`/products/categories/edit?categoryId=${data.id}`);
           }}>
             <Edit className="mr-2 h-4 w-4" />
             <span>Edit</span>

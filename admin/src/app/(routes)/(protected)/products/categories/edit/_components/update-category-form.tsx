@@ -10,8 +10,9 @@ import { categorySchema, type CategorySchema } from "@/schemas/category";
 
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
-import { FormSelect } from "@/components/form/form-select";
 import { SubmitButton } from "@/components/form/submit-button";
+
+import { BillboardSelect } from "../../_components/billboard-select";
 
 import { updateCategory } from "@/actions/category";
 
@@ -30,6 +31,7 @@ export function UpdateCategoryForm({
     resolver: zodResolver(categorySchema),
     defaultValues: {
       name: category.name,
+      slug: category.slug,
       billboardId: category.billboardId,
     },
   });
@@ -56,17 +58,14 @@ export function UpdateCategoryForm({
             name="name"
             label="Name"
           />
-          <FormSelect
+          <FormInput
+            name="slug"
+            label="Slug"
+            description="A URL-friendly name for your category, containing only lowercase letters and hyphens."
+          />
+          <BillboardSelect
             name="billboardId"
-            label="Billboard"
-            placeholder="Select a billboard"
-            values={[
-              { value: null, label: "null" },
-              ...billboards.map(({ id, label }) => ({
-                value: id.toString(),
-                label,
-              })),
-            ]}
+            billboards={billboards}
           />
         </div>
         <SubmitButton className="ml-auto">

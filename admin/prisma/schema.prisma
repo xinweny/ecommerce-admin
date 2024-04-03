@@ -130,7 +130,7 @@ model Category {
   updatedAt DateTime @updatedAt
 
   billboardId Int?
-  billboard   Billboard? @relation(fields: [billboardId], references: [id])
+  billboard   Billboard? @relation(fields: [billboardId], references: [id], onDelete: SetNull)
 
   categoryBrands CategoryBrand[]
   subcategories  Subcategory[]

@@ -18,10 +18,11 @@ export const createCategory = async (values: CategorySchema) => {
       },
     });
 
-    revalidatePath("/dashboard/categories");
+    revalidatePath("/products/categories");
 
     return { success: `${category.name} category created.` };
   } catch (error) {
+    console.log(error);
     return { error: "Something went wrong." };
   }
 };

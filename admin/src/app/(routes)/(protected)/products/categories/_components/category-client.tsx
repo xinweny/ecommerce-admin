@@ -23,12 +23,13 @@ export function CategoryClient({
   const router = useRouter();
   const params = useParams();
 
-  const data = categories.map(({ id, name, billboardId }) => {
+  const data = categories.map(({ id, name, slug, billboardId }) => {
     const billboard = billboards.find(billboard => billboard.id === billboardId);
 
     return {
       id,
       name,
+      slug,
       billboard: billboard
         ? { id: billboard.id, label: billboard.label }
         : null,
@@ -43,7 +44,7 @@ export function CategoryClient({
           description="Manage product categories"
         />
         <Button onClick={() => {
-          router.push(`/dashboard/${params.storeId}/categories/add`);
+          router.push("/products/categories/add");
         }}>
           <Plus className="mr-2 h-4 w-4" />
           <span>New Category</span>

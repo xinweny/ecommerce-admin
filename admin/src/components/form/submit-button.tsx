@@ -11,16 +11,15 @@ export function SubmitButton({
   className,
   children,
 }: SubmitButtonProps) {
-  const methods = useFormContext();
+  const {
+    formState: { isDirty, isSubmitting },
+  } = useFormContext();
 
   return (
     <Button
       type="submit"
       className={className}
-      disabled={methods
-        ? methods.formState.isSubmitting
-        : true
-      }
+      disabled={!isDirty || isSubmitting}
     >
       {children}
     </Button>

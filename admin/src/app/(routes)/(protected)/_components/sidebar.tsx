@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
+  PianoIcon,
   Store,
 } from "lucide-react";
 
@@ -23,6 +24,11 @@ export function Sidebar({
       label: "Dashboard",
       href: "/dashboard",
       icon: LayoutDashboard,
+    },
+    {
+      label: "Products",
+      href: "/products",
+      icon: PianoIcon,
     },
     {
       label: "Store",
