@@ -1,14 +1,21 @@
 "use client";
 
+import { Prisma } from "@prisma/client";
 import { useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { ArrowUpDown } from "lucide-react";
+import {
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  LucideIcon,
+} from "lucide-react";
+
+import { useQueryString } from "@/hooks";
 
 import {
   Column,
   ColumnDef,
   ColumnFiltersState,
-  SortingState,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
@@ -49,7 +56,6 @@ export function DataTable<TData, TValue>({
   searchKey,
   totalCount,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
@@ -59,11 +65,7 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
-    onSortingChange: setSorting,
-    state: {
-      sorting,
-      columnFilters,
-    },
+    state: { columnFilters },
     manualPagination: true,
     manualSorting: true,
     rowCount: totalCount,
@@ -142,15 +144,38 @@ export function ToggleSort<TData, TValue>({
   column,
   label,
 }: ToggleSortProps<TData, TValue>) {
+  const { navigateQueryString } = useQueryString();
+
+  const searchParams = useSearchParams();
+
+  const sortValue = searchParams.get(column.id);
+
+  const SortIcon: LucideIcon = (!sortValue || !(sortValue in Prisma.SortOrder))
+  ? ArrowUpDown
+  : (sortValue === Prisma.SortOrder.asc
+    ? ArrowUp
+    : ArrowDown
+  );
+
   return (
     <Button
       variant="ghost"
       onClick={() => {
-        column.toggleSorting(column.getIsSorted() === "asc", true);
+        navigateQueryString({
+          [column.id]: (!sortValue || !(sortValue in Prisma.SortOrder))
+            ? Prisma.SortOrder.asc
+            : (sortValue === Prisma.SortOrder.asc
+              ? Prisma.SortOrder.desc
+              : Prisma.SortOrder.asc
+            ),
+        });
+      }}
+      onDoubleClick={() => {
+        navigateQueryString({ [column.id]: null });
       }}
     >
       <span>{label}</span>
-      <ArrowUpDown className="ml-2 h-4 w-4" />
+      <SortIcon className="ml-2 h-4 w-4" />
     </Button>
   );
 }

@@ -3,7 +3,7 @@ import { cache } from "react";
 
 import { db } from "../client";
 
-import { paginate, Pagination } from "@/lib/db-query";
+import { paginate, orderBy, DbQueryParams } from "@/lib/db-query";
 
 const categoryWithProductsCount = Prisma.validator<Prisma.CategoryDefaultArgs>()({
   include: {
@@ -22,10 +22,13 @@ export const getCategoryById = cache(async (categoryId: number) => {
   return category;
 });
 
-export const getCategoriesWithProductsCount = cache(async (pagination: Pagination) => {
+export const getCategoriesWithProductsCount = cache(async (params: DbQueryParams) => {
+  const { pagination, sort } = params;
+
   const categories = await db.category.findMany({
     ...categoryWithProductsCount,
     ...paginate(pagination),
+    ...orderBy(sort),
   });
 
   return categories;
