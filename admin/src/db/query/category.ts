@@ -26,9 +26,15 @@ export const getCategoryById = cache(async (categoryId: number) => {
 });
 
 export const getCategoriesWithSubcounts = cache(async (params: DbQueryParams) => {
-  const { pagination, sort } = params;
+  const { pagination, sort, query } = params;
 
   const categories = await db.category.findMany({
+    where: {
+      name: {
+        contains: query,
+        mode: "insensitive",
+      },
+    },
     ...categoryWithSubcounts,
     ...paginate(pagination),
     ...orderBy(sort),

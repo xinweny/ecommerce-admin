@@ -29,7 +29,7 @@ export const columns: ColumnDef<CategoryRow>[] = [
       />
     ),
     cell: ({ row }) => (
-      <Link href={`/dashboard/categories/${row.original.id}`}>
+      <Link href={`/products/categories/${row.original.id}`}>
         {row.original.name}
       </Link>
     ),

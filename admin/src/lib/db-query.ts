@@ -1,5 +1,11 @@
 import { Prisma } from "@prisma/client";
 
+export interface DbQueryParams {
+  pagination?: Pagination;
+  sort?: Sort;
+  query?: string;
+}
+
 interface Pagination {
   page: number;
   limit: number;
@@ -13,11 +19,6 @@ type AggregatedSort = { [key in AggSortKeys]: string | undefined };
 
 interface Sort {
   [key: string]: string | AggregatedSort | undefined;
-}
-
-export interface DbQueryParams {
-  pagination?: Pagination;
-  sort?: Sort;
 }
 
 export const paginate = (pagination?: Pagination) => {

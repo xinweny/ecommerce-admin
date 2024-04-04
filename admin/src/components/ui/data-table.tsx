@@ -1,27 +1,27 @@
 "use client";
 
 import { Prisma } from "@prisma/client";
-import { useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import {
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
   LucideIcon,
+  X,
 } from "lucide-react";
-
-import { useQueryString } from "@/hooks";
-
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Column,
   ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+
+import { searchSchema, SearchSchema } from "@/schemas/search";
+
+import { useQueryString } from "@/hooks";
  
 import {
   Table,
@@ -39,6 +39,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import {
+  Form,
+  FormItem,
+  FormField,
+  FormControl,
+} from "@/components/ui/form";
 
 import { Button } from "./button";
 import { Input } from "./input";
@@ -56,16 +62,11 @@ export function DataTable<TData, TValue>({
   searchKey,
   totalCount,
 }: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    state: { columnFilters },
+    manualFiltering: true,
     manualPagination: true,
     manualSorting: true,
     rowCount: totalCount,
@@ -73,16 +74,7 @@ export function DataTable<TData, TValue>({
  
   return (
     <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder={`Search ${searchKey}`}
-          value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
-          onChange={(event) => {
-            table.getColumn(searchKey)?.setFilterValue(event.target.value);
-          }}
-          className="max-w-sm"
-        />
-      </div>
+      <DataTableSearch />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -177,6 +169,62 @@ export function ToggleSort<TData, TValue>({
       <span>{label}</span>
       <SortIcon className="ml-2 h-4 w-4" />
     </Button>
+  );
+}
+
+interface DataTableSearchProps {
+  placeholder?: string;
+}
+
+export function DataTableSearch({
+  placeholder = "Search",
+}: DataTableSearchProps) {
+  const form = useForm<SearchSchema>({
+    resolver: zodResolver(searchSchema),
+    defaultValues: { query: "" },
+  });
+
+  const { navigateQueryString } = useQueryString();
+
+  const {
+    control,
+    formState: { isSubmitting },
+    handleSubmit,
+  } = form;
+
+  const onSubmit = (data: SearchSchema) => {
+    const { query } = data;
+
+    navigateQueryString({
+      query: query ? query : null,
+    });
+  };
+
+  return (
+    <form
+      className="flex items-center py-4 gap-4"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Form {...form}>
+        <FormField
+          control={control}
+          name="query"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  {...field}
+                  disabled={isSubmitting}
+                  placeholder={placeholder}
+                />
+              </FormControl>
+              
+            </FormItem>
+          )}
+        />
+        <Button variant="secondary" type="submit">Search</Button>
+      </Form>
+    </form>
   );
 }
 

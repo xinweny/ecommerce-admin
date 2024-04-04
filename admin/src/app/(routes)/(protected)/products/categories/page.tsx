@@ -10,6 +10,7 @@ interface CategoriesPageProps {
     slug?: string;
     productCount?: string;
     subcategoryCount?: string;
+    query?: string;
   }
 }
 
@@ -20,6 +21,7 @@ export default async function CategoriesPage({
     slug,
     productCount,
     subcategoryCount,
+    query,
   },
 }: CategoriesPageProps) {
   const [categories, totalCount, billboards] = await Promise.all([
@@ -34,6 +36,7 @@ export default async function CategoriesPage({
         product: { _count: productCount },
         subcategory: { _count: subcategoryCount },
       },
+      query,
     }),
     getCategoriesCount(),
     getBillboards(),
