@@ -1,15 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
+  ShoppingBag,
   PianoIcon,
   Store,
+  Box,
+  Boxes,
+  Award,
+  Settings,
+  Image as ImageIcon,
 } from "lucide-react";
 
 import {
   SidebarDesktop,
+  SidebarDesktopAccordion,
+  SidebarDesktopAccordionLink,
   SidebarDesktopHeader,
   SidebarDesktopLinkButton,
 } from "@/components/ui/sidebar";
@@ -17,41 +24,57 @@ import {
 export function Sidebar({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const pathname = usePathname();
-
-  const links = [
-    {
-      label: "Dashboard",
-      href: "/dashboard",
-      icon: LayoutDashboard,
-    },
-    {
-      label: "Products",
-      href: "/products",
-      icon: PianoIcon,
-    },
-    {
-      label: "Store",
-      href: "/store",
-      icon: Store,
-    },
-  ];
-
   return (
     <SidebarDesktop {...props}>
       <Link href="/dashboard">
         <SidebarDesktopHeader>Songbird</SidebarDesktopHeader>
       </Link>
       <div className="mt-5 flex flex-col gap-1">
-        {links.map(({ href, label, icon }) => (
-          <SidebarDesktopLinkButton
-            key={href}
-            href={href}
-            label={label}
-            icon={icon}
-            isActive={pathname.includes(href)}
+        <SidebarDesktopLinkButton
+          label="Dashboard"
+          href="/dashboard"
+          icon={LayoutDashboard}
+        />
+        <SidebarDesktopAccordion
+          label="Products"
+          icon={ShoppingBag}
+        >
+          <SidebarDesktopAccordionLink
+            label="Products"
+            href="/products"
+            icon={PianoIcon}
           />
-        ))}
+          <SidebarDesktopAccordionLink
+            label="Brands"
+            href="/products/brands"
+            icon={Award}
+          />
+          <SidebarDesktopAccordionLink
+            label="Categories"
+            href="/products/categories"
+            icon={Box}
+          />
+          <SidebarDesktopAccordionLink
+            label="Subcategories"
+            href="/products/subcategories"
+            icon={Boxes}
+          />
+        </SidebarDesktopAccordion>
+        <SidebarDesktopAccordion
+          label="Store"
+          icon={Store}
+        >
+          <SidebarDesktopAccordionLink
+            label="Billboards"
+            href="/store/billboards"
+            icon={ImageIcon}
+          />
+          <SidebarDesktopAccordionLink
+            label="Settings"
+            href="/store"
+            icon={Settings}
+          />
+        </SidebarDesktopAccordion>
       </div>
     </SidebarDesktop>
   );
