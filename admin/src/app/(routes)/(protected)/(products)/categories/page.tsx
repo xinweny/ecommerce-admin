@@ -44,11 +44,9 @@ export default async function CategoriesPage({
   ]);
 
   return (
-    <>
-      <CategoryClient
-        categories={categories}
-        totalCount={totalCount}
-      />
-    </>
+    <CategoryClient
+      categories={categories}
+      totalCount={totalCount}
+    />
   );
 }

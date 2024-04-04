@@ -1,25 +1,21 @@
 "use client";
  
 import { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
 
 import { ToggleSort } from "@/components/ui/data-table";
 
-import { CellAction } from "./cell-action";
-
-export interface CategoryRow {
+export interface SubcategoryRow {
   id: number;
   name: string;
   slug: string;
-  billboard: {
+  category: {
     id: number;
-    label: string;
-  } | null;
+    name: string;
+  };
   productCount: number;
-  subcategoryCount: number;
 }
 
-export const columns: ColumnDef<CategoryRow>[] = [
+export const columns: ColumnDef<SubcategoryRow>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -27,11 +23,6 @@ export const columns: ColumnDef<CategoryRow>[] = [
         column={column}
         label="Name"
       />
-    ),
-    cell: ({ row }) => (
-      <Link href={`/products/categories/${row.original.id}`}>
-        {row.original.name}
-      </Link>
     ),
   },
   {
@@ -45,14 +36,14 @@ export const columns: ColumnDef<CategoryRow>[] = [
     
   },
   {
-    accessorKey: "billboardLabel",
+    accessorKey: "categoryName",
     header: ({ column }) => (
       <ToggleSort
         column={column}
-        label="Billboard"
+        label="Category"
       />
     ),
-    cell: (({ row }) => row.original.billboard?.label || ""),
+    cell: (({ row }) => row.original.category.name),
   },
   {
     accessorKey: "productCount",
@@ -74,6 +65,6 @@ export const columns: ColumnDef<CategoryRow>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />
+    cell: ({ row }) => <></>
   }
 ];

@@ -16,6 +16,7 @@ const adminCategory = Prisma.validator<Prisma.CategoryDefaultArgs>()({
     },
   },
 });
+
 export type AdminCategory = Prisma.CategoryGetPayload<typeof adminCategory>;
 
 export const getCategoryById = cache(async (categoryId: number) => {

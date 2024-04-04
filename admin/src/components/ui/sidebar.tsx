@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { Route } from "next";
 
 import { cn } from "@/lib/utils";
 
@@ -61,7 +62,7 @@ export function SidebarDesktopButton({
 }
 
 interface SidebarDesktopLinkButtonProps extends SidebarDesktopButtonProps {
-  href: string;
+  href: Route;
 }
 
 export function SidebarDesktopLinkButton({
@@ -78,7 +79,7 @@ export function SidebarDesktopLinkButton({
         label={label}
         icon={icon}
         {...props}
-        isActive={pathname === href}
+        isActive={pathname.includes(href)}
       />
     </Link>
   );
@@ -131,26 +132,15 @@ export function SidebarDesktopAccordionLink({
   icon,
   ...props
 }: SidebarDesktopLinkButtonProps) {
-  const pathname = usePathname();
-
-  const Icon = icon;
-
   return (
     <li>
-      <Link href={href}>
-        <Button
-          className={cn(
-            "gap-2 justify-start w-full",
-            className,
-          )}
-          size="sm"
-          variant={pathname === href ? "default" : "ghost"}
-          {...props}
-        >
-          {Icon && <Icon size={20} />}
-          <span className="text-sm">{label}</span>
-        </Button>
-      </Link>
+      <SidebarDesktopLinkButton
+        href={href}
+        label={label}
+        className={className}
+        icon={icon}
+        {...props}
+      />
     </li>
   );
 }

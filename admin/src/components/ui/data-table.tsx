@@ -52,14 +52,12 @@ import { Input } from "./input";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  searchKey: string;
   totalCount: number;
 }
  
 export function DataTable<TData, TValue>({
   columns,
   data,
-  searchKey,
   totalCount,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({

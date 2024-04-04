@@ -38,7 +38,7 @@ export function BillboardClient({
           description="Manage store billboards"
         />
         <Button onClick={() => {
-          router.push(`/dashboard/${params.storeId}/billboards/new`);
+          router.push("/store/billboards/add");
         }}>
           <Plus className="mr-2 h-4 w-4" />
           <span>New Billboard</span>
@@ -48,7 +48,6 @@ export function BillboardClient({
       <DataTable
         data={data}
         columns={columns}
-        searchKey="label"
         totalCount={totalCount}
       />
     </>

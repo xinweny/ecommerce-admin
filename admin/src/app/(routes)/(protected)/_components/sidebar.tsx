@@ -46,17 +46,17 @@ export function Sidebar({
           />
           <SidebarDesktopAccordionLink
             label="Brands"
-            href="/products/brands"
+            href="/brands"
             icon={Award}
           />
           <SidebarDesktopAccordionLink
             label="Categories"
-            href="/products/categories"
+            href="/categories"
             icon={Box}
           />
           <SidebarDesktopAccordionLink
             label="Subcategories"
-            href="/products/subcategories"
+            href="/subcategories"
             icon={Boxes}
           />
         </SidebarDesktopAccordion>
