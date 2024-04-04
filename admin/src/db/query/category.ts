@@ -30,7 +30,7 @@ export const getCategoriesWithProductsCount = cache(async (params: DbQueryParams
     ...paginate(pagination),
     ...orderBy(sort),
   });
-
+  
   return categories;
 });
 
