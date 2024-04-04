@@ -7,7 +7,6 @@ import {
   ArrowUp,
   ArrowDown,
   LucideIcon,
-  X,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,7 +18,12 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { searchSchema, SearchSchema } from "@/schemas/search";
+import {
+  searchSchema,
+  SearchSchema,
+  limitSchema,
+  LimitSchema,
+} from "@/schemas/query";
 
 import { useQueryString } from "@/hooks";
  
@@ -44,6 +48,7 @@ import {
   FormItem,
   FormField,
   FormControl,
+  FormLabel,
 } from "@/components/ui/form";
 
 import { Button } from "./button";
@@ -74,7 +79,7 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center justify-between">
         <DataTableSearch />
-        <span className="text-xs text-secondary-foreground self-end mb-4 mr-2">{`${table.getRowCount()} of ${totalCount} items`}</span>
+        <span className="text-xs text-muted-foreground mb-4 mr-2 self-end">{`${table.getRowCount()} of ${totalCount} items`}</span>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -120,10 +125,13 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination
-        totalCount={totalCount}
-        className="mt-4"
-      />
+      <div className="flex items-center justify-between flex-wrap-reverse">
+        <DataTableRowLimit />
+        <DataTablePagination
+          totalCount={totalCount}
+          className="mt-4"
+        />        
+      </div>
     </div>
   );
 }
@@ -247,7 +255,7 @@ export function DataTablePagination({
   const isWithinRange = page > 1 && page < totalPages;
 
   return (
-    <Pagination {...props}>
+    <Pagination {...props} className="mt-0">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
@@ -296,5 +304,59 @@ export function DataTablePagination({
         </PaginationItem>
       </PaginationContent>
     </Pagination>
+  );
+}
+
+export function DataTableRowLimit() {
+  const searchParams = useSearchParams();
+  const limit = searchParams.get("limit");
+
+  const form = useForm<LimitSchema>({
+    resolver: zodResolver(limitSchema),
+    defaultValues: {
+      limit: limit ? +limit : 20,
+    },
+  });
+
+  const { navigateQueryString } = useQueryString();
+
+  const {
+    control,
+    formState: { isSubmitting },
+    handleSubmit,
+  } = form;
+
+  const onSubmit = (data: LimitSchema) => {
+    navigateQueryString({ limit: data.limit.toString() });
+  };
+
+  return (
+    <form
+      className="flex items-center py-4 gap-4"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Form {...form}>
+        <FormField
+          control={control}
+          name="limit"
+          render={({ field }) => (
+            <FormItem className="flex items-center gap-2 space-y-0">
+              <FormControl>
+                <Input
+                  className="w-[80px]"
+                  type="number"
+                  {...field}
+                  disabled={isSubmitting}
+                  onChange={event => field.onChange(+event.target.value)}
+                />
+              </FormControl>
+              <FormLabel className="text-muted-foreground whitespace-nowrap mt-0 text-xs">
+                items per page
+              </FormLabel>
+            </FormItem>
+          )}
+        />
+      </Form>
+    </form>
   );
 }

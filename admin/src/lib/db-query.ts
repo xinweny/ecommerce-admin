@@ -22,6 +22,11 @@ export const paginate = (pagination?: Pagination) => {
 
   const { page, limit } = pagination;
 
+  if (Number.isNaN(page) || Number.isNaN(limit)) return {
+    take: 20,
+    skip: 0,
+  };
+
   return {
     take: limit,
     skip: limit * ((page < 1 ? 1 : page) - 1),

@@ -5,6 +5,7 @@ import { CategoryClient } from "./_components/category-client";
 interface CategoriesPageProps {
   searchParams: {
     page?: string;
+    limit?: string;
     name?: string;
     slug?: string;
     productCount?: string;
@@ -17,6 +18,7 @@ interface CategoriesPageProps {
 export default async function CategoriesPage({
   searchParams: {
     page = "1",
+    limit = "20",
     name,
     slug,
     productCount,
@@ -29,7 +31,7 @@ export default async function CategoriesPage({
     getQueriedCategories({
       pagination: {
         page: +page,
-        limit: 20,
+        limit: +limit,
       },
       sort: {
         name,
