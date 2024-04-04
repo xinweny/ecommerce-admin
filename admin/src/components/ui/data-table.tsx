@@ -188,7 +188,7 @@ export function DataTablePagination({
   totalCount,
   ...props
 }: DataTablePaginationProps) {
-  const pathname = usePathname();
+  const { createQueryString } = useQueryString();
 
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
@@ -203,7 +203,10 @@ export function DataTablePagination({
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={`${pathname}?page=${page - 1}&limit=${limit}`}
+            href={createQueryString({
+              page: (page - 1).toString(),
+              limit: limit.toString(),
+            })}
             aria-disabled={!isWithinRange}
             tabIndex={!isWithinRange ? -1 : undefined}
             className={!isWithinRange
@@ -218,7 +221,10 @@ export function DataTablePagination({
           return (
             <PaginationItem key={n}>
               <PaginationLink
-                href={`${pathname}?page=${n}&limit=${limit}`}
+                href={createQueryString({
+                  page: page.toString(),
+                  limit: limit.toString(),
+                })}
                 isActive={page === n}
               >
                 {n}
@@ -228,7 +234,10 @@ export function DataTablePagination({
         })}
         <PaginationItem>
           <PaginationNext
-            href={`${pathname}?page=${page + 1}&limit=${limit}`}
+            href={createQueryString({
+              page: (page + 1).toString(),
+              limit: limit.toString(),
+            })}
             aria-disabled={!isWithinRange}
             tabIndex={!isWithinRange ? -1 : undefined}
             className={!isWithinRange
