@@ -74,7 +74,10 @@ export function DataTable<TData, TValue>({
  
   return (
     <div>
-      <DataTableSearch />
+      <div className="flex items-center justify-between">
+        <DataTableSearch />
+        <span className="text-xs text-secondary-foreground self-end mb-4 mr-2">{`${table.getRowCount()} of ${totalCount} items`}</span>
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -218,7 +221,6 @@ export function DataTableSearch({
                   placeholder={placeholder}
                 />
               </FormControl>
-              
             </FormItem>
           )}
         />

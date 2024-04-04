@@ -45,7 +45,7 @@ export function CategoryClient({
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Categories - ${totalCount}`}
+          title="Categories"
           description="Manage product categories"
         />
         <Button onClick={() => {

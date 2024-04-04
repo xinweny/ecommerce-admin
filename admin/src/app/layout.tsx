@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 
+import { cn } from "@/lib/utils";
+
 import { auth } from "@/auth";
 
 import { ThemeProvider } from "@/providers";
@@ -26,7 +28,7 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={cn(inter.className, "overflow-hidden")}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
