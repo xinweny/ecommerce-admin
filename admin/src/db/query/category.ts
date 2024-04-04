@@ -5,14 +5,17 @@ import { db } from "../client";
 
 import { paginate, orderBy, DbQueryParams } from "@/lib/db-query";
 
-const categoryWithProductsCount = Prisma.validator<Prisma.CategoryDefaultArgs>()({
+const categoryWithSubcounts = Prisma.validator<Prisma.CategoryDefaultArgs>()({
   include: {
     _count: {
-      select: { products: true },
+      select: {
+        products: true,
+        subcategories: true,
+      },
     },
   },
 });
-export type CategoryWithProductsCount = Prisma.CategoryGetPayload<typeof categoryWithProductsCount>;
+export type CategoryWithSubcounts = Prisma.CategoryGetPayload<typeof categoryWithSubcounts>;
 
 export const getCategoryById = cache(async (categoryId: number) => {
   const category = await db.category.findUnique({
@@ -22,15 +25,15 @@ export const getCategoryById = cache(async (categoryId: number) => {
   return category;
 });
 
-export const getCategoriesWithProductsCount = cache(async (params: DbQueryParams) => {
+export const getCategoriesWithSubcounts = cache(async (params: DbQueryParams) => {
   const { pagination, sort } = params;
 
   const categories = await db.category.findMany({
-    ...categoryWithProductsCount,
+    ...categoryWithSubcounts,
     ...paginate(pagination),
     ...orderBy(sort),
   });
-  
+
   return categories;
 });
 

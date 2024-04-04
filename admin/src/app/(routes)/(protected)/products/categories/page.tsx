@@ -1,5 +1,5 @@
 import { getBillboards } from "@/db/query/billboard";
-import { getCategoriesCount, getCategoriesWithProductsCount } from "@/db/query/category";
+import { getCategoriesCount, getCategoriesWithSubcounts } from "@/db/query/category";
 
 import { CategoryClient } from "./_components/category-client";
 
@@ -9,6 +9,7 @@ interface CategoriesPageProps {
     name?: string;
     slug?: string;
     productCount?: string;
+    subcategoryCount?: string;
   }
 }
 
@@ -18,10 +19,11 @@ export default async function CategoriesPage({
     name,
     slug,
     productCount,
+    subcategoryCount,
   },
 }: CategoriesPageProps) {
   const [categories, totalCount, billboards] = await Promise.all([
-    getCategoriesWithProductsCount({
+    getCategoriesWithSubcounts({
       pagination: {
         page: +page,
         limit: 20,
@@ -30,6 +32,7 @@ export default async function CategoriesPage({
         name,
         slug,
         product: { _count: productCount },
+        subcategory: { _count: subcategoryCount },
       },
     }),
     getCategoriesCount(),

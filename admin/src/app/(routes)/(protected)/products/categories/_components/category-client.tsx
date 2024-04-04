@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { Billboard } from "@prisma/client";
 
-import { CategoryWithProductsCount } from "@/db/query/category";
+import { CategoryWithSubcounts } from "@/db/query/category";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { CategoryRow, columns } from "./columns";
 
 interface CategoryClientProps {
-  categories: CategoryWithProductsCount[];
+  categories: CategoryWithSubcounts[];
   billboards: Billboard[];
   totalCount: number;
 }
@@ -34,6 +34,7 @@ export function CategoryClient({
       name,
       slug,
       productCount: _count.products,
+      subcategoryCount: _count.subcategories,
       billboard: billboard
         ? { id: billboard.id, label: billboard.label }
         : null,

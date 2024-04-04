@@ -16,6 +16,7 @@ export interface CategoryRow {
     label: string;
   } | null;
   productCount: number;
+  subcategoryCount: number;
 }
 
 export const columns: ColumnDef<CategoryRow>[] = [
@@ -59,6 +60,15 @@ export const columns: ColumnDef<CategoryRow>[] = [
       <ToggleSort
         column={column}
         label="Products"
+      />
+    ),
+  },
+  {
+    accessorKey: "subcategoryCount",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="Subcategories"
       />
     ),
   },
