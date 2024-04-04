@@ -10,6 +10,7 @@ interface CategoriesPageProps {
     slug?: string;
     productCount?: string;
     subcategoryCount?: string;
+    billboardLabel?: string;
     query?: string;
   }
 }
@@ -21,6 +22,7 @@ export default async function CategoriesPage({
     slug,
     productCount,
     subcategoryCount,
+    billboardLabel,
     query,
   },
 }: CategoriesPageProps) {
@@ -35,6 +37,7 @@ export default async function CategoriesPage({
         slug,
         product: { _count: productCount },
         subcategory: { _count: subcategoryCount },
+        billboard: { label: billboardLabel },
       },
       query,
     }),
@@ -46,7 +49,6 @@ export default async function CategoriesPage({
     <>
       <CategoryClient
         categories={categories}
-        billboards={billboards}
         totalCount={totalCount}
       />
     </>

@@ -15,3 +15,9 @@ export const getBillboards = cache(async () => {
 
   return billboards;
 });
+
+export const getBillboardsCount = cache(async () => {
+  const count = await db.billboard.count();
+
+  return count;
+});

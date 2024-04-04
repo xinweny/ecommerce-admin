@@ -11,14 +11,10 @@ interface Pagination {
   limit: number;
 }
 
-enum AggSortKeys {
-  count = "_count",
-}
-
-type AggregatedSort = { [key in AggSortKeys]: string | undefined };
+type SubSort = { [key: string]: string | undefined };
 
 interface Sort {
-  [key: string]: string | AggregatedSort | undefined;
+  [key: string]: string | SubSort | undefined;
 }
 
 export const paginate = (pagination?: Pagination) => {
@@ -36,7 +32,7 @@ export const orderBy = (sort?: Sort) => {
   if (!sort) return undefined;
 
   const sortParams = [] as {
-    [key: string]: Prisma.SortOrder | AggregatedSort;
+    [key: string]: Prisma.SortOrder | SubSort;
   }[];
 
   for (const [key, value] of Object.entries(sort)) {
@@ -50,15 +46,15 @@ export const orderBy = (sort?: Sort) => {
     }
 
     if (typeof value === "object") {
-      const aggSort = {} as AggregatedSort;
+      const subSort = {} as SubSort;
 
       for (const [k, v] of Object.entries(value)) {
-        if (!v || !(v in Prisma.SortOrder) || !(k in AggSortKeys)) continue;
+        if (!v || !(v in Prisma.SortOrder)) continue;
 
-        aggSort[k as AggSortKeys] = v as Prisma.SortOrder;
+        subSort[k] = v as Prisma.SortOrder;
       }
 
-      if (Object.keys(aggSort).length !== 0) sortParams.push({ [key]: aggSort });
+      if (Object.keys(subSort).length !== 0) sortParams.push({ [key]: subSort });
     }
   }
 

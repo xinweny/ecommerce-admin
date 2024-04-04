@@ -2,9 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
-import { Billboard } from "@prisma/client";
 
-import { CategoryWithSubcounts } from "@/db/query/category";
+import { AdminCategory } from "@/db/query/category";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -14,21 +13,17 @@ import { Button } from "@/components/ui/button";
 import { CategoryRow, columns } from "./columns";
 
 interface CategoryClientProps {
-  categories: CategoryWithSubcounts[];
-  billboards: Billboard[];
+  categories: AdminCategory[];
   totalCount: number;
 }
 
 export function CategoryClient({
   categories,
-  billboards,
   totalCount,
 }: CategoryClientProps) {
   const router = useRouter();
 
-  const data = categories.map(({ id, name, slug, billboardId, _count }) => {
-    const billboard = billboards.find(billboard => billboard.id === billboardId);
-
+  const data = categories.map(({ id, name, slug, billboard, _count }) => {
     return {
       id,
       name,

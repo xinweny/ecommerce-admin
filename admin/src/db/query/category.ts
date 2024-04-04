@@ -5,8 +5,9 @@ import { db } from "../client";
 
 import { paginate, orderBy, DbQueryParams } from "@/lib/db-query";
 
-const categoryWithSubcounts = Prisma.validator<Prisma.CategoryDefaultArgs>()({
+const adminCategory = Prisma.validator<Prisma.CategoryDefaultArgs>()({
   include: {
+    billboard: true,
     _count: {
       select: {
         products: true,
@@ -15,7 +16,7 @@ const categoryWithSubcounts = Prisma.validator<Prisma.CategoryDefaultArgs>()({
     },
   },
 });
-export type CategoryWithSubcounts = Prisma.CategoryGetPayload<typeof categoryWithSubcounts>;
+export type AdminCategory = Prisma.CategoryGetPayload<typeof adminCategory>;
 
 export const getCategoryById = cache(async (categoryId: number) => {
   const category = await db.category.findUnique({
@@ -26,21 +27,25 @@ export const getCategoryById = cache(async (categoryId: number) => {
 });
 
 export const getCategoriesWithSubcounts = cache(async (params: DbQueryParams) => {
-  const { pagination, sort, query } = params;
+  try {
+    const { pagination, sort, query } = params;
 
-  const categories = await db.category.findMany({
-    where: {
-      name: {
-        contains: query,
-        mode: "insensitive",
+    const categories = await db.category.findMany({
+      where: {
+        name: {
+          contains: query,
+          mode: "insensitive",
+        },
       },
-    },
-    ...categoryWithSubcounts,
-    ...paginate(pagination),
-    ...orderBy(sort),
-  });
-
-  return categories;
+      ...adminCategory,
+      ...paginate(pagination),
+      ...orderBy(sort),
+    });
+  
+    return categories;
+  } catch (error) {
+    return [];
+  }
 });
 
 export const getCategoriesCount = cache(async () => {

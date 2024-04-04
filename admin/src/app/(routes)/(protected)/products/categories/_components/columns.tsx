@@ -45,7 +45,7 @@ export const columns: ColumnDef<CategoryRow>[] = [
     
   },
   {
-    accessorKey: "billboardId",
+    accessorKey: "billboardLabel",
     header: ({ column }) => (
       <ToggleSort
         column={column}

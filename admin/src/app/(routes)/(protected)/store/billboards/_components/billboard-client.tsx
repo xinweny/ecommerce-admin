@@ -14,10 +14,12 @@ import { BillboardRow, columns } from "./columns";
 
 interface BillboardClientProps {
   billboards: Billboard[];
+  totalCount: number;
 }
 
 export function BillboardClient({
   billboards,
+  totalCount,
 }: BillboardClientProps) {
   const router = useRouter();
   const params = useParams();
@@ -32,8 +34,8 @@ export function BillboardClient({
     <>
       <div className="flex items-center justify-between">
       <Heading
-          title={`Billboards - ${billboards.length}`}
-          description="Manage billboards for your store"
+          title="Billboards"
+          description="Manage store billboards"
         />
         <Button onClick={() => {
           router.push(`/dashboard/${params.storeId}/billboards/new`);
@@ -47,6 +49,7 @@ export function BillboardClient({
         data={data}
         columns={columns}
         searchKey="label"
+        totalCount={totalCount}
       />
     </>
   );
