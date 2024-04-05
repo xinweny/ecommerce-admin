@@ -40,7 +40,7 @@ export function CreateCategoryForm({
     if (success) {
       form.reset();
       toast.success(success);
-      router.push("/products/categories");
+      router.push("/categories");
     };
     if (error) toast.error(error);
   };

@@ -7,6 +7,6 @@ export type SearchSchema = z.infer<typeof searchSchema>;
 
 export const limitSchema = z.object({
   limit: z
-    .number().min(1).max(500),
+    .number().min(10).max(500),
 });
 export type LimitSchema = z.infer<typeof limitSchema>;

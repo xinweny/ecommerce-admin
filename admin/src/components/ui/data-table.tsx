@@ -348,6 +348,8 @@ export function DataTableRowLimit() {
                   {...field}
                   disabled={isSubmitting}
                   onChange={event => field.onChange(+event.target.value)}
+                  min={10}
+                  max={500}
                 />
               </FormControl>
               <FormLabel className="text-muted-foreground whitespace-nowrap mt-0 text-xs">

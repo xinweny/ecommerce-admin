@@ -38,7 +38,7 @@ export function BillboardClient({
           description="Manage store billboards"
         />
         <Button onClick={() => {
-          router.push("/store/billboards/add");
+          router.push("/billboards/add");
         }}>
           <Plus className="mr-2 h-4 w-4" />
           <span>New Billboard</span>

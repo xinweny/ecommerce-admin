@@ -66,7 +66,7 @@ export function Sidebar({
         >
           <SidebarDesktopAccordionLink
             label="Billboards"
-            href="/store/billboards"
+            href="/billboards"
             icon={ImageIcon}
           />
           <SidebarDesktopAccordionLink
