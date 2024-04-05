@@ -3,7 +3,12 @@ import { cache } from "react";
 
 import { db } from "../client";
 
-import { paginate, orderBy, DbQueryParams } from "@/lib/db-query";
+import {
+  where,
+  paginate,
+  orderBy,
+  DbQueryParams,
+} from "@/lib/db-query";
 
 const adminSubcategory = Prisma.validator<Prisma.SubcategoryDefaultArgs>()({
   include: {
@@ -26,15 +31,10 @@ export const getSubcategoryById = cache(async (subcategoryId: number) => {
 
 export const getQueriedSubcategories = cache(async (params: DbQueryParams) => {
   try {
-    const { pagination, sort, query } = params;
+    const { pagination, sort, filter } = params;
 
     const subcategories = await db.subcategory.findMany({
-      where: {
-        name: {
-          contains: query,
-          mode: "insensitive",
-        },
-      },
+      ...where(filter),
       ...adminSubcategory,
       ...paginate(pagination),
       ...orderBy(sort),

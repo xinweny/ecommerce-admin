@@ -11,6 +11,7 @@ export interface BillboardRow {
   label: string;
   createdAt: string;
   storeId: string;
+  categoryCount: number;
 }
  
 export const columns: ColumnDef<BillboardRow>[] = [
@@ -38,6 +39,15 @@ export const columns: ColumnDef<BillboardRow>[] = [
       <ToggleSort
         column={column}
         label="Created"
+      />
+    ),
+  },
+  {
+    accessorKey: "categoryCount",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="Categories"
       />
     ),
   },

@@ -1,9 +1,10 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import { useRouter, useParams } from "next/navigation";
-import { Billboard } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+
+import { AdminBillboard } from "@/db/query/billboard";
 
 import { Heading } from "@/components/shared/heading";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { BillboardRow, columns } from "./columns";
 
 interface BillboardClientProps {
-  billboards: Billboard[];
+  billboards: AdminBillboard[];
   totalCount: number;
 }
 
@@ -22,12 +23,12 @@ export function BillboardClient({
   totalCount,
 }: BillboardClientProps) {
   const router = useRouter();
-  const params = useParams();
 
-  const data = billboards.map(({ id, label, createdAt }) => ({
+  const data = billboards.map(({ id, label, createdAt, _count }) => ({
     id,
     label,
     createdAt: format(createdAt, "dd/mm/yyyy"),
+    categoryCount: _count.categories,
   } as BillboardRow));
 
   return (

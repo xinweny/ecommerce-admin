@@ -27,17 +27,19 @@ export default async function SubcategoriesPage({
 }: SubcategoriesPageProps) {
   const [subcategories, totalCount] = await Promise.all([
     getQueriedSubcategories({
-      pagination: {
-        page,
-        limit,
-      },
+      pagination: { page, limit },
       sort: {
         id,
         name,
         slug,
         productCount,
       },
-      query,
+      filter: {
+        name: {
+          contains: query,
+          mode: "insensitive",
+        },
+      },
     }),
     getSubcategoriesCount(),
   ])

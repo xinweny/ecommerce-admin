@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 export interface DbQueryParams {
   pagination?: Pagination;
   sort?: Sort;
-  query?: string;
+  filter?: Object;
 }
 
 interface Pagination {
@@ -65,4 +65,12 @@ export const orderBy = (sort?: Sort) => {
   }
 
   return { orderBy: sortParams };
+};
+
+export const where = (filter?: Object) => {
+  if (!filter) return undefined;
+
+  return {
+    where: filter,
+  };
 };

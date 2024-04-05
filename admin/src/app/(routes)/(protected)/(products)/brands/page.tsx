@@ -1,4 +1,4 @@
-export default function BrandFilterPage() {
+export default function BrandsPage() {
   return (
     <></>
   );

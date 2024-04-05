@@ -3,7 +3,12 @@ import { cache } from "react";
 
 import { db } from "../client";
 
-import { paginate, orderBy, DbQueryParams } from "@/lib/db-query";
+import {
+  where,
+  paginate,
+  orderBy,
+  DbQueryParams,
+} from "@/lib/db-query";
 
 const adminCategory = Prisma.validator<Prisma.CategoryDefaultArgs>()({
   include: {
@@ -35,15 +40,10 @@ export const getCategories = cache(async () => {
 
 export const getQueriedCategories = cache(async (params: DbQueryParams) => {
   try {
-    const { pagination, sort, query } = params;
+    const { pagination, sort, filter } = params;
 
     const categories = await db.category.findMany({
-      where: {
-        name: {
-          contains: query,
-          mode: "insensitive",
-        },
-      },
+      ...where(filter),
       ...adminCategory,
       ...paginate(pagination),
       ...orderBy(sort),

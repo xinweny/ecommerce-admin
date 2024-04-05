@@ -31,10 +31,7 @@ export default async function CategoriesPage({
 }: CategoriesPageProps) {
   const [categories, totalCount] = await Promise.all([
     getQueriedCategories({
-      pagination: {
-        page,
-        limit,
-      },
+      pagination: { page, limit },
       sort: {
         id,
         name,
@@ -43,7 +40,12 @@ export default async function CategoriesPage({
         subcategory: { _count: subcategoryCount },
         billboard: { label: billboardLabel },
       },
-      query,
+      filter: {
+        name: {
+          contains: query,
+          mode: "insensitive",
+        },
+      },
     }),
     getCategoriesCount(),
   ]);
