@@ -18,7 +18,7 @@ export const createCategory = async (values: CategorySchema) => {
       },
     });
 
-    revalidatePath("/products/categories");
+    revalidatePath("/categories");
 
     return { success: `${category.name} category created.` };
   } catch (error) {

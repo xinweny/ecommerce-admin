@@ -32,7 +32,7 @@ export const updateBillboard = async (billboardId: number, values: BillboardSche
       }),
     ]);
 
-    revalidatePath(`/dashboard/billboards/${billboard.id}`);
+    revalidatePath(`/billboards/${billboard.id}`);
 
     return { success: `${billboard.label} updated.` };
   } catch {

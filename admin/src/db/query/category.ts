@@ -27,6 +27,12 @@ export const getCategoryById = cache(async (categoryId: number) => {
   return category;
 });
 
+export const getCategories = cache(async () => {
+  const categories = await db.category.findMany();
+
+  return categories;
+});
+
 export const getQueriedCategories = cache(async (params: DbQueryParams) => {
   try {
     const { pagination, sort, query } = params;

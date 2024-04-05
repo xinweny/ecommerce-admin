@@ -30,7 +30,7 @@ export function BillboardSelect({
       />
       <Button
         type="button"
-        disabled={billboardId === null}
+        disabled={!billboardId}
         variant="link"
         onClick={() => { setValue(name, null); }}
       >

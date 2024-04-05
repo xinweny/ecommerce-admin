@@ -4,43 +4,42 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { Billboard } from "@prisma/client";
+import { Category } from "@prisma/client";
 
-import { categorySchema, type CategorySchema } from "@/schemas/category";
+import { subcategorySchema, type SubcategorySchema } from "@/schemas/subcategory";
 
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
+import { FormSelect } from "@/components/form/form-select";
 import { SubmitButton } from "@/components/form/submit-button";
 
-import { BillboardSelect } from "../../_components/billboard-select";
+import { createSubcategory } from "@/actions/subcategory";
 
-import { createCategory } from "@/actions/category";
-
-interface CreateCategoryFormProps {
-  billboards: Billboard[];
+interface CreateSubcategoryFormProps {
+  categories: Category[];
 }
 
-export function CreateCategoryForm({
-  billboards,
-}: CreateCategoryFormProps) {
+export function CreateSubcategoryForm({
+  categories,
+}: CreateSubcategoryFormProps) {
   const router = useRouter();
 
-  const form = useForm<CategorySchema>({
-    resolver: zodResolver(categorySchema),
+  const form = useForm<SubcategorySchema>({
+    resolver: zodResolver(subcategorySchema),
     defaultValues: {
       name: "",
-      billboardId: undefined,
+      categoryId: undefined,
       slug: "",
     },
   });
 
-  const onSubmit = async (values: CategorySchema) => {
-    const { success, error } = await createCategory(values);
+  const onSubmit = async (values: SubcategorySchema) => {
+    const { success, error } = await createSubcategory(values);
 
     if (success) {
       form.reset();
       toast.success(success);
-      router.push("/categories");
+      router.push("/subcategories");
     };
     if (error) toast.error(error);
   };
@@ -61,13 +60,18 @@ export function CreateCategoryForm({
             label="Slug"
             description="A URL-friendly name for your category, containing only lowercase letters and hyphens."
           />
-          <BillboardSelect
-            name="billboardId"
-            billboards={billboards}
+          <FormSelect
+            name="categoryId"
+            label="Category"
+            placeholder="Select a category"
+            values={categories.map(({ id, name }) => ({
+              value: id,
+              label: name,
+            }))}
           />
         </div>
         <SubmitButton className="ml-auto">
-          Create Category
+          Create Subcategory
         </SubmitButton>
       </form>
     </Form>

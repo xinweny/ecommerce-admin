@@ -18,7 +18,7 @@ export const createBillboard = async (values: BillboardSchema) => {
       },
     });
 
-    revalidatePath("/dashboard/billboards");
+    revalidatePath("/billboards");
 
     return { success: `${billboard.label} created.` };
   } catch (error) {

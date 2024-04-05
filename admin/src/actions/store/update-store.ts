@@ -28,7 +28,7 @@ export const updateStore = async (storeId: number, values: z.infer<typeof storeS
 
     if (!store) return { error: "Store not found." };
 
-    revalidatePath(`/dashboard/${store.id}`);
+    revalidatePath("/store");
 
     return { success: "Store updated!" };
   } catch {
