@@ -133,7 +133,6 @@ model Category {
   billboardId Int?
   billboard   Billboard? @relation(fields: [billboardId], references: [id], onDelete: SetNull)
 
-  categoryBrands CategoryBrand[]
   subcategories  Subcategory[]
   products       Product[]
 }
@@ -147,19 +146,9 @@ model Brand {
   updatedAt DateTime @updatedAt
   imageUrl  String?
 
-  categoryBrands CategoryBrand[]
   series         Series[]
   products       Product[]
   finishes       Finish[]
-}
-
-model CategoryBrand {
-  categoryId Int
-  category   Category @relation(fields: [categoryId], references: [id])
-  brandId    Int
-  brand      Brand    @relation(fields: [brandId], references: [id])
-
-  @@id([categoryId, brandId])
 }
 
 model Series {

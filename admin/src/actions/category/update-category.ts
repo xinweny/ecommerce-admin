@@ -16,7 +16,8 @@ export const updateCategory = async (categoryId: number, values: CategorySchema)
       data: { ...values },
     });
 
-    revalidatePath(`/categories`);
+    revalidatePath("/categories");
+    revalidatePath("/subcategories");
 
     return { success: `${category.name} updated.` };
   } catch (error) {
