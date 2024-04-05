@@ -113,7 +113,7 @@ model Billboard {
   id Int @id @default(autoincrement())
 
   imageUrl    String
-  label       String
+  label       String @unique
   title       String?
   description String?
   createdAt   DateTime @default(now())
@@ -125,7 +125,7 @@ model Billboard {
 model Category {
   id Int @id @default(autoincrement())
 
-  name      String
+  name      String @unique
   slug      String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -141,7 +141,7 @@ model Category {
 model Brand {
   id Int @id @default(autoincrement())
 
-  name      String
+  name      String @unique
   slug      String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -177,7 +177,7 @@ model Series {
 model Subcategory {
   id Int @id @default(autoincrement())
 
-  name String
+  name String @unique
   slug String @unique
 
   categoryId Int
@@ -191,8 +191,8 @@ model Product {
   id Int @id @default(autoincrement())
 
   name        String
-  sku         String
-  model       String?
+  sku         String @unique
+  model       String?  @unique
   description String
   videoUrl    String?
 
