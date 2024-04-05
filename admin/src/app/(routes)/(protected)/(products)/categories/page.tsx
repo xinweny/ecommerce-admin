@@ -4,6 +4,7 @@ import { CategoryClient } from "./_components/category-client";
 
 interface CategoriesPageProps {
   searchParams: {
+    id?: string;
     page?: string;
     limit?: string;
     name?: string;
@@ -17,8 +18,9 @@ interface CategoriesPageProps {
 
 export default async function CategoriesPage({
   searchParams: {
-    page = "1",
-    limit = "20",
+    id,
+    page,
+    limit,
     name,
     slug,
     productCount,
@@ -30,10 +32,11 @@ export default async function CategoriesPage({
   const [categories, totalCount] = await Promise.all([
     getQueriedCategories({
       pagination: {
-        page: +page,
-        limit: +limit,
+        page,
+        limit,
       },
       sort: {
+        id,
         name,
         slug,
         product: { _count: productCount },

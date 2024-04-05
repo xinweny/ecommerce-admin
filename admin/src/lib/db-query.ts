@@ -7,8 +7,8 @@ export interface DbQueryParams {
 }
 
 interface Pagination {
-  page: number;
-  limit: number;
+  page?: string;
+  limit?: string;
 }
 
 type SubSort = { [key: string]: string | undefined };
@@ -20,7 +20,8 @@ interface Sort {
 export const paginate = (pagination?: Pagination) => {
   if (!pagination) return undefined;
 
-  const { page, limit } = pagination;
+  const page = pagination.page ? +pagination.page : 1;
+  const limit = pagination.limit ? +pagination.limit : 20;
 
   if (Number.isNaN(page) || Number.isNaN(limit)) return {
     take: 20,

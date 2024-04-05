@@ -21,6 +21,15 @@ export interface CategoryRow {
 
 export const columns: ColumnDef<CategoryRow>[] = [
   {
+    accessorKey: "id",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="ID"
+      />
+    ),
+  },
+  {
     accessorKey: "name",
     header: ({ column }) => (
       <ToggleSort

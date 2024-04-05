@@ -32,14 +32,13 @@ export function CellAction({
   data,
 }: CellActionProps) {
   const router = useRouter();
-  const params = useParams();
 
   const { id } = data;
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success(`Category ID ${id} copied!`);
-  }
+    toast.success("ID copied.");
+  };
 
   const onDelete = async () => {
     const { success, error } = await deleteCategory(data.id);
@@ -51,7 +50,7 @@ export function CellAction({
 
     if (success) {
       toast.success(success);
-      router.push("/dashboard/categories");
+      router.push("/categories");
     }
   };
 
@@ -71,14 +70,14 @@ export function CellAction({
           </DropdownMenuItem>
           {data.billboard && (
             <DropdownMenuItem onClick={() => {
-              router.push(`/store/billboards/${data.billboard!.id}`);
+              router.push(`/billboards/edit?billboardId=${data.billboard!.id}`);
             }}>
               <ImageIcon className="mr-2 h-4 w-4" />
               <span>Manage Billboard</span>
             </DropdownMenuItem>
           )}
           <DropdownMenuItem onSelect={() => {
-            router.push(`/products/categories/edit?categoryId=${data.id}`);
+            router.push(`/categories/edit?categoryId=${data.id}`);
           }}>
             <Edit className="mr-2 h-4 w-4" />
             <span>Edit</span>

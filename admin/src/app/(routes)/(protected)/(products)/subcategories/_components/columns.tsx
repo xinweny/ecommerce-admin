@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { ToggleSort } from "@/components/ui/data-table";
+import { CellAction } from "./cell-action";
 
 export interface SubcategoryRow {
   id: number;
@@ -16,6 +17,15 @@ export interface SubcategoryRow {
 }
 
 export const columns: ColumnDef<SubcategoryRow>[] = [
+  {
+    accessorKey: "id",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="ID"
+      />
+    ),
+  },
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -55,16 +65,7 @@ export const columns: ColumnDef<SubcategoryRow>[] = [
     ),
   },
   {
-    accessorKey: "subcategoryCount",
-    header: ({ column }) => (
-      <ToggleSort
-        column={column}
-        label="Subcategories"
-      />
-    ),
-  },
-  {
     id: "actions",
-    cell: ({ row }) => <></>
-  }
+    cell: ({ row }) => <CellAction data={row.original} />,
+  },
 ];

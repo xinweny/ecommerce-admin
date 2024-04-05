@@ -15,6 +15,15 @@ export interface BillboardRow {
  
 export const columns: ColumnDef<BillboardRow>[] = [
   {
+    accessorKey: "id",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="ID"
+      />
+    ),
+  },
+  {
     accessorKey: "label",
     header: ({ column }) => (
       <ToggleSort

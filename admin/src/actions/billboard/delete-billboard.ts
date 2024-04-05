@@ -25,7 +25,7 @@ export const deleteBillboard = async (billboardId: number) => {
       }),
     ]);
 
-    revalidatePath("/dashboard/billboards");
+    revalidatePath("/billboards");
 
     return { success: `${billboard.label} deleted.` };
   } catch {
