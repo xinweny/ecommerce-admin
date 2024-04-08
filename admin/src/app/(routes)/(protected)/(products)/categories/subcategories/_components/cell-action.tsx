@@ -49,7 +49,7 @@ export function CellAction({
 
     if (success) {
       toast.success(success);
-      router.push("/subcategories");
+      router.push("/categories/subcategories");
     }
   };
 
@@ -68,7 +68,7 @@ export function CellAction({
             <span>Copy ID</span>
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={() => {
-            router.push(`/subcategories/edit?subcategoryId=${data.id}`);
+            router.push(`/categories/subcategories/edit?subcategoryId=${data.id}`);
           }}>
             <Edit className="mr-2 h-4 w-4" />
             <span>Edit</span>

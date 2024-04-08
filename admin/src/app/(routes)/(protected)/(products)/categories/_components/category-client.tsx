@@ -37,7 +37,7 @@ export function CategoryClient({
   });
 
   return (
-    <>
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
         <Heading
           title="Categories"
@@ -56,6 +56,6 @@ export function CategoryClient({
         columns={columns}
         totalCount={totalCount}
       />
-    </>
+    </div>
   );
 }

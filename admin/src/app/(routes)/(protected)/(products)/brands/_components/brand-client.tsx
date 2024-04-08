@@ -34,7 +34,7 @@ export function BrandClient({
   });
 
   return (
-    <>
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
         <Heading
           title="Brands"
@@ -53,6 +53,6 @@ export function BrandClient({
         columns={columns}
         totalCount={totalCount}
       />
-    </>
+    </div>
   );
 }

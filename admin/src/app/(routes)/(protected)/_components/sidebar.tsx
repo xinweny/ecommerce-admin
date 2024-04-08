@@ -6,7 +6,6 @@ import {
   ShoppingBag,
   PianoIcon,
   Store,
-  Box,
   Boxes,
   Award,
   Settings,
@@ -52,11 +51,6 @@ export function Sidebar({
           <SidebarDesktopAccordionLink
             label="Categories"
             href="/categories"
-            icon={Box}
-          />
-          <SidebarDesktopAccordionLink
-            label="Subcategories"
-            href="/subcategories"
             icon={Boxes}
           />
         </SidebarDesktopAccordion>

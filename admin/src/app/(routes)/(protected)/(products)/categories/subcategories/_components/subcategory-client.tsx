@@ -34,14 +34,14 @@ export function SubcategoryClient({
   });
 
   return (
-    <>
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
         <Heading
           title="Subcategories"
           description="Manage product subcategories"
         />
         <Button onClick={() => {
-          router.push("/subcategories/add");
+          router.push("/categories/subcategories/add");
         }}>
           <Plus className="mr-2 h-4 w-4" />
           <span>New Subcategory</span>
@@ -53,6 +53,6 @@ export function SubcategoryClient({
         columns={columns}
         totalCount={totalCount}
       />
-    </>
+    </div>
   );
 }

@@ -32,7 +32,7 @@ export function BillboardClient({
   } as BillboardRow));
 
   return (
-    <>
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
       <Heading
           title="Billboards"
@@ -51,6 +51,6 @@ export function BillboardClient({
         columns={columns}
         totalCount={totalCount}
       />
-    </>
+    </div>
   );
 }

@@ -41,7 +41,7 @@ export function UpdateSubcategoryForm({
     if (success) {
       form.reset();
       toast.success(success);
-      router.push("/subcategories");
+      router.push("/categories/subcategories");
     };
     if (error) toast.error(error);
   };
