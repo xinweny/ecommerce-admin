@@ -4,44 +4,41 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { Category, Subcategory } from "@prisma/client";
+import { Brand } from "@prisma/client";
 
-import { subcategorySchema, type SubcategorySchema } from "@/schemas/subcategory";
+import { brandSchema, type BrandSchema } from "@/schemas/brand";
 
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { SubmitButton } from "@/components/form/submit-button";
 
-import { updateSubcategory } from "@/actions/subcategory";
+import { updateBrand } from "@/actions/brand/update-brand";
 
-interface UpdateSubcategoryFormProps {
-  subcategory: Subcategory;
-  categories: Category[];
+interface UpdateBrandFormProps {
+  brand: Brand;
 }
 
-export function UpdateSubcategoryForm({
-  subcategory,
-  categories,
-}: UpdateSubcategoryFormProps) {
+export function UpdateBrandForm({
+  brand,
+}: UpdateBrandFormProps) {
   const router = useRouter();
 
-  const form = useForm<SubcategorySchema>({
-    resolver: zodResolver(subcategorySchema),
+  const form = useForm<BrandSchema>({
+    resolver: zodResolver(brandSchema),
     defaultValues: {
-      name: subcategory.name,
-      categoryId: subcategory.categoryId,
-      slug: subcategory.slug,
+      name: brand.name,
+      slug: brand.slug,
     },
   });
 
-  const onSubmit = async (values: SubcategorySchema) => {
-    const { success, error } = await updateSubcategory(subcategory.id, values);
+  const onSubmit = async (values: BrandSchema) => {
+    const { success, error } = await updateBrand(brand.id, values);
 
     if (success) {
       form.reset();
       toast.success(success);
-      router.push("/subcategories");
+      router.push("/brands");
     };
     if (error) toast.error(error);
   };
@@ -61,15 +58,6 @@ export function UpdateSubcategoryForm({
             name="slug"
             label="Slug"
             description="A URL-friendly name for your category, containing only lowercase letters and hyphens."
-          />
-          <FormSelect
-            name="categoryId"
-            label="Category"
-            placeholder="Select a category"
-            values={categories.map(({ id, name }) => ({
-              value: id,
-              label: name,
-            }))}
           />
         </div>
         <SubmitButton className="ml-auto">

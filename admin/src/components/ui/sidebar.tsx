@@ -96,7 +96,7 @@ export function SidebarDesktopAccordion({
   icon,
   children,
 }: SidebarDesktopAccordionProps) {
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
   const Icon = icon;
 

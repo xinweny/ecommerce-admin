@@ -40,7 +40,7 @@ export function BrandClient({
           description="Manage store brands"
         />
         <Button onClick={() => {
-          router.push("/categories/add");
+          router.push("/brands/add");
         }}>
           <Plus className="mr-2 h-4 w-4" />
           <span>New Brand</span>

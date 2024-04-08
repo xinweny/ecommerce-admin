@@ -20,12 +20,12 @@ import { Button } from "@/components/ui/button";
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { AlertModalContent } from "@/components/modals/alert-modal";
 
-import { CategoryRow } from "./columns";
+import { BrandRow } from "./columns";
 
-import { deleteCategory } from "@/actions/category";
+import { deleteBrand } from "@/actions/brand/delete-brand";
 
 interface CellActionProps {
-  data: CategoryRow;
+  data: BrandRow;
 }
 
 export function CellAction({
@@ -41,7 +41,7 @@ export function CellAction({
   };
 
   const onDelete = async () => {
-    const { success, error } = await deleteCategory(data.id);
+    const { success, error } = await deleteBrand(data.id);
 
     if (error) {
       toast.error(error);
@@ -68,16 +68,8 @@ export function CellAction({
             <Copy className="mr-2 h-4 w-4" />
             <span>Copy ID</span>
           </DropdownMenuItem>
-          {data.billboard && (
-            <DropdownMenuItem onClick={() => {
-              router.push(`/billboards/edit?billboardId=${data.billboard!.id}`);
-            }}>
-              <ImageIcon className="mr-2 h-4 w-4" />
-              <span>Manage Billboard</span>
-            </DropdownMenuItem>
-          )}
           <DropdownMenuItem onSelect={() => {
-            router.push(`/categories/edit?categoryId=${data.id}`);
+            router.push(`/brands/edit?brandId=${data.id}`);
           }}>
             <Edit className="mr-2 h-4 w-4" />
             <span>Edit</span>
