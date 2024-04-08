@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   MoreHorizontal,
   Edit,
-  Copy,
   Trash,
   Image as ImageIcon,
 } from "lucide-react";
@@ -33,13 +32,6 @@ export function CellAction({
 }: CellActionProps) {
   const router = useRouter();
 
-  const { id } = data;
-
-  const onCopy = (id: string) => {
-    navigator.clipboard.writeText(id);
-    toast.success("ID copied.");
-  };
-
   const onDelete = async () => {
     const { success, error } = await deleteCategory(data.id);
 
@@ -64,10 +56,6 @@ export function CellAction({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => { onCopy(id.toString()); }}>
-            <Copy className="mr-2 h-4 w-4" />
-            <span>Copy ID</span>
-          </DropdownMenuItem>
           {data.billboard && (
             <DropdownMenuItem onClick={() => {
               router.push(`/billboards/edit?billboardId=${data.billboard!.id}`);

@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   MoreHorizontal,
   Edit,
-  Copy,
   Trash,
 } from "lucide-react";
 import toast from "react-hot-toast";
@@ -34,11 +33,6 @@ export function CellAction({
 
   const { id } = data;
 
-  const onCopy = (id: string) => {
-    navigator.clipboard.writeText(id);
-    toast.success("ID copied.");
-  };
-
   const onDelete = async () => {
     const { success, error } = await deleteSubcategory(data.id);
 
@@ -63,10 +57,6 @@ export function CellAction({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => { onCopy(id.toString()); }}>
-            <Copy className="mr-2 h-4 w-4" />
-            <span>Copy ID</span>
-          </DropdownMenuItem>
           <DropdownMenuItem onSelect={() => {
             router.push(`/categories/subcategories/edit?subcategoryId=${data.id}`);
           }}>

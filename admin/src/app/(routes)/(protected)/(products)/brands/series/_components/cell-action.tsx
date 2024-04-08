@@ -15,16 +15,15 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { AlertModalContent } from "@/components/modals/alert-modal";
 
-import { BillboardRow } from "./columns";
+import { SeriesRow } from "./columns";
 
-import { deleteBillboard } from "@/actions/billboard";
-import { AlertDialog } from "@/components/ui/alert-dialog";
+import { deleteSubcategory } from "@/actions/subcategory";
 
 interface CellActionProps {
-  data: BillboardRow;
+  data: SeriesRow;
 }
 
 export function CellAction({
@@ -32,8 +31,10 @@ export function CellAction({
 }: CellActionProps) {
   const router = useRouter();
 
+  const { id } = data;
+
   const onDelete = async () => {
-    const { success, error } = await deleteBillboard(data.id);
+    const { success, error } = await deleteSubcategory(data.id);
 
     if (error) {
       toast.error(error);
@@ -42,7 +43,7 @@ export function CellAction({
 
     if (success) {
       toast.success(success);
-      router.push("/billboards");
+      router.push("/categories/subcategories");
     }
   };
 
@@ -56,8 +57,8 @@ export function CellAction({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => {
-            router.push(`/billboards/edit?billboardId=${data.id}`);
+          <DropdownMenuItem onSelect={() => {
+            router.push(`/brands/series/edit?seriesId=${data.id}`);
           }}>
             <Edit className="mr-2 h-4 w-4" />
             <span>Edit</span>
@@ -71,7 +72,7 @@ export function CellAction({
         </DropdownMenuContent>
       </DropdownMenu>
       <AlertModalContent
-        title={`Delete billboard ${data.label}?`}
+        title={`Delete series ${data.name}?`}
         onConfirm={onDelete}
       />
     </AlertDialog>
