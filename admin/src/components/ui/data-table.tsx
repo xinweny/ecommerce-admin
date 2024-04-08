@@ -79,7 +79,9 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center justify-between">
         <DataTableSearch />
-        <span className="text-xs text-muted-foreground mb-4 mr-2 self-end">{`${table.getRowCount()} of ${totalCount} items`}</span>
+        <span className="text-xs text-muted-foreground mb-4 mx-2 self-end">
+          {`${table.getRowCount()} of ${totalCount} items`}
+        </span>
       </div>
       <div className="rounded-md border">
         <Table>
