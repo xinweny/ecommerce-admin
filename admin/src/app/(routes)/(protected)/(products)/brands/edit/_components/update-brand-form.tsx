@@ -10,7 +10,8 @@ import { brandSchema, type BrandSchema } from "@/schemas/brand";
 
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
-import { FormSelect } from "@/components/form/form-select";
+import { ImageUpload } from "@/components/form/image-upload";
+import { ImagePreview } from "@/components/form/image-preview";
 import { SubmitButton } from "@/components/form/submit-button";
 
 import { updateBrand } from "@/actions/brand/update-brand";
@@ -29,6 +30,7 @@ export function UpdateBrandForm({
     defaultValues: {
       name: brand.name,
       slug: brand.slug,
+      imageUrl: brand.imageUrl,
     },
   });
 
@@ -58,6 +60,19 @@ export function UpdateBrandForm({
             name="slug"
             label="Slug"
             description="A URL-friendly name for your category, containing only lowercase letters and hyphens."
+          />
+          <ImageUpload
+            label="Brand Image"
+            folder="/brands"
+            name="imageUrl"
+            preview={
+              <ImagePreview
+                name="imageUrl"
+                listClassName="mb-4 flex items-center gap-4"
+                containerClassName="w-[480px] h-[480px]"
+              />
+            }
+            withRemove
           />
         </div>
         <SubmitButton className="ml-auto">

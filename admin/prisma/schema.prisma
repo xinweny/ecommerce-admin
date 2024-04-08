@@ -180,7 +180,6 @@ model Product {
   id Int @id @default(autoincrement())
 
   name        String
-  sku         String @unique
   model       String?  @unique
   description String
   videoUrl    String?
@@ -226,6 +225,7 @@ model ProductItem {
   id Int @id @default(autoincrement())
 
   price Int
+  sku   String @unique
   stock Int
 
   finishId Int?

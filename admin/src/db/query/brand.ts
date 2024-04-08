@@ -15,6 +15,7 @@ const adminBrand = Prisma.validator<Prisma.BrandDefaultArgs>()({
     _count: {
       select: {
         products: true,
+        series: true,
       },
     },
   },

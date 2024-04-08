@@ -11,6 +11,7 @@ export interface BrandRow {
   name: string;
   slug: string;
   productCount: number;
+  seriesCount: number;
 }
 
 export const columns: ColumnDef<BrandRow>[] = [
@@ -41,6 +42,15 @@ export const columns: ColumnDef<BrandRow>[] = [
       />
     ),
     
+  },
+  {
+    accessorKey: "seriesCount",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="Series"
+      />
+    ),
   },
   {
     accessorKey: "productCount",

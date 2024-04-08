@@ -25,6 +25,7 @@ interface ImageUploadProps {
   folder?: string;
   publicId?: string;
   preview?: React.ReactNode;
+  withRemove?: boolean;
 }
 
 export function ImageUpload({
@@ -34,6 +35,7 @@ export function ImageUpload({
   folder,
   publicId,
   preview,
+  withRemove = false,
 }: ImageUploadProps) {
   const isMounted = useIsMounted();
 
@@ -61,6 +63,10 @@ export function ImageUpload({
           );
         };
 
+        const onRemove = () => {
+          field.onChange(null);
+        };
+
         const onSuccess = (result: CloudinaryUploadWidgetResults) => {
           const info = result.info as CloudinaryUploadWidgetInfo;
           onChange(info.secure_url);
@@ -72,33 +78,44 @@ export function ImageUpload({
             <FormControl>
               <div>
                 {preview}
-                <CldUploadWidget
-                  uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
-                  signatureEndpoint="/api/cloudinary/sign"
-                  onSuccess={onSuccess}
-                  onError={() =>  { toast.error("Image upload failed."); }}
-                  options={{
-                    publicId,
-                    folder: `ecommerce/${folder || ''}`,
-                    sources: ["local"],
-                    maxFiles: limit,
-                    multiple: limit > 1,
-                    clientAllowedFormats: ["jpg", "jpeg", "png", "webp", "gif"],
-                    resourceType: "image",
-                  }}
-                >
-                  {({ open }) => (
+                <div className="flex gap-2">
+                  <CldUploadWidget
+                    uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+                    signatureEndpoint="/api/cloudinary/sign"
+                    onSuccess={onSuccess}
+                    onError={() =>  { toast.error("Image upload failed."); }}
+                    options={{
+                      publicId,
+                      folder: `ecommerce/${folder || ''}`,
+                      sources: ["local"],
+                      maxFiles: limit,
+                      multiple: limit > 1,
+                      clientAllowedFormats: ["jpg", "jpeg", "png", "webp", "gif"],
+                      resourceType: "image",
+                    }}
+                  >
+                    {({ open }) => (
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        disabled={isSubmitting}
+                        onClick={() => { open(); }}
+                      >
+                        <ImagePlus className="h-4 w-4 mr-2" />
+                        <span>Upload an image</span>
+                      </Button>
+                    )}
+                  </CldUploadWidget>
+                  {(withRemove && limit === 1 )&& (
                     <Button
+                      onClick={onRemove}
                       type="button"
-                      variant="secondary"
-                      disabled={isSubmitting}
-                      onClick={() => { open(); }}
+                      variant="link"
                     >
-                      <ImagePlus className="h-4 w-4 mr-2" />
-                      <span>Upload an image</span>
+                      Remove
                     </Button>
                   )}
-                </CldUploadWidget>
+                </div>
               </div>
             </FormControl>
           </FormItem>

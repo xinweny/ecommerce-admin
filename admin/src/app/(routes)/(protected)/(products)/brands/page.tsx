@@ -10,8 +10,7 @@ interface BrandsPageProps {
     name?: string;
     slug?: string;
     productCount?: string;
-    subcategoryCount?: string;
-    billboardLabel?: string;
+    seriesCount?: string;
     query?: string;
   }
 }
@@ -24,6 +23,7 @@ export default async function BrandsPage({
     name,
     slug,
     productCount,
+    seriesCount,
     query,
   },
 }: BrandsPageProps) {
@@ -35,6 +35,7 @@ export default async function BrandsPage({
         name,
         slug,
         product: { _count: productCount },
+        series: { _count: seriesCount },
       },
       filter: {
         name: {

@@ -12,7 +12,7 @@ export const createBrand = async (values: BrandSchema) => {
 
     if (!validatedFields.success) return { error: "Invalid fields." };
 
-    const category = await db.brand.create({
+    const brand = await db.brand.create({
       data: {
         ...values,
       },
@@ -20,7 +20,7 @@ export const createBrand = async (values: BrandSchema) => {
 
     revalidatePath("/brands");
 
-    return { success: `${category.name} brand created.` };
+    return { success: `${brand.name} brand created.` };
   } catch (error) {
     console.log(error);
     return { error: "Something went wrong." };

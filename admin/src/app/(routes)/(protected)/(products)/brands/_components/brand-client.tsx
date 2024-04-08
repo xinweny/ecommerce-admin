@@ -29,6 +29,7 @@ export function BrandClient({
       name,
       slug,
       productCount: _count.products,
+      seriesCount: _count.series,
     };
   });
 

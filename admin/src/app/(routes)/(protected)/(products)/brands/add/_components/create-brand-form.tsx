@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { brandSchema, type BrandSchema } from "@/schemas/brand";
 
 import { Form } from "@/components/ui/form";
+import { ImageUpload } from "@/components/form/image-upload";
+import { ImagePreview } from "@/components/form/image-preview";
 import { FormInput } from "@/components/form/form-input";
 import { SubmitButton } from "@/components/form/submit-button";
 
@@ -21,6 +23,7 @@ export function CreateBrandForm() {
     defaultValues: {
       name: "",
       slug: "",
+      imageUrl: null,
     },
   });
 
@@ -50,6 +53,19 @@ export function CreateBrandForm() {
             name="slug"
             label="Slug"
             description="A URL-friendly name for your category, containing only lowercase letters and hyphens."
+          />
+          <ImageUpload
+            label="Brand Image"
+            folder="/brands"
+            name="imageUrl"
+            preview={
+              <ImagePreview
+                name="imageUrl"
+                listClassName="mb-4 flex items-center gap-4"
+                containerClassName="w-[480px] h-[480px]"
+              />
+            }
+            withRemove
           />
         </div>
         <SubmitButton className="ml-auto">

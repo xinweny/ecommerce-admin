@@ -83,7 +83,7 @@ export function CellAction({
         </DropdownMenuContent>
       </DropdownMenu>
       <AlertModalContent
-        title={`Delete category ${data.name}?`}
+        title={`Delete brand ${data.name}?`}
         onConfirm={onDelete}
       />
     </AlertDialog>
