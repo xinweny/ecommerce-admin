@@ -3,7 +3,7 @@
 import { db } from "@/db/client";
 import { revalidatePath } from "next/cache";
 
-import { subcategorySchema, SubcategorySchema } from "@/schemas/subcategory";
+import { subcategorySchema, type SubcategorySchema } from "@/schemas/subcategory";
 
 export const updateSubcategory = async (subcategoryId: number, values: SubcategorySchema) => {
   try {
@@ -16,7 +16,7 @@ export const updateSubcategory = async (subcategoryId: number, values: Subcatego
       data: { ...values },
     });
 
-    revalidatePath("/subcategories");
+    revalidatePath("/categories/subcategories");
 
     return { success: `${subcategory.name} updated.` };
   } catch (error) {

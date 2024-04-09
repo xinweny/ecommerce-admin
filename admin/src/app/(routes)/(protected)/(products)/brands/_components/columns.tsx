@@ -41,7 +41,6 @@ export const columns: ColumnDef<BrandRow>[] = [
         label="Slug"
       />
     ),
-    
   },
   {
     accessorKey: "seriesCount",

@@ -12,15 +12,15 @@ import { Button } from "@/components/ui/button";
 
 import { SeriesRow, columns } from "./columns";
 
-interface SubcategoryClientProps {
+interface SeriesClientProps {
   series: AdminSeries[];
   totalCount: number;
 }
 
-export function SubcategoryClient({
+export function SeriesClient({
   series,
   totalCount,
-}: SubcategoryClientProps) {
+}: SeriesClientProps) {
   const router = useRouter();
 
   const data: SeriesRow[] = series.map(({ id, name, slug, brand, _count }) => {

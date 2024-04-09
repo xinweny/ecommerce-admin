@@ -46,7 +46,6 @@ export const columns: ColumnDef<CategoryRow>[] = [
         label="Slug"
       />
     ),
-    
   },
   {
     accessorKey: "billboardLabel",

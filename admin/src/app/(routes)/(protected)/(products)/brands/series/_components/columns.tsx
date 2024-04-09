@@ -43,7 +43,16 @@ export const columns: ColumnDef<SeriesRow>[] = [
         label="Slug"
       />
     ),
-    
+  },
+  {
+    accessorKey: "brandName",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="Brand"
+      />
+    ),
+    cell: (({ row }) => row.original.brand.name),
   },
   {
     accessorKey: "productCount",

@@ -41,14 +41,14 @@ export const getQueriedSeries = cache(async (params: DbQueryParams) => {
   try {
     const { pagination, sort, filter } = params;
 
-    const categories = await db.category.findMany({
+    const series = await db.series.findMany({
       ...where(filter),
       ...adminSeries,
       ...paginate(pagination),
       ...orderBy(sort),
     });
   
-    return categories;
+    return series;
   } catch (error) {
     return [];
   }

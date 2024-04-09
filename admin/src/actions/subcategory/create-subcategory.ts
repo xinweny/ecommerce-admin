@@ -18,7 +18,7 @@ export const createSubcategory = async (values: SubcategorySchema) => {
       },
     });
 
-    revalidatePath("/subcategories");
+    revalidatePath("/categories/subcategories");
 
     return { success: `${category.name} subcategory created.` };
   } catch (error) {

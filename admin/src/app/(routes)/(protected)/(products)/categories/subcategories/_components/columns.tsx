@@ -43,7 +43,6 @@ export const columns: ColumnDef<SubcategoryRow>[] = [
         label="Slug"
       />
     ),
-    
   },
   {
     accessorKey: "categoryName",

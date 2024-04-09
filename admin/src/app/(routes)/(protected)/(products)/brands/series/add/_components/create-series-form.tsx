@@ -4,42 +4,42 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { Category } from "@prisma/client";
+import { Brand } from "@prisma/client";
 
-import { subcategorySchema, type SubcategorySchema } from "@/schemas/subcategory";
+import { seriesSchema, type SeriesSchema } from "@/schemas/series";
 
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { SubmitButton } from "@/components/form/submit-button";
 
-import { createSubcategory } from "@/actions/subcategory";
+import { createSeries } from "@/actions/series";
 
-interface CreateSubcategoryFormProps {
-  categories: Category[];
+interface CreateSeriesFormProps {
+  brands: Brand[];
 }
 
-export function CreateSubcategoryForm({
-  categories,
-}: CreateSubcategoryFormProps) {
+export function CreateSeriesForm({
+  brands,
+}: CreateSeriesFormProps) {
   const router = useRouter();
 
-  const form = useForm<SubcategorySchema>({
-    resolver: zodResolver(subcategorySchema),
+  const form = useForm<SeriesSchema>({
+    resolver: zodResolver(seriesSchema),
     defaultValues: {
       name: "",
-      categoryId: undefined,
+      brandId: undefined,
       slug: "",
     },
   });
 
-  const onSubmit = async (values: SubcategorySchema) => {
-    const { success, error } = await createSubcategory(values);
+  const onSubmit = async (values: SeriesSchema) => {
+    const { success, error } = await createSeries(values);
 
     if (success) {
       form.reset();
       toast.success(success);
-      router.push("/subcategories");
+      router.push("/brands/series");
     };
     if (error) toast.error(error);
   };
@@ -61,17 +61,17 @@ export function CreateSubcategoryForm({
             description="A URL-friendly name for your category, containing only lowercase letters and hyphens."
           />
           <FormSelect
-            name="categoryId"
-            label="Category"
-            placeholder="Select a category"
-            values={categories.map(({ id, name }) => ({
+            name="brandId"
+            label="Brand"
+            placeholder="Select a brand"
+            values={brands.map(({ id, name }) => ({
               value: id,
               label: name,
             }))}
           />
         </div>
         <SubmitButton className="ml-auto">
-          Create Subcategory
+          Create Series
         </SubmitButton>
       </form>
     </Form>

@@ -1,13 +1,13 @@
-import { getCategories } from "@/db/query/category";
+import { getBrands } from "@/db/query/brand";
 
-import { CreateSubcategoryForm } from "./_components/create-subcategory-form";
+import { CreateSeriesForm } from "./_components/create-series-form";
 
-export default async function CreateSubcategoryPage() {
-  const categories = await getCategories();
+export default async function CreateSeriesPage() {
+  const brands = await getBrands();
 
   return (
-    <CreateSubcategoryForm
-      categories={categories}
+    <CreateSeriesForm
+      brands={brands}
     />
   );
 }

@@ -31,8 +31,6 @@ export function CellAction({
 }: CellActionProps) {
   const router = useRouter();
 
-  const { id } = data;
-
   const onDelete = async () => {
     const { success, error } = await deleteBrand(data.id);
 
