@@ -1,27 +1,27 @@
 import { redirect } from "next/navigation";
 
-import { getSubcategoryById } from "@/db/query/subcategory";
-import { getCategories } from "@/db/query/category";
+import { getSeriesById } from "@/db/query/series";
+import { getBrands } from "@/db/query/brand";
 
-import { UpdateSubcategoryForm } from "./_components/update-subcategory-form";
+import { UpdateSubcategoryForm } from "./_components/update-series-form";
 
-interface EditSubcategoryPageProps {
-  searchParams: { subcategoryId: string };
+interface EditSeriesPageProps {
+  searchParams: { seriesId: string };
 }
 
-export default async function EditSubcategoryPage({
-  searchParams: { subcategoryId },
-}: EditSubcategoryPageProps) {
-  const subcategory = await getSubcategoryById(+subcategoryId);
+export default async function EditSeriesPage({
+  searchParams: { seriesId },
+}: EditSeriesPageProps) {
+  const series = await getSeriesById(+seriesId);
 
-  if (!subcategory) redirect("/subcategories");
+  if (!series) redirect("/brands/series");
 
-  const categories = await getCategories();
+  const brands = await getBrands();
 
   return (
     <UpdateSubcategoryForm
-      subcategory={subcategory}
-      categories={categories}
+      series={series}
+      brands={brands}
     />
   );
 }

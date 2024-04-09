@@ -14,7 +14,7 @@ export default async function EditSubcategoryPage({
 }: EditSubcategoryPageProps) {
   const subcategory = await getSubcategoryById(+subcategoryId);
 
-  if (!subcategory) redirect("/subcategories");
+  if (!subcategory) redirect("/categories/subcategories");
 
   const categories = await getCategories();
 

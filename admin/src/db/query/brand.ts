@@ -32,7 +32,7 @@ export const getBrandById = cache(async (brandId: number) => {
 });
 
 export const getBrands = cache(async () => {
-  const brands = await db.category.findMany();
+  const brands = await db.brand.findMany();
 
   return brands;
 });
