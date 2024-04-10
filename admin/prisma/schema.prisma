@@ -188,12 +188,12 @@ model Product {
   subcategoryId Int
   subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
   brandId       Int?
-  brand         Brand?       @relation(fields: [brandId], references: [id])
+  brand         Brand?      @relation(fields: [brandId], references: [id])
   seriesId      Int?
   series        Series?     @relation(fields: [seriesId], references: [id])
 
   productItems      ProductItem[]
-  productVariants ProductVariant[]
+  productAttributes ProductAttributeValue[]
   orders            OrderItem[]
   reviews           Review[]
   specifications    ProductSpecification[]
@@ -207,11 +207,11 @@ model ProductItem {
   stock Int
 
   productId Int
-  product Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 
-  images            ProductItemImage[]
-  orders            OrderItem[]
-  productVariants ProductVariant[]
+  images                 ProductItemImage[]
+  orders                 OrderItem[]
+  productAttributeValues ProductAttributeValue[]
 }
 
 model ProductItemImage {
@@ -234,23 +234,23 @@ model Attribute {
 
 model AttributeValue {
   id    Int    @id @default(autoincrement())
-  value String
+  value String @unique
 
   attributeId Int
   attribute   Attribute @relation(fields: [attributeId], references: [id])
 
-  productVariants ProductVariant[]
+  productAttributeValues ProductAttributeValue[]
 }
 
-model ProductVariant {
+model ProductAttributeValue {
   id Int @id @default(autoincrement())
 
   productId        Int
   product          Product        @relation(fields: [productId], references: [id])
-  productItemId    Int
-  productItem      ProductItem    @relation(fields: [productItemId], references: [id])
   attributeValueId Int
   attributeValue   AttributeValue @relation(fields: [attributeValueId], references: [id])
+  productItemId    Int
+  productItem      ProductItem    @relation(fields: [productItemId], references: [id])
 }
 
 model Specification {

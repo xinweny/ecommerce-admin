@@ -10,7 +10,9 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
-const productIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({});
+const productIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
+  include: {},
+});
 
 const productItemGroupByArgs = Prisma.validator<Prisma.ProductItemGroupByArgs>()({
   by: ["productId"],
@@ -21,6 +23,39 @@ const productItemGroupByArgs = Prisma.validator<Prisma.ProductItemGroupByArgs>()
 export type AdminProduct = Prisma.ProductGetPayload<typeof productIncludeArgs> & {
   productItems: Prisma.GetProductItemGroupByPayload<typeof productItemGroupByArgs> | null,
 };
+
+const productAttributeValuesIncludeArgs = Prisma.validator<Prisma.ProductAttributeValueDefaultArgs>()({
+  include: {
+    attributeValue: {
+      include: {
+        attribute: true,
+      },
+    },
+  },
+});
+
+const productItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()({
+  include: {
+    productAttributeValues: {
+      ...productAttributeValuesIncludeArgs,
+    },
+  },
+});
+
+export type ProductItemWithAttributes = Prisma.ProductItemGetPayload<typeof productItemIncludeArgs>;
+
+const fullProductIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
+  include: {
+    productItems: {
+      include: {
+        images: true,
+        ...productAttributeValuesIncludeArgs,
+      },
+    },
+  },
+});
+
+export type FullProduct = Prisma.ProductGetPayload<typeof fullProductIncludeArgs>;
 
 export const getProductById = cache(async (productId: number) => {
   const product = await db.product.findUnique({
@@ -70,9 +105,23 @@ export const getProductItemsCount = cache(async () => {
   return count;
 });
 
-export const getProductItemsByProductId = cache(async (productId: number) => {
+export const getFullProductById = cache(async (productId: number) => {
+  const product = await db.product.findUnique({
+    where: { id: productId },
+    ...fullProductIncludeArgs,
+  });
+
+  return product;
+});
+
+export const getQueriedProductItems = cache(async (params: DbQueryParams) => {
+  const { pagination, sort, filter } = params;
+
   const productItems = await db.productItem.findMany({
-    where: { productId },
+    ...productItemIncludeArgs,
+    ...where(filter),
+    ...paginate(pagination),
+    ...orderBy(sort),
   });
 
   return productItems;
