@@ -10,7 +10,7 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
-const adminSeries = Prisma.validator<Prisma.SeriesDefaultArgs>()({
+const seriesIncludeArgs = Prisma.validator<Prisma.SeriesDefaultArgs>()({
   include: {
     brand: true,
     _count: {
@@ -21,7 +21,7 @@ const adminSeries = Prisma.validator<Prisma.SeriesDefaultArgs>()({
   },
 });
 
-export type AdminSeries = Prisma.SeriesGetPayload<typeof adminSeries>;
+export type AdminSeries = Prisma.SeriesGetPayload<typeof seriesIncludeArgs>;
 
 export const getSeriesById = cache(async (seriesId: number) => {
   const series = await db.series.findUnique({
@@ -43,7 +43,7 @@ export const getQueriedSeries = cache(async (params: DbQueryParams) => {
 
     const series = await db.series.findMany({
       ...where(filter),
-      ...adminSeries,
+      ...seriesIncludeArgs,
       ...paginate(pagination),
       ...orderBy(sort),
     });

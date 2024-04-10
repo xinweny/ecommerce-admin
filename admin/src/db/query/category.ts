@@ -10,7 +10,7 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
-const adminCategory = Prisma.validator<Prisma.CategoryDefaultArgs>()({
+const categoryIncludeArgs = Prisma.validator<Prisma.CategoryDefaultArgs>()({
   include: {
     billboard: true,
     _count: {
@@ -22,7 +22,7 @@ const adminCategory = Prisma.validator<Prisma.CategoryDefaultArgs>()({
   },
 });
 
-export type AdminCategory = Prisma.CategoryGetPayload<typeof adminCategory>;
+export type AdminCategory = Prisma.CategoryGetPayload<typeof categoryIncludeArgs>;
 
 export const getCategoryById = cache(async (categoryId: number) => {
   const category = await db.category.findUnique({
@@ -44,7 +44,7 @@ export const getQueriedCategories = cache(async (params: DbQueryParams) => {
 
     const categories = await db.category.findMany({
       ...where(filter),
-      ...adminCategory,
+      ...categoryIncludeArgs,
       ...paginate(pagination),
       ...orderBy(sort),
     });

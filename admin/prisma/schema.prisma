@@ -180,22 +180,23 @@ model Product {
 
   name        String
   model       String? @unique
-  description String
+  description String?
   videoUrl    String?
 
   categoryId    Int
   category      Category    @relation(fields: [categoryId], references: [id])
   subcategoryId Int
   subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
-  brandId       Int
-  brand         Brand       @relation(fields: [brandId], references: [id])
+  brandId       Int?
+  brand         Brand?       @relation(fields: [brandId], references: [id])
   seriesId      Int?
   series        Series?     @relation(fields: [seriesId], references: [id])
 
+  productItems      ProductItem[]
+  productVariants ProductVariant[]
   orders            OrderItem[]
   reviews           Review[]
   specifications    ProductSpecification[]
-  productAttributes ProductAttribute[]
 }
 
 model ProductItem {
@@ -205,9 +206,12 @@ model ProductItem {
   sku   String @unique
   stock Int
 
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
+
   images            ProductItemImage[]
   orders            OrderItem[]
-  productAttributes ProductAttribute[]
+  productVariants ProductVariant[]
 }
 
 model ProductItemImage {
@@ -235,10 +239,10 @@ model AttributeValue {
   attributeId Int
   attribute   Attribute @relation(fields: [attributeId], references: [id])
 
-  productAttributes ProductAttribute[]
+  productVariants ProductVariant[]
 }
 
-model ProductAttribute {
+model ProductVariant {
   id Int @id @default(autoincrement())
 
   productId        Int

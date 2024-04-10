@@ -10,7 +10,7 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
-const adminSubcategory = Prisma.validator<Prisma.SubcategoryDefaultArgs>()({
+const subcategoryIncludeArgs = Prisma.validator<Prisma.SubcategoryDefaultArgs>()({
   include: {
     category: true,
     _count: {
@@ -19,7 +19,7 @@ const adminSubcategory = Prisma.validator<Prisma.SubcategoryDefaultArgs>()({
   },
 });
 
-export type AdminSubcategory = Prisma.SubcategoryGetPayload<typeof adminSubcategory>;
+export type AdminSubcategory = Prisma.SubcategoryGetPayload<typeof subcategoryIncludeArgs>;
 
 export const getSubcategoryById = cache(async (subcategoryId: number) => {
   const subcategory = await db.subcategory.findUnique({
@@ -35,7 +35,7 @@ export const getQueriedSubcategories = cache(async (params: DbQueryParams) => {
 
     const subcategories = await db.subcategory.findMany({
       ...where(filter),
-      ...adminSubcategory,
+      ...subcategoryIncludeArgs,
       ...paginate(pagination),
       ...orderBy(sort),
     });

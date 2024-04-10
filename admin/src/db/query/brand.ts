@@ -10,7 +10,7 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
-const adminBrand = Prisma.validator<Prisma.BrandDefaultArgs>()({
+const brandIncludeArgs = Prisma.validator<Prisma.BrandDefaultArgs>()({
   include: {
     _count: {
       select: {
@@ -21,7 +21,7 @@ const adminBrand = Prisma.validator<Prisma.BrandDefaultArgs>()({
   },
 });
 
-export type AdminBrand = Prisma.BrandGetPayload<typeof adminBrand>;
+export type AdminBrand = Prisma.BrandGetPayload<typeof brandIncludeArgs>;
 
 export const getBrandById = cache(async (brandId: number) => {
   const brand = await db.brand.findUnique({
@@ -43,7 +43,7 @@ export const getQueriedBrands = cache(async (params: DbQueryParams) => {
 
     const brands = await db.brand.findMany({
       ...where(filter),
-      ...adminBrand,
+      ...brandIncludeArgs,
       ...paginate(pagination),
       ...orderBy(sort),
     });

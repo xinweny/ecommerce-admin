@@ -10,7 +10,7 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
-const adminBillboard = Prisma.validator<Prisma.BillboardDefaultArgs>()({
+const billboardIncludeArgs = Prisma.validator<Prisma.BillboardDefaultArgs>()({
   include: {
     _count: {
       select: {
@@ -20,7 +20,7 @@ const adminBillboard = Prisma.validator<Prisma.BillboardDefaultArgs>()({
   },
 });
 
-export type AdminBillboard = Prisma.BillboardGetPayload<typeof adminBillboard>;
+export type AdminBillboard = Prisma.BillboardGetPayload<typeof billboardIncludeArgs>;
 
 export const getBillboardById = cache(async (billboardId: number) => {
   const billboard = await db.billboard.findUnique({
@@ -48,7 +48,7 @@ export const getQueriedBillboards = cache(async (params: DbQueryParams) => {
 
     const billboards = await db.billboard.findMany({
       ...where(filter),
-      ...adminBillboard,
+      ...billboardIncludeArgs,
       ...paginate(pagination),
       ...orderBy(sort),
     });
