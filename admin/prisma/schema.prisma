@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch"]
 }
 
@@ -113,7 +113,7 @@ model Billboard {
   id Int @id @default(autoincrement())
 
   imageUrl    String
-  label       String @unique
+  label       String   @unique
   title       String?
   description String?
   createdAt   DateTime @default(now())
@@ -125,30 +125,29 @@ model Billboard {
 model Category {
   id Int @id @default(autoincrement())
 
-  name      String @unique
-  slug      String @unique
+  name      String   @unique
+  slug      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   billboardId Int?
   billboard   Billboard? @relation(fields: [billboardId], references: [id], onDelete: SetNull)
 
-  subcategories  Subcategory[]
-  products       Product[]
+  subcategories Subcategory[]
+  products      Product[]
 }
 
 model Brand {
   id Int @id @default(autoincrement())
 
-  name      String @unique
-  slug      String @unique
+  name      String   @unique
+  slug      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   imageUrl  String?
 
-  series         Series[]
-  products       Product[]
-  finishes       Finish[]
+  series   Series[]
+  products Product[]
 }
 
 model Series {
@@ -180,7 +179,7 @@ model Product {
   id Int @id @default(autoincrement())
 
   name        String
-  model       String?  @unique
+  model       String? @unique
   description String
   videoUrl    String?
 
@@ -193,32 +192,10 @@ model Product {
   seriesId      Int?
   series        Series?     @relation(fields: [seriesId], references: [id])
 
-  orders         OrderItem[]
-  reviews        Review[]
-  specifications ProductSpecification[]
-}
-
-model Finish {
-  id Int @id @default(autoincrement())
-
-  name  String
-  value String
-
-  brandId Int
-  brand   Brand @relation(fields: [brandId], references: [id])
-
-  productItems ProductItem[]
-}
-
-model Specification {
-  id Int @id @default(autoincrement())
-
-  key String
-
-  subcategoryId Int
-  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
-
-  products ProductSpecification[]
+  orders            OrderItem[]
+  reviews           Review[]
+  specifications    ProductSpecification[]
+  productAttributes ProductAttribute[]
 }
 
 model ProductItem {
@@ -228,11 +205,9 @@ model ProductItem {
   sku   String @unique
   stock Int
 
-  finishId Int?
-  finish   Finish? @relation(fields: [finishId], references: [id])
-
-  images ProductItemImage[]
-  orders OrderItem[]
+  images            ProductItemImage[]
+  orders            OrderItem[]
+  productAttributes ProductAttribute[]
 }
 
 model ProductItemImage {
@@ -244,6 +219,45 @@ model ProductItemImage {
   productItem   ProductItem @relation(fields: [productItemId], references: [id])
 
   @@index([productItemId])
+}
+
+model Attribute {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  values AttributeValue[]
+}
+
+model AttributeValue {
+  id    Int    @id @default(autoincrement())
+  value String
+
+  attributeId Int
+  attribute   Attribute @relation(fields: [attributeId], references: [id])
+
+  productAttributes ProductAttribute[]
+}
+
+model ProductAttribute {
+  id Int @id @default(autoincrement())
+
+  productId        Int
+  product          Product        @relation(fields: [productId], references: [id])
+  productItemId    Int
+  productItem      ProductItem    @relation(fields: [productItemId], references: [id])
+  attributeValueId Int
+  attributeValue   AttributeValue @relation(fields: [attributeValueId], references: [id])
+}
+
+model Specification {
+  id Int @id @default(autoincrement())
+
+  key String
+
+  subcategoryId Int
+  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
+
+  products ProductSpecification[]
 }
 
 model ProductSpecification {
