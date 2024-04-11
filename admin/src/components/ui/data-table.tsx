@@ -50,20 +50,38 @@ import {
   FormControl,
   FormLabel,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { Button } from "./button";
 import { Input } from "./input";
+
+interface DataTableFilter {
+  name: string;
+  label: string;
+  values: {
+    label: string;
+    value: string;
+  }[];
+}
  
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   totalCount: number;
+  filters?: DataTableFilter[];
 }
  
 export function DataTable<TData, TValue>({
   columns,
   data,
   totalCount,
+  filters = [],
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -78,7 +96,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center justify-between">
-        <DataTableSearch />
+        <DataTableSearch filters={filters} />
         <span className="text-xs text-muted-foreground mb-4 mx-2 self-end">
           {`${table.getRowCount()} of ${totalCount} items`}
         </span>
@@ -185,14 +203,24 @@ export function ToggleSort<TData, TValue>({
 
 interface DataTableSearchProps {
   placeholder?: string;
+  filters: DataTableFilter[];
 }
 
 export function DataTableSearch({
   placeholder = "Search",
+  filters,
 }: DataTableSearchProps) {
+  const searchParams = useSearchParams();
+
   const form = useForm<SearchSchema>({
     resolver: zodResolver(searchSchema),
-    defaultValues: { query: "" },
+    defaultValues: {
+      query: "",
+      ...(filters.reduce((agg, { name }) => ({
+        ...agg,
+        [name]: searchParams.get(name) || "",
+      }), {})),
+    },
   });
 
   const { navigateQueryString } = useQueryString();
@@ -204,11 +232,7 @@ export function DataTableSearch({
   } = form;
 
   const onSubmit = (data: SearchSchema) => {
-    const { query } = data;
-
-    navigateQueryString({
-      query: query ? query : null,
-    });
+    navigateQueryString(data);
   };
 
   return (
@@ -232,6 +256,43 @@ export function DataTableSearch({
             </FormItem>
           )}
         />
+        {filters.map(({ name, label, values }) => (
+          <FormField
+            key={name}
+            control={control}
+            name={name as any}
+            render={({ field }) => (
+              <FormItem>
+                <Select
+                  disabled={isSubmitting}
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue
+                        ref={field.ref}
+                        defaultValue={field.value}
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="">{`All ${label}`}</SelectItem>
+                    {values.map(({ value, label }) => (
+                      <SelectItem
+                        key={value}
+                        value={value.toString()}
+                      >
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+        ))}
         <Button variant="secondary" type="submit">Search</Button>
       </Form>
     </form>

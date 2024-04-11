@@ -37,6 +37,7 @@ export default async function ProductsPage({
     getQueriedProducts({
       pagination: { page, limit },
       sort: {
+        id,
         name,
         slug,
         model,
