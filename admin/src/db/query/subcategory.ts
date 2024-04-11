@@ -51,3 +51,17 @@ export const getSubcategoriesCount = cache(async () => {
 
   return count;
 });
+
+export const getSubcategories = cache(async () => {
+  const subcategories = await db.subcategory.findMany();
+
+  return subcategories;
+});
+
+export const getSubcategoriesByCategoryId = cache(async (categoryId: number) => {
+  const subcategories = await db.subcategory.findMany({
+    where: { categoryId },
+  });
+
+  return subcategories;
+});

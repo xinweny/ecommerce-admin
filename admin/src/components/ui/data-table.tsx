@@ -19,8 +19,6 @@ import {
 } from "@tanstack/react-table";
 
 import {
-  searchSchema,
-  SearchSchema,
   limitSchema,
   LimitSchema,
 } from "@/schemas/query";
@@ -66,7 +64,7 @@ interface DataTableFilter {
   label: string;
   values: {
     label: string;
-    value: string;
+    value: any;
   }[];
 }
  
@@ -212,8 +210,7 @@ export function DataTableSearch({
 }: DataTableSearchProps) {
   const searchParams = useSearchParams();
 
-  const form = useForm<SearchSchema>({
-    resolver: zodResolver(searchSchema),
+  const form = useForm({
     defaultValues: {
       query: "",
       ...(filters.reduce((agg, { name }) => ({
@@ -231,7 +228,7 @@ export function DataTableSearch({
     handleSubmit,
   } = form;
 
-  const onSubmit = (data: SearchSchema) => {
+  const onSubmit = (data: any) => {
     navigateQueryString(data);
   };
 

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
+import { Brand, Category, Series, Subcategory } from "@prisma/client";
 
 import { AdminProduct } from "@/db/query/product";
 
@@ -15,11 +16,18 @@ import { ProductRow, columns } from "./columns";
 interface ProductClientProps {
   products: AdminProduct[];
   totalCount: number;
+  filters: {
+    categories: Category[];
+    subcategories: Subcategory[];
+    brands: Brand[];
+    series: Series[];
+  };
 }
 
 export function ProductClient({
   products,
   totalCount,
+  filters,
 }: ProductClientProps) {
   const router = useRouter();
 
@@ -50,13 +58,47 @@ export function ProductClient({
     };
   });
 
-  const filters = [{
-    name: "categoryId",
-    label: "Categories",
-    values: [
+  const {
+    categories,
+    subcategories,
+    brands,
+    series,
+  } = filters;
 
-    ],
-  }]
+  const productFilters = [
+    {
+      name: "categoryId",
+      label: "Categories",
+      values: categories.map(category => ({
+        label: category.name,
+        value: category.id,
+      })),
+    },
+    {
+      name: "subcategoryId",
+      label: "Subcategories",
+      values: subcategories.map(subcategory => ({
+        label: subcategory.name,
+        value: subcategory.id,
+      })),
+    },
+    {
+      name: "brandId",
+      label: "Brands",
+      values: brands.map(brand => ({
+        label: brand.name,
+        value: brand.id,
+      })),
+    },
+    {
+      name: "seriesId",
+      label: "Series",
+      values: series.map(series => ({
+        label: series.name,
+        value: series.id,
+      })),
+    },
+  ];
 
   return (
     <div className="space-y-4">
@@ -77,7 +119,7 @@ export function ProductClient({
         data={data}
         columns={columns}
         totalCount={totalCount}
-        filters={filters}
+        filters={productFilters}
       />
     </div>
   );

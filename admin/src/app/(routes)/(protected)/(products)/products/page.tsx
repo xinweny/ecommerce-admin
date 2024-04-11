@@ -1,4 +1,8 @@
 import { getQueriedProducts, getProductsCount } from "@/db/query/product";
+import { getCategories } from "@/db/query/category";
+import { getSubcategories } from "@/db/query/subcategory";
+import { getBrands } from "@/db/query/brand";
+import { getSeries } from "@/db/query/series";
 
 import { ProductClient } from "./_components/product-client";
 
@@ -15,6 +19,10 @@ interface ProductsPageProps {
     brandName?: string;
     seriesName?: string;
     query?: string;
+    categoryId?: string;
+    subcategoryId?: string;
+    brandId?: string;
+    seriesId?: string;
   }
 }
 
@@ -31,9 +39,20 @@ export default async function ProductsPage({
     brandName,
     seriesName,
     query,
+    categoryId,
+    subcategoryId,
+    brandId,
+    seriesId,
   },
 }: ProductsPageProps) {
-  const [products, totalCount] = await Promise.all([
+  const [
+    products,
+    totalCount,
+    categories,
+    subcategories,
+    brands,
+    series,
+  ] = await Promise.all([
     getQueriedProducts({
       pagination: { page, limit },
       sort: {
@@ -54,12 +73,22 @@ export default async function ProductsPage({
       },
     }),
     getProductsCount(),
+    getCategories(),
+    getSubcategories(),
+    getBrands(),
+    getSeries(),
   ]);
 
   return (
     <ProductClient
       products={products}
       totalCount={totalCount}
+      filters={{
+        categories,
+        subcategories,
+        brands,
+        series,
+      }}
     />
   );
 }

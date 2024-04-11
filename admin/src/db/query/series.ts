@@ -37,6 +37,14 @@ export const getSeries = cache(async () => {
   return series;
 });
 
+export const getSeriesByBrandId = cache(async (brandId: number) => {
+  const series = await db.series.findMany({
+    where: { brandId },
+  });
+
+  return series;
+});
+
 export const getQueriedSeries = cache(async (params: DbQueryParams) => {
   try {
     const { pagination, sort, filter } = params;
