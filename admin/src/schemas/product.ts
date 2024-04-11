@@ -15,13 +15,14 @@ export const productSchema = z.object({
   model: z.optional(z.string().min(1)),
   description: z.optional(z.string().min(1)),
   videoUrl: z.optional(z.string().min(1)),
+  slug: z.string().min(1)
+    .refine(v => /^[a-z]+(-[a-z]+)*$/.test(v), "Slug must contain only lowercase letters and hyphens"),
   categoryId: z.number()
     .or(z.string().transform(v => +v)),
   subcategoryId: z.number()
     .or(z.string().transform(v => +v)),
   brandId: z.number()
-    .or(z.string().transform(v => +v))
-    .or(z.null()),
+    .or(z.string().transform(v => +v)),
   seriesId: z.number()
     .or(z.string().transform(v => +v))
     .or(z.null()),

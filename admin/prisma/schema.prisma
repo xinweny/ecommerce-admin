@@ -182,13 +182,14 @@ model Product {
   model       String? @unique
   description String?
   videoUrl    String?
+  slug        String @unique
 
   categoryId    Int
   category      Category    @relation(fields: [categoryId], references: [id])
   subcategoryId Int
   subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
-  brandId       Int?
-  brand         Brand?      @relation(fields: [brandId], references: [id])
+  brandId       Int
+  brand         Brand      @relation(fields: [brandId], references: [id])
   seriesId      Int?
   series        Series?     @relation(fields: [seriesId], references: [id])
 

@@ -11,7 +11,20 @@ import {
 } from "@/lib/db-query";
 
 const productIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
-  include: {},
+  include: {
+    brand: {
+      select: { id: true, name: true },
+    },
+    series: {
+      select: { id: true, name: true },
+    },
+    category: {
+      select: { id: true, name: true },
+    },
+    subcategory: {
+      select: { id: true, name: true },
+    },
+  },
 });
 
 const productItemGroupByArgs = Prisma.validator<Prisma.ProductItemGroupByArgs>()({
@@ -20,36 +33,23 @@ const productItemGroupByArgs = Prisma.validator<Prisma.ProductItemGroupByArgs>()
   _sum: { stock: true },
 });
 
-export type AdminProduct = Prisma.ProductGetPayload<typeof productIncludeArgs> & {
-  productItems: Prisma.GetProductItemGroupByPayload<typeof productItemGroupByArgs> | null,
-};
-
-const productAttributeValuesIncludeArgs = Prisma.validator<Prisma.ProductAttributeValueDefaultArgs>()({
-  include: {
-    attributeValue: {
-      include: {
-        attribute: true,
-      },
-    },
-  },
-});
-
 const productItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()({
-  include: {
-    productAttributeValues: {
-      ...productAttributeValuesIncludeArgs,
-    },
-  },
+  include: { images: true },
 });
 
-export type ProductItemWithAttributes = Prisma.ProductItemGetPayload<typeof productItemIncludeArgs>;
+export type AdminProduct = Prisma.ProductGetPayload<typeof productIncludeArgs> & {
+  productItems: Prisma.PickEnumerable<Prisma.ProductItemGroupByOutputType, ["productId"]> & {
+    _count: number;
+    _sum: { stock: number | null };
+  },
+};
 
 const fullProductIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
   include: {
+    ...productIncludeArgs.include,
     productItems: {
       include: {
         images: true,
-        ...productAttributeValuesIncludeArgs,
       },
     },
   },
@@ -70,6 +70,7 @@ export const getQueriedProducts = cache(async (params: DbQueryParams) => {
     const { pagination, sort, filter } = params;
 
     const products = await db.product.findMany({
+      ...productIncludeArgs,
       ...where(filter),
       ...paginate(pagination),
       ...orderBy(sort),
@@ -84,9 +85,9 @@ export const getQueriedProducts = cache(async (params: DbQueryParams) => {
       ...productItemGroupByArgs,
     });
   
-    return products.map((product) => ({
+    return products.map((product, i) => ({
       ...product,
-      productItems: productItems.find(item => item.productId === product.id) || null,
+      productItems: productItems[i],
     }));
   } catch (error) {
     return [];
@@ -125,18 +126,4 @@ export const getQueriedProductItems = cache(async (params: DbQueryParams) => {
   });
 
   return productItems;
-});
-
-export const getProductAttributes = cache(async () => {
-  const productAttributes = await db.attribute.findMany();
-
-  return productAttributes;
-});
-
-export const getProductAttributeValues = cache(async(attributeId: number) => {
-  const productAttributeValues = await db.attributeValue.findMany({
-    where: { attributeId },
-  });
-
-  return productAttributeValues;
 });
