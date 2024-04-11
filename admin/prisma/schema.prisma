@@ -193,7 +193,6 @@ model Product {
   series        Series?     @relation(fields: [seriesId], references: [id])
 
   productItems      ProductItem[]
-  productAttributes ProductAttributeValue[]
   orders            OrderItem[]
   reviews           Review[]
   specifications    ProductSpecification[]
@@ -211,7 +210,6 @@ model ProductItem {
 
   images                 ProductItemImage[]
   orders                 OrderItem[]
-  productAttributeValues ProductAttributeValue[]
 }
 
 model ProductItemImage {
@@ -223,34 +221,6 @@ model ProductItemImage {
   productItem   ProductItem @relation(fields: [productItemId], references: [id])
 
   @@index([productItemId])
-}
-
-model Attribute {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-
-  values AttributeValue[]
-}
-
-model AttributeValue {
-  id    Int    @id @default(autoincrement())
-  value String @unique
-
-  attributeId Int
-  attribute   Attribute @relation(fields: [attributeId], references: [id])
-
-  productAttributeValues ProductAttributeValue[]
-}
-
-model ProductAttributeValue {
-  id Int @id @default(autoincrement())
-
-  productId        Int
-  product          Product        @relation(fields: [productId], references: [id])
-  attributeValueId Int
-  attributeValue   AttributeValue @relation(fields: [attributeValueId], references: [id])
-  productItemId    Int
-  productItem      ProductItem    @relation(fields: [productItemId], references: [id])
 }
 
 model Specification {
