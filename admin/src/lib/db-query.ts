@@ -43,14 +43,13 @@ export const orderBy = (
 
   const recurse = (
     key: string | undefined,
-    value: SortStack<string> | string | undefined,
-    a: SortStack<Prisma.SortOrder> = {}
+    value: SortStack<string> | string | undefined
   ): SortStack<Prisma.SortOrder> | undefined => {
     if (!key || !value) return undefined;
 
     if (typeof value === "string" && (value in Prisma.SortOrder)) return { [key]: value as Prisma.SortOrder };
 
-    return { [key]: recurse(Object.keys(value)[0], Object.values(value)[0], a) };
+    return { [key]: recurse(Object.keys(value)[0], Object.values(value)[0]) };
   };
 
   for (const [key, value] of Object.entries(sort)) {

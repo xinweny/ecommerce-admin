@@ -1,6 +1,8 @@
 import { getQueriedProducts, getProductsCount } from "@/db/query/product";
 import { getCategories } from "@/db/query/category";
 import { getBrands } from "@/db/query/brand";
+import { getSubcategories } from "@/db/query/subcategory";
+import { getSeries } from "@/db/query/series";
 
 import { ProductClient } from "./_components/product-client";
 
@@ -47,7 +49,9 @@ export default async function ProductsPage({
     products,
     totalCount,
     categories,
+    subcategories,
     brands,
+    series,
   ] = await Promise.all([
     getQueriedProducts({
       pagination: { page, limit },
@@ -74,7 +78,9 @@ export default async function ProductsPage({
     }),
     getProductsCount(),
     getCategories(),
+    getSubcategories(),
     getBrands(),
+    getSeries(),
   ]);
 
   return (
@@ -83,7 +89,9 @@ export default async function ProductsPage({
       totalCount={totalCount}
       filters={{
         categories,
+        subcategories,
         brands,
+        series,
       }}
     />
   );
