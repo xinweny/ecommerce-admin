@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 
 export interface DbQueryParams {
   pagination?: Pagination;
-  sort?: Sort;
+  sort?: SortStack<string>;
   filter?: Object;
 }
 
@@ -11,11 +11,9 @@ interface Pagination {
   limit?: string;
 }
 
-type SubSort = { [key: string]: string | undefined };
-
-interface Sort {
-  [key: string]: string | SubSort | undefined;
-}
+type SortStack<T> = {
+  [key: string]: SortStack<T> | T | undefined;
+};
 
 export const paginate = (pagination?: Pagination) => {
   if (!pagination) return undefined;
@@ -34,37 +32,40 @@ export const paginate = (pagination?: Pagination) => {
   };
 };
 
-export const orderBy = (sort?: Sort) => {
-  if (!sort) return undefined;
+export const orderBy = (
+  sort?: SortStack<string>,
+) => {
+  if (!sort) return;
 
-  const sortParams = [] as {
-    [key: string]: Prisma.SortOrder | SubSort;
-  }[];
+  const acc: {
+    orderBy: SortStack<Prisma.SortOrder>[];
+  } = { orderBy: [] };
+
+  const recurse = (
+    key: string | undefined,
+    value: SortStack<string> | string | undefined,
+    a: SortStack<Prisma.SortOrder> = {}
+  ): SortStack<Prisma.SortOrder> | undefined => {
+    if (!key || !value) return undefined;
+
+    if (typeof value === "string" && (value in Prisma.SortOrder)) return { [key]: value as Prisma.SortOrder };
+
+    return { [key]: recurse(Object.keys(value)[0], Object.values(value)[0], a) };
+  };
 
   for (const [key, value] of Object.entries(sort)) {
     if (!value) continue;
 
-    if (typeof value === "string") {
-      if (value in Prisma.SortOrder) sortParams.push({
-        [key]: (value as Prisma.SortOrder),
-      });
-      continue;
-    }
+    if (typeof value === "string" && (value in Prisma.SortOrder)) {
+      acc.orderBy.push({ [key]: value as Prisma.SortOrder });
+    } else if (typeof value === "object") {
+      const subsort = recurse(key, value);
 
-    if (typeof value === "object") {
-      const subSort = {} as SubSort;
-
-      for (const [k, v] of Object.entries(value)) {
-        if (!v || !(v in Prisma.SortOrder)) continue;
-
-        subSort[k] = v as Prisma.SortOrder;
-      }
-
-      if (Object.keys(subSort).length !== 0) sortParams.push({ [key]: subSort });
+      if (subsort) acc.orderBy.push(subsort);
     }
   }
 
-  return { orderBy: sortParams };
+  return acc;
 };
 
 export const where = (filter?: Object) => {

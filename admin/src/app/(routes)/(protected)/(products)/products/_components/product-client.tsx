@@ -18,9 +18,7 @@ interface ProductClientProps {
   totalCount: number;
   filters: {
     categories: Category[];
-    subcategories: Subcategory[];
     brands: Brand[];
-    series: Series[];
   };
 }
 
@@ -60,9 +58,7 @@ export function ProductClient({
 
   const {
     categories,
-    subcategories,
     brands,
-    series,
   } = filters;
 
   const productFilters = [
@@ -75,27 +71,11 @@ export function ProductClient({
       })),
     },
     {
-      name: "subcategoryId",
-      label: "Subcategories",
-      values: subcategories.map(subcategory => ({
-        label: subcategory.name,
-        value: subcategory.id,
-      })),
-    },
-    {
       name: "brandId",
       label: "Brands",
       values: brands.map(brand => ({
         label: brand.name,
         value: brand.id,
-      })),
-    },
-    {
-      name: "seriesId",
-      label: "Series",
-      values: series.map(series => ({
-        label: series.name,
-        value: series.id,
       })),
     },
   ];

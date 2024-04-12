@@ -93,7 +93,7 @@ export function DataTable<TData, TValue>({
  
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap">
         <DataTableSearch filters={filters} />
         <span className="text-xs text-muted-foreground mb-4 mx-2 self-end">
           {`${table.getRowCount()} of ${totalCount} items`}
@@ -234,7 +234,7 @@ export function DataTableSearch({
 
   return (
     <form
-      className="flex items-center py-4 gap-4"
+      className="flex items-center py-4 gap-4 flex-wrap"
       onSubmit={handleSubmit(onSubmit)}
     >
       <Form {...form}>
