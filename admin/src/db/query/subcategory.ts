@@ -63,5 +63,7 @@ export const getSubcategoriesByCategoryId = cache(async (categoryId: number) => 
     where: { categoryId },
   });
 
+  console.log("HELLO", categoryId, subcategories);
+
   return subcategories;
 });

@@ -25,6 +25,7 @@ interface FormSelectProps {
     value: any;
     label: string;
   }[];
+  disabled?: boolean;
 }
 
 export function FormSelect({
@@ -33,6 +34,7 @@ export function FormSelect({
   placeholder,
   description,
   values,
+  disabled = false,
 }: FormSelectProps) {
   const form = useFormContext();
 
@@ -50,7 +52,7 @@ export function FormSelect({
           <FormLabel>{label}</FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
             <Select
-              disabled={isSubmitting}
+              disabled={isSubmitting || disabled}
               onValueChange={field.onChange}
               value={field.value}
               defaultValue={field.value}
