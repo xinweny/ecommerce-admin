@@ -13,8 +13,10 @@ import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
 import { SubmitButton } from "@/components/form/submit-button";
 import { FormSelect } from "@/components/form/form-select";
+import { FormInputSlug } from "@/components/form/form-input-slug";
 
 import { createProduct } from "@/actions/product";
+import { FormTextarea } from "@/components/form/form-textarea";
 
 interface CreateProductFormProps {
   categories: Category[];
@@ -32,6 +34,7 @@ export function CreateProductForm({
     defaultValues: {
       name: "",
       slug: "",
+      description: "",
       categoryId: undefined,
       subcategoryId: undefined,
       brandId: undefined,
@@ -92,11 +95,7 @@ export function CreateProductForm({
             name="name"
             label="Name"
           />
-          <FormInput
-            name="slug"
-            label="Slug"
-            description="A URL-friendly name for your category, containing only lowercase letters and hyphens."
-          />
+          <FormInputSlug watchName="name" />
           <div>
             <FormSelect
               name="categoryId"
@@ -142,6 +141,10 @@ export function CreateProductForm({
             />
           </div>
         </div>
+        <FormTextarea
+          name="description"
+          label="Description"
+        />
         <SubmitButton className="ml-auto">
           Create Product
         </SubmitButton>

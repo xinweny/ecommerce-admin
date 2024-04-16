@@ -12,6 +12,7 @@ import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
 import { FormSelect } from "@/components/form/form-select";
 import { SubmitButton } from "@/components/form/submit-button";
+import { FormInputSlug } from "@/components/form/form-input-slug";
 
 import { createSeries } from "@/actions/series";
 
@@ -55,11 +56,7 @@ export function CreateSeriesForm({
             name="name"
             label="Name"
           />
-          <FormInput
-            name="slug"
-            label="Slug"
-            description="A URL-friendly name for your category, containing only lowercase letters and hyphens."
-          />
+          <FormInputSlug watchName="name" />
           <FormSelect
             name="brandId"
             label="Brand"

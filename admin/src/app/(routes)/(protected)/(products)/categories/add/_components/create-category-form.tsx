@@ -11,6 +11,7 @@ import { categorySchema, type CategorySchema } from "@/schemas/category";
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
 import { SubmitButton } from "@/components/form/submit-button";
+import { FormInputSlug } from "@/components/form/form-input-slug";
 
 import { BillboardSelect } from "../../_components/billboard-select";
 
@@ -56,11 +57,7 @@ export function CreateCategoryForm({
             name="name"
             label="Name"
           />
-          <FormInput
-            name="slug"
-            label="Slug"
-            description="A URL-friendly name for your category, containing only lowercase letters and hyphens."
-          />
+          <FormInputSlug watchName="name" />
           <BillboardSelect
             name="billboardId"
             billboards={billboards}

@@ -12,6 +12,7 @@ import { ImageUpload } from "@/components/form/image-upload";
 import { ImagePreview } from "@/components/form/image-preview";
 import { FormInput } from "@/components/form/form-input";
 import { SubmitButton } from "@/components/form/submit-button";
+import { FormInputSlug } from "@/components/form/form-input-slug";
 
 import { createBrand } from "@/actions/brand/create-brand";
 
@@ -49,11 +50,7 @@ export function CreateBrandForm() {
             name="name"
             label="Name"
           />
-          <FormInput
-            name="slug"
-            label="Slug"
-            description="A URL-friendly name for your category, containing only lowercase letters and hyphens."
-          />
+          <FormInputSlug watchName="name" />
           <ImageUpload
             label="Brand Image"
             folder="/brands"
