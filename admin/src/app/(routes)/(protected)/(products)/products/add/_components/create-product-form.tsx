@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { Category, Brand, Subcategory } from "@prisma/client";
+import { Category, Brand, Subcategory, Series } from "@prisma/client";
 import useSWR from "swr";
 
 import { productSchema, type ProductSchema } from "@/schemas/product";
@@ -40,6 +40,7 @@ export function CreateProductForm({
   });
 
   const categoryId = form.watch("categoryId");
+  const brandId = form.watch("brandId");
 
   const subcategories = useSWR(
     { categoryId },
@@ -52,6 +53,20 @@ export function CreateProductForm({
       const { data: subcategories } = await response.json();
 
       return subcategories as Subcategory[];
+    }
+  );
+
+  const series = useSWR(
+    { brandId },
+    async ({ brandId }) => {
+      if (!brandId) return;
+
+      form.resetField("subcategoryId");
+
+      const response = await fetch(`/api/series?brandId=${brandId}`);
+      const { data: series } = await response.json();
+
+      return series as Series[];
     }
   );
 
@@ -112,6 +127,18 @@ export function CreateProductForm({
                 label: name,
                 value: id,
               }))}
+            />
+            <FormSelect
+              name="seriesId"
+              label="Series"
+              placeholder="Select a series"
+              values={series.data
+                ? series.data.map(({ id, name }) => ({
+                  label: name,
+                  value: id,
+                })) : []
+              }
+              disabled={!series.data || series.isLoading || series.data?.length === 0}
             />
           </div>
         </div>
