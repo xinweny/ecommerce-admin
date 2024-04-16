@@ -34,11 +34,14 @@ export function CreateProductForm({
     defaultValues: {
       name: "",
       slug: "",
-      description: "",
+      model: undefined,
+      description: undefined,
+      videoUrl: undefined,
       categoryId: undefined,
       subcategoryId: undefined,
       brandId: undefined,
       seriesId: undefined,
+      productItems: [],
     },
   });
 
@@ -74,12 +77,12 @@ export function CreateProductForm({
   );
 
   const onSubmit = async (values: ProductSchema) => {
-    const { success, error } = await createProduct(values);
+    const { data, success, error } = await createProduct(values);
 
     if (success) {
       form.reset();
       toast.success(success);
-      router.push("/categories");
+      router.push(`/products/${data?.productId}`);
     };
     if (error) toast.error(error);
   };
@@ -91,10 +94,7 @@ export function CreateProductForm({
         className="space-y-8 w-full"
       >
         <div className="flex flex-col gap-8">
-          <FormInput
-            name="name"
-            label="Name"
-          />
+          <FormInput name="name" label="Name" />
           <FormInputSlug watchName="name" />
           <div>
             <FormSelect
@@ -141,10 +141,12 @@ export function CreateProductForm({
             />
           </div>
         </div>
+        <FormInput name="model" label="Model" />
         <FormTextarea
           name="description"
           label="Description"
         />
+        <FormInput name="videoURL" label="Video Link" />
         <SubmitButton className="ml-auto">
           Create Product
         </SubmitButton>

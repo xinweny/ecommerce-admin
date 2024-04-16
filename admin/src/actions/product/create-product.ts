@@ -35,7 +35,10 @@ export const createProduct = async (values: ProductSchema) => {
 
     revalidatePath("/products");
 
-    return { success: `${product.name} created.` };
+    return {
+      data: { productId: product.id },
+      success: `${product.name} created.`,
+    };
   } catch {
     return { error: "Something went wrong." };
   }
