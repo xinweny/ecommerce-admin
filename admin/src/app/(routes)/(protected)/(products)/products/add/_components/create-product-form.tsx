@@ -4,12 +4,10 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { Category, Brand } from "@prisma/client";
+import { Category, Brand, Subcategory } from "@prisma/client";
 import useSWR from "swr";
 
 import { productSchema, type ProductSchema } from "@/schemas/product";
-
-import { getSubcategoriesByCategoryId } from "@/db/query/subcategory";
 
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
@@ -49,14 +47,11 @@ export function CreateProductForm({
       if (!categoryId) return;
 
       form.resetField("subcategoryId");
-      
-      console.log('swr', +categoryId);
 
-      const a = await getSubcategoriesByCategoryId(+categoryId);
+      const response = await fetch(`/api/subcategories?categoryId=${categoryId}`);
+      const { data: subcategories } = await response.json();
 
-      console.log('a', a);
-
-      return await getSubcategoriesByCategoryId(+categoryId);
+      return subcategories as Subcategory[];
     }
   );
 
