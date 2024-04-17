@@ -4,7 +4,7 @@ export const productItemSchema = z.object({
   name: z.string().min(1),
   sku: z.string().min(1),
   stock: z.number().min(0),
-  price: z.number().min(0),
+  price: z.number().min(1),
   imageUrls: z.array(z.string()),
 });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormContext } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { Trash } from "lucide-react";
 import Image from "next/image";
 
@@ -10,7 +10,6 @@ import { Button } from "../ui/button";
 
 interface ImagePreviewProps {
   name: string;
-  isMulti?: boolean;
   listClassName?: string;
   containerClassName?: string;
   imageClassName?: string;
@@ -18,29 +17,22 @@ interface ImagePreviewProps {
 
 export function ImagePreview({
   name,
-  isMulti = false,
   listClassName,
   containerClassName,
   imageClassName = "object-cover",
 }: ImagePreviewProps) {
-  const { watch, setValue } = useFormContext();
+  const { control, watch } = useFormContext();
 
-  const urls = watch(name);
+  const { remove } = useFieldArray({
+    control,
+    name,
+  });
 
-  const onRemove = (url: string) => {
-    setValue(
-      name,
-      isMulti
-        ? urls.filter((u: string) => u !== url)
-        : null,
-      {
-        shouldValidate: false,
-      });
-  };
+  const urls: string[] = watch(name);
 
   return (
     <div className={listClassName}>
-      {urls && (typeof urls === "string" ? [urls] : urls).map((url: string) => (
+      {urls.map((url, index) => (
         <div
           key={url}
           className={cn(
@@ -53,7 +45,7 @@ export function ImagePreview({
               type="button"
               variant="destructive"
               size="icon"
-              onClick={() => { onRemove(url); }}
+              onClick={() => { remove(index); }}
             >
               <Trash className="h-4 w-4" />
             </Button>

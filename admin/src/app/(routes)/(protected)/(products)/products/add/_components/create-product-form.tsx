@@ -46,8 +46,6 @@ export function CreateProductForm({
     },
   });
 
-  console.log(form.watch());
-
   const categoryId = form.watch("categoryId");
   const brandId = form.watch("brandId");
 

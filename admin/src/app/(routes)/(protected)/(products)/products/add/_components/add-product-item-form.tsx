@@ -5,6 +5,8 @@ import { ProductSchema } from "@/schemas/product";
 
 import { Button } from "@/components/ui/button";
 import { FormInput } from "@/components/form/form-input";
+import { ImageUpload } from "@/components/form/image-upload";
+import { ImagePreview } from "@/components/form/image-preview";
 
 export function AddProductItemForm() {
   const name = "productItems";
@@ -63,6 +65,16 @@ export function AddProductItemForm() {
             name={`${name}.${index}.price`}
             label="Price"
             type="number"
+          />
+          <ImageUpload
+            name={`${name}.${index}.imageUrls`}
+            label="Product Images"
+            folder="/products"
+            limit={10}
+          />
+          <ImagePreview
+            name={`${name}.${index}.imageUrls`}
+            containerClassName="w-[200px] h-[200px]"
           />
         </li>
       ))}

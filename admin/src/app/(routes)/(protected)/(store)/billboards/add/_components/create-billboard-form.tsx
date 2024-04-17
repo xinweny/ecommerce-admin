@@ -50,17 +50,15 @@ export function CreateBillboardForm() {
             name="label"
             label="Label"
           />
+          <ImagePreview
+            name="imageUrl"
+            listClassName="mb-4 flex items-center gap-4"
+            containerClassName="w-[860px] h-[480px]"
+          />
           <ImageUpload
             label="Background Image"
             folder="/billboards"
             name="imageUrl"
-            preview={
-              <ImagePreview
-                name="imageUrl"
-                listClassName="mb-4 flex items-center gap-4"
-                containerClassName="w-[860px] h-[480px]"
-              />
-            }
           />
           <FormInput
             name="title"

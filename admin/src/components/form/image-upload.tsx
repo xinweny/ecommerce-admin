@@ -7,7 +7,7 @@ import {
   type CloudinaryUploadWidgetResults,
   type CloudinaryUploadWidgetInfo,
 } from "next-cloudinary";
-import { useFormContext } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { Button } from "../ui/button";
@@ -24,8 +24,6 @@ interface ImageUploadProps {
   limit?: number;
   folder?: string;
   publicId?: string;
-  preview?: React.ReactNode;
-  withRemove?: boolean;
 }
 
 export function ImageUpload({
@@ -34,93 +32,66 @@ export function ImageUpload({
   limit = 1,
   folder,
   publicId,
-  preview,
-  withRemove = false,
 }: ImageUploadProps) {
   const isMounted = useIsMounted();
-
-  const form = useFormContext();
 
   const {
     control,
     formState: { isSubmitting },
-  } = form;
+  } = useFormContext();
+
+  const { append } = useFieldArray({
+    control,
+    name,
+  });
 
   if (!isMounted) return null;
+
+  const onSuccess = (result: CloudinaryUploadWidgetResults) => {
+    const info = result.info as CloudinaryUploadWidgetInfo;
+    append(info.secure_url);
+  };
 
   return (
     <FormField
       control={control}
       name={name}
-      render={({ field }) => {
-        const { value } = field;
-
-        const onChange = (url: string) => {
-          field.onChange(
-            limit === 1
-              ? url
-              : Array.isArray(value) ? [...value, url] : [url]
-          );
-        };
-
-        const onRemove = () => {
-          field.onChange(null);
-        };
-
-        const onSuccess = (result: CloudinaryUploadWidgetResults) => {
-          const info = result.info as CloudinaryUploadWidgetInfo;
-          onChange(info.secure_url);
-        };
-
-        return (
-          <FormItem>
-            <FormLabel>{label}</FormLabel>
-            <FormControl>
-              <div>
-                {preview}
-                <div className="flex gap-2">
-                  <CldUploadWidget
-                    uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
-                    signatureEndpoint="/api/cloudinary/sign"
-                    onSuccess={onSuccess}
-                    onError={() =>  { toast.error("Image upload failed."); }}
-                    options={{
-                      publicId,
-                      folder: `ecommerce/${folder || ''}`,
-                      sources: ["local"],
-                      maxFiles: limit,
-                      multiple: limit > 1,
-                      clientAllowedFormats: ["jpg", "jpeg", "png", "webp", "gif"],
-                      resourceType: "image",
-                    }}
+      render={() => (
+        <FormItem>
+          <FormLabel>{label}</FormLabel>
+          <FormControl>
+            <div className="flex gap-2">
+              <CldUploadWidget
+                uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+                signatureEndpoint="/api/cloudinary/sign"
+                onSuccess={onSuccess}
+                onError={() =>  { toast.error("Image upload failed."); }}
+                options={{
+                  publicId,
+                  folder: `ecommerce/${folder || ''}`,
+                  sources: ["local"],
+                  maxFiles: limit,
+                  multiple: limit > 1,
+                  clientAllowedFormats: ["jpg", "jpeg", "png", "webp", "gif"],
+                  resourceType: "image",
+                }}
+              >
+                {({ open }) => (
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    disabled={isSubmitting}
+                    onClick={() => { open(); }}
                   >
-                    {({ open }) => (
-                      <Button
-                        type="button"
-                        variant="secondary"
-                        disabled={isSubmitting}
-                        onClick={() => { open(); }}
-                      >
-                        <ImagePlus className="h-4 w-4 mr-2" />
-                        <span>Upload an image</span>
-                      </Button>
-                    )}
-                  </CldUploadWidget>
-                  {(withRemove && limit === 1 )&& (
-                    <Button
-                      onClick={onRemove}
-                      type="button"
-                      variant="link"
-                    >
-                      Remove
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </FormControl>
-          </FormItem>
-        );
-      }}
+                    <ImagePlus className="h-4 w-4 mr-2" />
+                    <span>Upload an image</span>
+                  </Button>
+                )}
+              </CldUploadWidget>
+            </div>
+          </FormControl>
+        </FormItem>
+      )}
     />
   );
 }
