@@ -3,6 +3,8 @@ import { Plus, X } from "lucide-react";
 
 import { ProductSchema } from "@/schemas/product";
 
+import { cn } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
 import { FormInput } from "@/components/form/form-input";
 import { ImageUpload } from "@/components/form/image-upload";
@@ -11,7 +13,10 @@ import { ImagePreview } from "@/components/form/image-preview";
 export function AddProductItemForm() {
   const name = "productItems";
 
-  const { control } = useFormContext<ProductSchema>();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<ProductSchema>();
 
   const { fields, append, remove } = useFieldArray({
     name,
@@ -20,8 +25,16 @@ export function AddProductItemForm() {
 
   return (
     <section>
-      <div className="flex justify-between items-center mb-4"> 
-        <h2 className="font-bold text-2xl">Product Items</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className={cn(
+          "font-bold text-2xl",
+          errors?.productItems?.message ? "text-destructive" : undefined
+        )}>
+          <span>Product Items</span>
+          {errors?.productItems?.message && (
+            <span className="ml-2 text-base font-medium">{`- ${errors.productItems.message}`}</span>
+          )}
+        </h2>
         <Button
           variant="secondary"
           type="button"

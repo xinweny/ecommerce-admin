@@ -179,7 +179,7 @@ model Product {
   id Int @id @default(autoincrement())
 
   name        String
-  model       String? @unique
+  model       String @unique
   description String?
   videoUrl    String?
   slug        String @unique

@@ -60,7 +60,8 @@ export function CreateProductForm({
       form.resetField("subcategoryId");
 
       return subcategories as Subcategory[];
-    }
+    },
+    { revalidateOnFocus: false },
   );
 
   const series = useSWR(
@@ -74,7 +75,8 @@ export function CreateProductForm({
       form.resetField("seriesId");
 
       return series as Series[];
-    }
+    },
+    { revalidateOnFocus: false },
   );
 
   const onSubmit = async (values: ProductSchema) => {
