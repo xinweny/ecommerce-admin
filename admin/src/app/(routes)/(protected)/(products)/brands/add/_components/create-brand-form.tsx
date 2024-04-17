@@ -51,18 +51,15 @@ export function CreateBrandForm() {
             label="Name"
           />
           <FormInputSlug watchName="name" />
+          <ImagePreview
+            name="imageUrl"
+            listClassName="mb-4 flex items-center gap-4"
+            containerClassName="w-[480px] h-[480px]"
+          />
           <ImageUpload
             label="Brand Image"
             folder="/brands"
             name="imageUrl"
-            preview={
-              <ImagePreview
-                name="imageUrl"
-                listClassName="mb-4 flex items-center gap-4"
-                containerClassName="w-[480px] h-[480px]"
-              />
-            }
-            withRemove
           />
         </div>
         <SubmitButton className="ml-auto">
