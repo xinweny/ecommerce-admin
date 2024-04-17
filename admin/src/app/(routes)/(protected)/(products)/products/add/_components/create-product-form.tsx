@@ -14,9 +14,10 @@ import { FormInput } from "@/components/form/form-input";
 import { SubmitButton } from "@/components/form/submit-button";
 import { FormSelect } from "@/components/form/form-select";
 import { FormInputSlug } from "@/components/form/form-input-slug";
+import { FormTextarea } from "@/components/form/form-textarea";
+import { AddProductItemForm } from "./add-product-item-form";
 
 import { createProduct } from "@/actions/product";
-import { FormTextarea } from "@/components/form/form-textarea";
 
 interface CreateProductFormProps {
   categories: Category[];
@@ -45,6 +46,8 @@ export function CreateProductForm({
     },
   });
 
+  console.log(form.watch());
+
   const categoryId = form.watch("categoryId");
   const brandId = form.watch("brandId");
 
@@ -53,10 +56,10 @@ export function CreateProductForm({
     async ({ categoryId }) => {
       if (!categoryId) return;
 
-      form.resetField("subcategoryId");
-
       const response = await fetch(`/api/subcategories?categoryId=${categoryId}`);
       const { data: subcategories } = await response.json();
+
+      form.resetField("subcategoryId");
 
       return subcategories as Subcategory[];
     }
@@ -67,10 +70,10 @@ export function CreateProductForm({
     async ({ brandId }) => {
       if (!brandId) return;
 
-      form.resetField("subcategoryId");
-
       const response = await fetch(`/api/series?brandId=${brandId}`);
       const { data: series } = await response.json();
+
+      form.resetField("seriesId");
 
       return series as Series[];
     }
@@ -146,7 +149,8 @@ export function CreateProductForm({
           name="description"
           label="Description"
         />
-        <FormInput name="videoURL" label="Video Link" />
+        <FormInput name="videoUrl" label="Video Link" />
+        <AddProductItemForm />
         <SubmitButton className="ml-auto">
           Create Product
         </SubmitButton>

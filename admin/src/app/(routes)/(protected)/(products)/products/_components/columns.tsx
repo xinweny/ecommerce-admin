@@ -1,6 +1,7 @@
 "use client";
  
 import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 
 import { ToggleSort } from "@/components/ui/data-table";
 
@@ -50,6 +51,9 @@ export const columns: ColumnDef<ProductRow>[] = [
         column={column}
         label="Name"
       />
+    ),
+    cell: ({ row }) => (
+      <Link href={`/products/${row.original.id}`}>{row.original.name}</Link>
     ),
   },
   {

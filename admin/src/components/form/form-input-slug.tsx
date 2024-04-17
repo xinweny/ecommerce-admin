@@ -14,7 +14,7 @@ export function FormInputSlug({
   watchName,
   name = "slug",
   label = "URL Slug",
-  description = "A URL-friendly name for your category, containing only lowercase letters and hyphens.",
+  description = "A URL-friendly name, containing only lowercase letters and hyphens.",
 }: FormInputSlugProps) {
   const { watch, setValue } = useFormContext();
 

@@ -23,9 +23,8 @@ export const productSchema = z.object({
     .or(z.string().transform(v => +v)),
   brandId: z.number()
     .or(z.string().transform(v => +v)),
-  seriesId: z.number()
-    .or(z.string().transform(v => +v))
-    .or(z.null()),
+  seriesId: z.optional(z.number()
+    .or(z.string().transform(v => +v))),
   productItems: z.array(productItemSchema).min(1),
 });
 
