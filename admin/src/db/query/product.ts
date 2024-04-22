@@ -60,6 +60,7 @@ export type FullProduct = Prisma.ProductGetPayload<typeof fullProductIncludeArgs
 export const getProductById = cache(async (productId: number) => {
   const product = await db.product.findUnique({
     where: { id: productId },
+    ...fullProductIncludeArgs,
   });
 
   return product;

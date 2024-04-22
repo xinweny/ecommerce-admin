@@ -39,7 +39,8 @@ export const createProduct = async (values: ProductSchema) => {
       data: { productId: product.id },
       success: `${product.name} created.`,
     };
-  } catch {
+  } catch (error) {
+    console.log(error);
     return { error: "Something went wrong." };
   }
 };
