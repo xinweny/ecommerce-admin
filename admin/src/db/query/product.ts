@@ -128,3 +128,11 @@ export const getQueriedProductItems = cache(async (params: DbQueryParams) => {
 
   return productItems;
 });
+
+export const getProductItemImagesByProductItemId = cache(async (productItemId: number) => {
+  const productItemImages = await db.productItemImage.findMany({
+    where: { productItemId },
+  });
+
+  return productItemImages;
+});

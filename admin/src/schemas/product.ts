@@ -27,7 +27,13 @@ export const productSchema = z.object({
     .or(z.string().transform(v => +v)),
   seriesId: z.optional(z.number()
     .or(z.string().transform(v => +v))),
-  productItems: z.array(productItemSchema).min(1),
 });
 
 export type ProductSchema = z.infer<typeof productSchema>;
+
+export const createProductSchema = z.object({
+  ...(productSchema.shape),
+  productItems: z.array(productItemSchema).min(1),
+});
+
+export type CreateProductSchema = z.infer<typeof createProductSchema>;

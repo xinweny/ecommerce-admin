@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { Category, Brand, Subcategory, Series } from "@prisma/client";
 import useSWR from "swr";
 
-import { productSchema, type ProductSchema } from "@/schemas/product";
+import { createProductSchema, type CreateProductSchema } from "@/schemas/product";
 
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
@@ -30,8 +30,8 @@ export function CreateProductForm({
 }: CreateProductFormProps) {
   const router = useRouter();
 
-  const form = useForm<ProductSchema>({
-    resolver: zodResolver(productSchema),
+  const form = useForm<CreateProductSchema>({
+    resolver: zodResolver(createProductSchema),
     defaultValues: {
       name: "",
       slug: "",
@@ -79,7 +79,7 @@ export function CreateProductForm({
     { revalidateOnFocus: false },
   );
 
-  const onSubmit = async (values: ProductSchema) => {
+  const onSubmit = async (values: CreateProductSchema) => {
     const { data, success, error } = await createProduct(values);
 
     if (success) {

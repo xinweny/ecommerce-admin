@@ -4,11 +4,11 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/db/client";
 
-import { productSchema, type ProductSchema } from "@/schemas/product";
+import { createProductSchema, type CreateProductSchema } from "@/schemas/product";
 
-export const createProduct = async (values: ProductSchema) => {
+export const createProduct = async (values: CreateProductSchema) => {
   try {
-    const validatedFields = productSchema.safeParse(values);
+    const validatedFields = createProductSchema.safeParse(values);
 
     if (!validatedFields.success) return { error: "Invalid fields." };
 
