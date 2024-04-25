@@ -70,7 +70,7 @@ export function FormSelect({
                 {values.map(({ value, label }) => (
                   <SelectItem
                     key={value}
-                    value={value.toString()}
+                    value={value}
                   >
                     {label}
                   </SelectItem>
