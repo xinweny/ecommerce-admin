@@ -33,13 +33,18 @@ const productItemGroupByArgs = Prisma.validator<Prisma.ProductItemGroupByArgs>()
   _sum: { stock: true },
 });
 
-const productItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()({
+const productItemWithImagesIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()({
   include: { images: true },
 });
 
 const fullProductItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()({
-  include: { product: true, images: true },
+  include: {
+    product: { select: { id: true, name: true } },
+    images: true,
+  },
 });
+
+export type ProductItemWithImages = Prisma.ProductItemGetPayload<typeof productItemWithImagesIncludeArgs>;
 
 export type FullProductItem = Prisma.ProductItemGetPayload<typeof fullProductItemIncludeArgs>;
 
@@ -54,9 +59,7 @@ const fullProductIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
   include: {
     ...productIncludeArgs.include,
     productItems: {
-      include: {
-        images: true,
-      },
+      ...productItemWithImagesIncludeArgs,
     },
   },
 });

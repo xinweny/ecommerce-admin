@@ -1,7 +1,8 @@
 import { getProductById } from "@/db/query/product";
 
 import { redirect } from "next/navigation";
-import { ProductItemClient } from "./_components/product-item-client";
+
+import { ProductClient } from "./_components/product-client";
 
 interface ProductPageProps {
   params: { productId: string };
@@ -16,7 +17,7 @@ export default async function ProductPage({
 
   return (
     <>
-      <ProductItemClient product={product} />
+      <ProductClient product={product} />
     </>
   );
 }

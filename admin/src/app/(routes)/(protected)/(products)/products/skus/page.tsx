@@ -1,5 +1,5 @@
 import { getQueriedProductItems } from "@/db/query/product";
-import { ProductItemClient } from "./_components/product-item-client";
+import { ProductItemClient } from "./_components/product-item-card";
 
 interface ProductItemsPageProps {
   searchParams: {
