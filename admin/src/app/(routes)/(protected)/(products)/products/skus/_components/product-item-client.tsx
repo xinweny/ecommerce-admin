@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 
-import { FullProduct } from "@/db/query/product";
+import { FullProductItem } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -13,15 +13,13 @@ import { Button } from "@/components/ui/button";
 import { ProductItemRow, columns } from "./columns";
 
 interface ProductItemClientProps {
-  product: FullProduct;
+  productItems: FullProductItem[];
 }
 
 export function ProductItemClient({
-  product,
+  productItems,
 }: ProductItemClientProps) {
   const router = useRouter();
-
-  const { productItems } = product;
 
   const data: ProductItemRow[] = productItems.map(({
     id,
@@ -30,6 +28,7 @@ export function ProductItemClient({
     stock,
     price,
     images,
+    product,
   }) => {
     return {
       id,
@@ -38,6 +37,7 @@ export function ProductItemClient({
       stock,
       price,
       imageUrls: images.map(image => image.imageUrl),
+      product,
     };
   });
 

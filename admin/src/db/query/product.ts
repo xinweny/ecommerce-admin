@@ -37,6 +37,12 @@ const productItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()
   include: { images: true },
 });
 
+const fullProductItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()({
+  include: { product: true, images: true },
+});
+
+export type FullProductItem = Prisma.ProductItemGetPayload<typeof fullProductItemIncludeArgs>;
+
 export type AdminProduct = Prisma.ProductGetPayload<typeof productIncludeArgs> & {
   productItems: Prisma.PickEnumerable<Prisma.ProductItemGroupByOutputType, ["productId"]> & {
     _count: number;
@@ -120,7 +126,7 @@ export const getQueriedProductItems = cache(async (params: DbQueryParams) => {
   const { pagination, sort, filter } = params;
 
   const productItems = await db.productItem.findMany({
-    ...productItemIncludeArgs,
+    ...fullProductItemIncludeArgs,
     ...where(filter),
     ...paginate(pagination),
     ...orderBy(sort),

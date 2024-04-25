@@ -1,6 +1,7 @@
 "use client";
  
 import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 
 import { ToggleSort } from "@/components/ui/data-table";
 
@@ -15,6 +16,10 @@ export interface ProductItemRow {
   stock: number;
   price: number;
   imageUrls: string[];
+  product: {
+    id: number;
+    name: string;
+  };
 }
 
 export const columns: ColumnDef<ProductItemRow>[] = [
@@ -33,6 +38,18 @@ export const columns: ColumnDef<ProductItemRow>[] = [
     cell: ({ row }) => (row.original.imageUrls.length > 0 ? (
       <ProductItemCellCarousel imageUrls={row.original.imageUrls} />
     ) : null),
+  },
+  {
+    accessorKey: "productName",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="Product"
+      />
+    ),
+    cell: ({ row }) => (
+      <Link href={`/products/${row.original.product.id}`}>{row.original.product.name}</Link>
+    ),
   },
   {
     accessorKey: "name",
