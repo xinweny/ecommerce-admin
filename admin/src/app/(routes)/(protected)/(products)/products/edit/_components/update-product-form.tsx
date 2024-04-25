@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { Category, Brand, Subcategory, Series } from "@prisma/client";
+import { Category, Brand, Subcategory, Series, Product } from "@prisma/client";
 import useSWR from "swr";
 
-import { createProductSchema, type CreateProductSchema } from "@/schemas/product";
+import { productSchema, type ProductSchema } from "@/schemas/product";
 
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
@@ -15,40 +15,34 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { FormSelect } from "@/components/form/form-select";
 import { FormInputSlug } from "@/components/form/form-input-slug";
 import { FormTextarea } from "@/components/form/form-textarea";
-import { AddProductItemForm } from "./add-product-item-form";
 
-import { createProduct } from "@/actions/product";
+import { updateProduct } from "@/actions/product";
 
-interface CreateProductFormProps {
+interface UpdateProductFormProps {
+  product: Product;
   categories: Category[];
   brands: Brand[];
 }
 
-export function CreateProductForm({
+export function UpdateProductForm({
+  product,
   categories,
   brands,
-}: CreateProductFormProps) {
+}: UpdateProductFormProps) {
   const router = useRouter();
 
-  const form = useForm<CreateProductSchema>({
-    resolver: zodResolver(createProductSchema),
+  const form = useForm<ProductSchema>({
+    resolver: zodResolver(productSchema),
     defaultValues: {
-      name: "",
-      slug: "",
-      model: undefined,
-      description: undefined,
-      videoUrl: undefined,
-      categoryId: undefined,
-      subcategoryId: undefined,
-      brandId: undefined,
-      seriesId: undefined,
-      productItems: [{
-        name: undefined,
-        sku: undefined,
-        stock: undefined,
-        price: undefined,
-        imageUrls: [],
-      }],
+      name: product.name,
+      slug: product.slug,
+      model: product.model,
+      description: product.description || undefined,
+      videoUrl: product.videoUrl || undefined,
+      categoryId: product.categoryId,
+      subcategoryId: product.subcategoryId || undefined,
+      brandId: product.brandId,
+      seriesId: product.seriesId || undefined,
     },
   });
 
@@ -85,8 +79,8 @@ export function CreateProductForm({
     { revalidateOnFocus: false },
   );
 
-  const onSubmit = async (values: CreateProductSchema) => {
-    const { data, success, error } = await createProduct(values);
+  const onSubmit = async (values: ProductSchema) => {
+    const { data, success, error } = await updateProduct(product.id, values);
 
     if (success) {
       form.reset();
@@ -156,9 +150,8 @@ export function CreateProductForm({
           label="Description"
         />
         <FormInput name="videoUrl" label="Video Link" />
-        <AddProductItemForm />
         <SubmitButton className="ml-auto">
-          Create Product
+          Save Changes
         </SubmitButton>
       </form>
     </Form>

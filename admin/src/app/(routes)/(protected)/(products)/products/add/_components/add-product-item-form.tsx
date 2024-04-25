@@ -1,7 +1,7 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { Plus, X } from "lucide-react";
 
-import { ProductSchema } from "@/schemas/product";
+import { CreateProductSchema } from "@/schemas/product";
 
 import { cn } from "@/lib/utils";
 
@@ -16,7 +16,7 @@ export function AddProductItemForm() {
   const {
     control,
     formState: { errors },
-  } = useFormContext<ProductSchema>();
+  } = useFormContext<CreateProductSchema>();
 
   const { fields, append, remove } = useFieldArray({
     name,
