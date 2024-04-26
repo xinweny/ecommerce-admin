@@ -43,15 +43,7 @@ export function ProductItemClient({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <Heading title="SKUs" />
-        <Button onClick={() => {
-          router.push("/products/add");
-        }}>
-          <Plus className="mr-2 h-4 w-4" />
-          <span>New Product Item</span>
-        </Button>
-      </div>
+      <Heading title="SKUs" />
       <Separator />
       <DataTable
         data={data}

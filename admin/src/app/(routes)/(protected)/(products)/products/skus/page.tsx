@@ -1,5 +1,5 @@
 import { getQueriedProductItems } from "@/db/query/product";
-import { ProductItemClient } from "./_components/product-item-card";
+import { ProductItemClient } from "./_components/product-item-client";
 
 interface ProductItemsPageProps {
   searchParams: {
@@ -30,12 +30,10 @@ export default async function ProductItemsPage({
       product: { name: productName },
     },
     filter: {
-      product: {
-        name: {
-          contains: query,
-          mode: "insensitive",
-        },
-      }
+      sku: {
+        contains: query,
+        mode: "insensitive",
+      },
     },
   });
 

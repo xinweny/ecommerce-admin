@@ -1,35 +1,30 @@
 "use client";
 
-import { FullProduct } from "@/db/query/product";
+import { Product } from "@prisma/client";
+import { ProductItemWithImages } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
 
-import { ProductItemCard } from "./product-item-card";
+import { ProductItemClient } from "./product-item-client";
 
 interface ProductClientProps {
-  product: FullProduct;
+  product: Product;
+  productItems: ProductItemWithImages[];
 }
 
 export function ProductClient({
-  product: {
-    name,
-    productItems,
-  },
+  product,
+  productItems,
 }: ProductClientProps) {
   return (
     <div className="space-y-4">
-      <Heading title={name} />
+      <Heading title={product.name} />
       <Separator />
-      <Heading title="SKUs" />
-      <div>
-        {productItems.map(productItem => (
-          <ProductItemCard
-            key={productItem.id}
-            productItem={productItem}
-          />
-        ))}
-      </div>
+      <ProductItemClient
+        product={product}
+        productItems={productItems}
+      />
     </div>
   );
 }

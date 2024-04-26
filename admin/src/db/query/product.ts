@@ -69,7 +69,6 @@ export type FullProduct = Prisma.ProductGetPayload<typeof fullProductIncludeArgs
 export const getProductById = cache(async (productId: number) => {
   const product = await db.product.findUnique({
     where: { id: productId },
-    ...fullProductIncludeArgs,
   });
 
   return product;
@@ -114,15 +113,6 @@ export const getProductItemsCount = cache(async () => {
   const count = await db.productItem.count();
 
   return count;
-});
-
-export const getFullProductById = cache(async (productId: number) => {
-  const product = await db.product.findUnique({
-    where: { id: productId },
-    ...fullProductIncludeArgs,
-  });
-
-  return product;
 });
 
 export const getQueriedProductItems = cache(async (params: DbQueryParams) => {
