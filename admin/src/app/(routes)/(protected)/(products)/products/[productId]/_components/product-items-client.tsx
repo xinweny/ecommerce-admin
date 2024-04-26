@@ -28,7 +28,6 @@ export function ProductItemsClient({
     stock,
     price,
     images,
-    orderItems,
   }) => ({
     id,
     name,
@@ -36,7 +35,6 @@ export function ProductItemsClient({
     stock,
     price,
     imageUrls: images.map(image => image.imageUrl),
-    totalSold: orderItems?._sum.quantity || 0,
   }));
 
   return (

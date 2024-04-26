@@ -15,7 +15,6 @@ export interface ProductItemRow {
   stock: number;
   price: number;
   imageUrls: string[];
-  totalSold: number;
 }
 
 export const columns: ColumnDef<ProductItemRow>[] = [
@@ -68,15 +67,6 @@ export const columns: ColumnDef<ProductItemRow>[] = [
       <ToggleSort
         column={column}
         label="Price"
-      />
-    ),
-  },
-  {
-    accessorKey: "totalSold",
-    header: ({ column }) => (
-      <ToggleSort
-        column={column}
-        label="Total Sold"
       />
     ),
   },
