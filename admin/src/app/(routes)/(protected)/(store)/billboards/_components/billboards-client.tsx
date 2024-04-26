@@ -13,15 +13,15 @@ import { DataTable } from "@/components/ui/data-table";
 
 import { BillboardRow, columns } from "./columns";
 
-interface BillboardClientProps {
+interface BillboardsClientProps {
   billboards: AdminBillboard[];
   totalCount: number;
 }
 
-export function BillboardClient({
+export function BillboardsClient({
   billboards,
   totalCount,
-}: BillboardClientProps) {
+}: BillboardsClientProps) {
   const router = useRouter();
 
   const data = billboards.map(({ id, label, createdAt, _count }) => ({

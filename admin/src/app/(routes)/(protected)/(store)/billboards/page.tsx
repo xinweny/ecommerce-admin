@@ -1,6 +1,6 @@
 import { getBillboardsCount, getQueriedBillboards } from "@/db/query/billboard";
 
-import { BillboardClient } from "./_components/billboard-client";
+import { BillboardsClient } from "./_components/billboards-client";
 
 interface BillboardsPageProps {
   searchParams: {
@@ -45,7 +45,7 @@ export default async function BillboardsPage({
   ]);
 
   return (
-    <BillboardClient
+    <BillboardsClient
       billboards={billboards}
       totalCount={totalCount}
     />

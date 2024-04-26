@@ -4,7 +4,7 @@ import { getBrands } from "@/db/query/brand";
 import { getSubcategories } from "@/db/query/subcategory";
 import { getSeries } from "@/db/query/series";
 
-import { ProductClient } from "./_components/product-client";
+import { ProductsClient } from "./_components/products-client";
 
 interface ProductsPageProps {
   searchParams: {
@@ -84,7 +84,7 @@ export default async function ProductsPage({
   ]);
 
   return (
-    <ProductClient
+    <ProductsClient
       products={products}
       totalCount={totalCount}
       filters={{

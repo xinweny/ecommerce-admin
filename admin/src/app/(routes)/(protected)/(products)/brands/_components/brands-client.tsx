@@ -12,15 +12,15 @@ import { Button } from "@/components/ui/button";
 
 import { BrandRow, columns } from "./columns";
 
-interface BrandClientProps {
+interface BrandsClientProps {
   brands: AdminBrand[];
   totalCount: number;
 }
 
-export function BrandClient({
+export function BrandsClient({
   brands,
   totalCount,
-}: BrandClientProps) {
+}: BrandsClientProps) {
   const router = useRouter();
 
   const data: BrandRow[] = brands.map(({ id, name, slug, _count }) => {

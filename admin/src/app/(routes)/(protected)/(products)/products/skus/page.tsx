@@ -1,5 +1,5 @@
 import { getQueriedProductItems } from "@/db/query/product";
-import { ProductItemClient } from "./_components/product-item-client";
+import { ProductItemsClient } from "./_components/product-items-client";
 
 interface ProductItemsPageProps {
   searchParams: {
@@ -38,8 +38,6 @@ export default async function ProductItemsPage({
   });
 
   return (
-    <>
-      <ProductItemClient productItems={productItems} />
-    </>
+    <ProductItemsClient productItems={productItems} />
   );
 }

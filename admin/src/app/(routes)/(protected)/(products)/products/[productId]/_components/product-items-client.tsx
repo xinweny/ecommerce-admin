@@ -12,15 +12,15 @@ import { DataTable } from "@/components/ui/data-table";
 
 import { columns } from "./columns";
 
-interface ProductItemClientProps {
+interface ProductItemsClientProps {
   product: Product;
   productItems: ProductItemWithImages[];
 }
 
-export function ProductItemClient({
+export function ProductItemsClient({
   product,
   productItems,
-}: ProductItemClientProps) {
+}: ProductItemsClientProps) {
   const data = productItems.map(({
     id,
     name,

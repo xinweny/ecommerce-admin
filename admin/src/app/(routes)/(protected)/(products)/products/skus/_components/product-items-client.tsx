@@ -1,8 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Plus } from "lucide-react";
-
 import { FullProductItem } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
@@ -12,15 +9,13 @@ import { Button } from "@/components/ui/button";
 
 import { ProductItemRow, columns } from "./columns";
 
-interface ProductItemClientProps {
+interface ProductItemsClientProps {
   productItems: FullProductItem[];
 }
 
-export function ProductItemClient({
+export function ProductItemsClient({
   productItems,
-}: ProductItemClientProps) {
-  const router = useRouter();
-
+}: ProductItemsClientProps) {
   const data: ProductItemRow[] = productItems.map(({
     id,
     name,

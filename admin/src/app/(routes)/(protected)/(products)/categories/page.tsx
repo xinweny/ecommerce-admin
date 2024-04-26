@@ -1,6 +1,6 @@
 import { getCategoriesCount, getQueriedCategories } from "@/db/query/category";
 
-import { CategoryClient } from "./_components/category-client";
+import { CategoriesClient } from "./_components/categories-client";
 
 interface CategoriesPageProps {
   searchParams: {
@@ -51,7 +51,7 @@ export default async function CategoriesPage({
   ]);
 
   return (
-    <CategoryClient
+    <CategoriesClient
       categories={categories}
       totalCount={totalCount}
     />

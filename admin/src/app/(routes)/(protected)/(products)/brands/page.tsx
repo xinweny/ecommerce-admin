@@ -1,6 +1,6 @@
 import { getQueriedBrands, getBrandsCount } from "@/db/query/brand";
 
-import { BrandClient } from "./_components/brand-client";
+import { BrandsClient } from "./_components/brands-client";
 
 interface BrandsPageProps {
   searchParams: {
@@ -48,7 +48,7 @@ export default async function BrandsPage({
   ]);
 
   return (
-    <BrandClient
+    <BrandsClient
       brands={brands}
       totalCount={totalCount}
     />

@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 
 import { ProductRow, columns } from "./columns";
 
-interface ProductClientProps {
+interface ProductsClientProps {
   products: AdminProduct[];
   totalCount: number;
   filters: {
@@ -24,11 +24,11 @@ interface ProductClientProps {
   };
 }
 
-export function ProductClient({
+export function ProductsClient({
   products,
   totalCount,
   filters,
-}: ProductClientProps) {
+}: ProductsClientProps) {
   const router = useRouter();
 
   const data: ProductRow[] = products.map(({

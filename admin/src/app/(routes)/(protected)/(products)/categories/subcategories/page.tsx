@@ -1,6 +1,6 @@
 import { getQueriedSubcategories, getSubcategoriesCount } from "@/db/query/subcategory";
 
-import { SubcategoryClient } from "./_components/subcategory-client";
+import { SubcategoriesClient } from "./_components/subcategories-client";
 
 interface SubcategoriesPageProps {
   searchParams: {
@@ -45,7 +45,7 @@ export default async function SubcategoriesPage({
   ]);
 
   return (
-    <SubcategoryClient
+    <SubcategoriesClient
       subcategories={subcategories}
       totalCount={totalCount}
     />

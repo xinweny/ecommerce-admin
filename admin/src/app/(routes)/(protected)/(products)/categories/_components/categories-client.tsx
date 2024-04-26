@@ -3,33 +3,36 @@
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 
-import { AdminSubcategory } from "@/db/query/subcategory";
+import { AdminCategory } from "@/db/query/category";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
 
-import { SubcategoryRow, columns } from "./columns";
+import { CategoryRow, columns } from "./columns";
 
-interface SubcategoryClientProps {
-  subcategories: AdminSubcategory[];
+interface CategoriesClientProps {
+  categories: AdminCategory[];
   totalCount: number;
 }
 
-export function SubcategoryClient({
-  subcategories,
+export function CategoriesClient({
+  categories,
   totalCount,
-}: SubcategoryClientProps) {
+}: CategoriesClientProps) {
   const router = useRouter();
 
-  const data: SubcategoryRow[] = subcategories.map(({ id, name, slug, category, _count }) => {
+  const data: CategoryRow[] = categories.map(({ id, name, slug, billboard, _count }) => {
     return {
       id,
       name,
       slug,
       productCount: _count.products,
-      category: { id: category.id, name: category.name },
+      subcategoryCount: _count.subcategories,
+      billboard: billboard
+        ? { id: billboard.id, label: billboard.label }
+        : null,
     };
   });
 
@@ -37,14 +40,14 @@ export function SubcategoryClient({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <Heading
-          title="Subcategories"
-          description="Manage product subcategories"
+          title="Categories"
+          description="Manage product categories"
         />
         <Button onClick={() => {
-          router.push("/categories/subcategories/add");
+          router.push("/categories/add");
         }}>
           <Plus className="mr-2 h-4 w-4" />
-          <span>New Subcategory</span>
+          <span>New Category</span>
         </Button>
       </div>
       <Separator />

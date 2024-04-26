@@ -6,7 +6,7 @@ import { ProductItemWithImages } from "@/db/query/product";
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
 
-import { ProductItemClient } from "./product-item-client";
+import { ProductItemsClient } from "./product-items-client";
 
 interface ProductClientProps {
   product: Product;
@@ -21,7 +21,7 @@ export function ProductClient({
     <div className="space-y-4">
       <Heading title={product.name} />
       <Separator />
-      <ProductItemClient
+      <ProductItemsClient
         product={product}
         productItems={productItems}
       />
