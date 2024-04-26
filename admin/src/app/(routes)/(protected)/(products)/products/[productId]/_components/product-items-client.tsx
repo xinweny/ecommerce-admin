@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 
 import { columns } from "./columns";
+import { AddProductItemFormModal } from "./add-product-item-form-modal";
 
 interface ProductItemsClientProps {
   product: Product;
@@ -41,12 +42,7 @@ export function ProductItemsClient({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <Heading title="SKUs" />
-        <Button onClick={() => {
-          console.log("TODO: add create product item modal")
-        }}>
-          <Plus className="mr-2 h-4 w-4" />
-          <span>New Product Item</span>
-        </Button>
+        <AddProductItemFormModal />
       </div>
       <Separator />
       <DataTable

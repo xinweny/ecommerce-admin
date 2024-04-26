@@ -53,9 +53,6 @@ export function ProductItemCarousel({
           ))}
         </CarouselContent>
       <CarouselNext />
-      <div className="text-center pt-2">
-        <span className="text-muted-foreground">{`${current} of ${count}`}</span>
-      </div>
     </Carousel>
   );
 }

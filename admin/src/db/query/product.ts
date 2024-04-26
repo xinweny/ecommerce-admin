@@ -53,20 +53,12 @@ export type AdminProduct = Prisma.ProductGetPayload<typeof productIncludeArgs> &
   },
 };
 
-const fullProductIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
-  include: {
-    ...productIncludeArgs.include,
-    productItems: {
-      ...productItemWithImagesIncludeArgs,
-    },
-  },
-});
-
-export type FullProduct = Prisma.ProductGetPayload<typeof fullProductIncludeArgs>;
+export type FullProduct = Prisma.ProductGetPayload<typeof productIncludeArgs>;
 
 export const getProductById = cache(async (productId: number) => {
   const product = await db.product.findUnique({
     where: { id: productId },
+    ...productIncludeArgs,
   });
 
   return product;

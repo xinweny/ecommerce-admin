@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/dialog";
 
 interface ModalProps {
+  open?: boolean;
+  onOpenChange?: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
   description: string;
   children: React.ReactNode;
@@ -17,13 +19,15 @@ interface ModalProps {
 }
 
 export function Modal({
+  open,
+  onOpenChange,
   title,
   description,
   children,
   trigger,
 }: ModalProps) {
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         {trigger}
       </DialogTrigger>
