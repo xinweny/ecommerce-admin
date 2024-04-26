@@ -1,6 +1,6 @@
 "use client";
 
-import { FullProductItem } from "@/db/query/product";
+import { AdminProductItem } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ProductItemRow, columns } from "./columns";
 
 interface ProductItemsClientProps {
-  productItems: FullProductItem[];
+  productItems: AdminProductItem[];
 }
 
 export function ProductItemsClient({

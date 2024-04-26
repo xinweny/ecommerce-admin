@@ -3,7 +3,7 @@
 import { Plus } from "lucide-react";
 import { Product } from "@prisma/client";
 
-import { ProductItemWithImages } from "@/db/query/product";
+import { AdminProductItem } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -14,7 +14,7 @@ import { columns } from "./columns";
 
 interface ProductItemsClientProps {
   product: Product;
-  productItems: ProductItemWithImages[];
+  productItems: AdminProductItem[];
 }
 
 export function ProductItemsClient({
@@ -28,6 +28,7 @@ export function ProductItemsClient({
     stock,
     price,
     images,
+    orderItems,
   }) => ({
     id,
     name,
@@ -35,6 +36,7 @@ export function ProductItemsClient({
     stock,
     price,
     imageUrls: images.map(image => image.imageUrl),
+    totalSold: orderItems?._sum.quantity || 0,
   }));
 
   return (

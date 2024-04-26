@@ -1,7 +1,7 @@
 "use client";
 
 import { Product } from "@prisma/client";
-import { ProductItemWithImages } from "@/db/query/product";
+import { AdminProductItem } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -10,7 +10,7 @@ import { ProductItemsClient } from "./product-items-client";
 
 interface ProductClientProps {
   product: Product;
-  productItems: ProductItemWithImages[];
+  productItems: AdminProductItem[];
 }
 
 export function ProductClient({

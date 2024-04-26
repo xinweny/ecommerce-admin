@@ -44,9 +44,16 @@ const fullProductItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArg
   },
 });
 
-export type ProductItemWithImages = Prisma.ProductItemGetPayload<typeof productItemWithImagesIncludeArgs>;
+const orderItemGroupByArgs = Prisma.validator<Prisma.OrderItemGroupByArgs>()({
+  by: ["productItemId"],
+  _sum: { quantity: true },
+});
 
-export type FullProductItem = Prisma.ProductItemGetPayload<typeof fullProductItemIncludeArgs>;
+export type AdminProductItem = Prisma.ProductItemGetPayload<typeof fullProductItemIncludeArgs> & {
+  orderItems: Prisma.PickEnumerable<Prisma.OrderItemGroupByOutputType, ["productItemId"]> & {
+    _sum: { quantity: number | null };
+  } | null,
+};
 
 export type AdminProduct = Prisma.ProductGetPayload<typeof productIncludeArgs> & {
   productItems: Prisma.PickEnumerable<Prisma.ProductItemGroupByOutputType, ["productId"]> & {
@@ -125,7 +132,27 @@ export const getQueriedProductItems = cache(async (params: DbQueryParams) => {
     ...orderBy(sort),
   });
 
-  return productItems;
+  const orderItems = (await db.orderItem.groupBy({
+    where: {
+      productItemId: {
+        in: productItems.map(productItem => productItem.id),
+      },
+    },
+    ...orderItemGroupByArgs,
+  })).reduce((agg, next) => {
+    agg[next.productItemId] = next;
+
+    return agg;
+  }, {} as {
+    [key: number]: Prisma.PickEnumerable<Prisma.OrderItemGroupByOutputType, ["productItemId"]> & {
+      _sum: { quantity: number | null };
+    };
+  });
+
+  return productItems.map(productItem => ({
+    ...productItem,
+    orderItems: orderItems[productItem.id] || null,
+  }));
 });
 
 export const getProductItemImagesByProductItemId = cache(async (productItemId: number) => {
