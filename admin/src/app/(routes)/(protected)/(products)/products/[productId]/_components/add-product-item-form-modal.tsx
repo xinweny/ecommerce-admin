@@ -68,6 +68,7 @@ export function AddProductItemFormModal({
         <Plus className="mr-2 h-4 w-4" />
         <span>New Product Item</span>
       </Button>}
+      modal={false}
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
