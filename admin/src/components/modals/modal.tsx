@@ -1,5 +1,7 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+
 import {
   Dialog,
   DialogHeader,
@@ -17,6 +19,7 @@ interface ModalProps {
   children: React.ReactNode;
   trigger: React.ReactNode;
   modal?: boolean;
+  className?: string;
 }
 
 export function Modal({
@@ -27,6 +30,7 @@ export function Modal({
   children,
   trigger,
   modal = true,
+  className,
 }: ModalProps) {
   return (
     <Dialog
@@ -41,6 +45,7 @@ export function Modal({
         title={title}
         description={description}
         disableOutsideInteraction={!modal}
+        className={cn("max-h-[calc(100vh-4rem)] overflow-y-auto", className)}
       >
         {children}
       </ModalContent>
@@ -53,6 +58,7 @@ interface ModalContentProps {
   description: string;
   children: React.ReactNode;
   disableOutsideInteraction?: boolean;
+  className?: string;
 }
 
 export function ModalContent({
@@ -60,6 +66,7 @@ export function ModalContent({
   description,
   children,
   disableOutsideInteraction = false,
+  className,
 }: ModalContentProps) {
   return (
     <DialogContent
@@ -67,6 +74,7 @@ export function ModalContent({
         ? (e) => { e.preventDefault(); }
         : undefined
       }
+      className={className}
     >
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>
