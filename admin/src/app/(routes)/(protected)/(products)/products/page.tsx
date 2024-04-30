@@ -8,21 +8,7 @@ import { ProductsClient } from "./_components/products-client";
 
 interface ProductsPageProps {
   searchParams: {
-    id?: string;
-    page?: string;
-    limit?: string;
-    name?: string;
-    slug?: string;
-    model?: string;
-    categoryName?: string;
-    subcategoryName?: string;
-    brandName?: string;
-    seriesName?: string;
-    query?: string;
-    categoryId?: string;
-    subcategoryId?: string;
-    brandId?: string;
-    seriesId?: string;
+    [key: string]: string;
   }
 }
 
@@ -43,6 +29,7 @@ export default async function ProductsPage({
     subcategoryId,
     brandId,
     seriesId,
+    isArchived,
   },
 }: ProductsPageProps) {
   const [
@@ -64,6 +51,7 @@ export default async function ProductsPage({
         subcategory: { name: subcategoryName },
         brand: { name: brandName },
         series: { name: seriesName },
+        isArchived,
       },
       filter: {
         name: {

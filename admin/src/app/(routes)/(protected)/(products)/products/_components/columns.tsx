@@ -32,6 +32,7 @@ export interface ProductRow {
     count: number;
     totalStock: number;
   };
+  isArchived: boolean;
 }
 
 export const columns: ColumnDef<ProductRow>[] = [
@@ -123,6 +124,16 @@ export const columns: ColumnDef<ProductRow>[] = [
     accessorKey: "totalStock",
     header: "Total Stock",
     cell: ({ row }) => row.original.productItems.totalStock,
+  },
+  {
+    accessorKey: "isArchived",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="Archived"
+      />
+    ),
+    cell: ({ row }) => row.original.isArchived ? "Yes" : "No",
   },
   {
     id: "actions",

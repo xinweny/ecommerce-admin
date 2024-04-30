@@ -40,6 +40,7 @@ export function ProductsClient({
     category,
     subcategory,
     productItems,
+    isArchived,
   }) => {
     return {
       id,
@@ -55,6 +56,7 @@ export function ProductsClient({
         count: productItems._count,
         totalStock: productItems._sum.stock || 0,
       },
+      isArchived,
     };
   });
 

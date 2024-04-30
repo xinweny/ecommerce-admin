@@ -183,6 +183,7 @@ model Product {
   description String?
   videoUrl    String?
   slug        String @unique
+  isArchived  Boolean @default(false)
 
   categoryId    Int
   category      Category    @relation(fields: [categoryId], references: [id])
@@ -206,6 +207,7 @@ model ProductItem {
   price Int
   sku   String @unique
   stock Int
+  isArchived  Boolean @default(false)
 
   productId Int
   product   Product @relation(fields: [productId], references: [id])
