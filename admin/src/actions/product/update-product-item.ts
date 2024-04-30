@@ -11,8 +11,8 @@ import {
   type ProductItemSchema,
   updateProductItemStockSchema,
   type UpdateProductItemStockSchema,
-  updateProductItemArchivedSchema,
-  type UpdateProductItemArchivedSchema,
+  updateArchivedSchema,
+  type UpdateArchivedSchema,
 } from "@/schemas/product";
 
 export const updateProductItem = async (productItemId: number, values: ProductItemSchema) => {
@@ -77,7 +77,6 @@ export const updateProductItemStock = async (productItemId: number, values: Upda
     revalidatePath(`/products/${productItem.productId}`);
 
     return {
-      data: { productId: productItem.id },
       success: `${productItem.sku} stock updated.`,
     };
   } catch (error) {
@@ -86,9 +85,9 @@ export const updateProductItemStock = async (productItemId: number, values: Upda
   }
 };
 
-export const updateProductItemArchived = async (productItemId: number, values: UpdateProductItemArchivedSchema) => {
+export const updateProductItemArchived = async (productItemId: number, values: UpdateArchivedSchema) => {
   try {
-    const validatedFields = updateProductItemArchivedSchema.safeParse(values);
+    const validatedFields = updateArchivedSchema.safeParse(values);
 
     if (!validatedFields.success) return { error: "Invalid fields." };
 
@@ -100,7 +99,6 @@ export const updateProductItemArchived = async (productItemId: number, values: U
     revalidatePath(`/products/${productItem.productId}`);
 
     return {
-      data: { productId: productItem.id },
       success: `${productItem.sku} ${productItem.isArchived ? "archived" : "unarchived"}.`,
     };
   } catch (error) {

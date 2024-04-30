@@ -5,6 +5,8 @@ import Link from "next/link";
 
 import { ToggleSort } from "@/components/ui/data-table";
 
+import { UpdateArchivedForm } from "./update-archived-form";
+
 import { CellAction } from "./cell-action";
 
 export interface ProductRow {
@@ -133,7 +135,12 @@ export const columns: ColumnDef<ProductRow>[] = [
         label="Archived"
       />
     ),
-    cell: ({ row }) => row.original.isArchived ? "Yes" : "No",
+    cell: ({ row }) => (
+      <UpdateArchivedForm
+        productId={row.original.id}
+        isArchived={row.original.isArchived}
+      />
+    ),
   },
   {
     id: "actions",

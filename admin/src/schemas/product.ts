@@ -45,10 +45,10 @@ export const updateProductItemStockSchema = z.object({
 
 export type UpdateProductItemStockSchema = z.infer<typeof updateProductItemStockSchema>;
 
-export const updateProductItemArchivedSchema = z.object({
+export const updateArchivedSchema = z.object({
   isArchived: z.boolean()
     .or(z.literal("true").transform(() => true))
     .or(z.literal("false").transform(() => false)),
 });
 
-export type UpdateProductItemArchivedSchema = z.infer<typeof updateProductItemArchivedSchema>;
+export type UpdateArchivedSchema = z.infer<typeof updateArchivedSchema>;
