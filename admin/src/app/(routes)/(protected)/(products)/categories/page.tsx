@@ -4,16 +4,8 @@ import { CategoriesClient } from "./_components/categories-client";
 
 interface CategoriesPageProps {
   searchParams: {
-    id?: string;
-    page?: string;
-    limit?: string;
-    name?: string;
-    slug?: string;
-    productCount?: string;
-    subcategoryCount?: string;
-    billboardLabel?: string;
-    query?: string;
-  }
+    [key: string]: string | undefined;
+  };
 }
 
 export default async function CategoriesPage({

@@ -8,7 +8,7 @@ import { ProductsClient } from "./_components/products-client";
 
 interface ProductsPageProps {
   searchParams: {
-    [key: string]: string;
+    [key: string]: string | undefined;
   }
 }
 

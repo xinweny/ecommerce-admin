@@ -5,13 +5,8 @@ import { SeriesClient } from "./_components/series-client";
 
 interface SeriesPageProps {
   searchParams: {
-    id?: string;
-    page?: string;
-    limit?: string;
-    name?: string;
-    slug?: string;
-    query?: string;
-  }
+    [key: string]: string | undefined;
+  };
 }
 
 export default async function SeriesPage({

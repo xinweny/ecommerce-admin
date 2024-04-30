@@ -4,15 +4,8 @@ import { BrandsClient } from "./_components/brands-client";
 
 interface BrandsPageProps {
   searchParams: {
-    id?: string;
-    page?: string;
-    limit?: string;
-    name?: string;
-    slug?: string;
-    productCount?: string;
-    seriesCount?: string;
-    query?: string;
-  }
+    [key: string]: string | undefined;
+  };
 }
 
 export default async function BrandsPage({

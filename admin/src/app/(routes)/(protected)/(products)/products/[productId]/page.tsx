@@ -7,12 +7,8 @@ import { ProductClient } from "./_components/product-client";
 interface ProductPageProps {
   params: { productId: string };
   searchParams: {
-    id?: string;
-    page?: string;
-    limit?: string;
-    name?: string;
-    query?: string;
-  }
+    [key: string]: string | undefined;
+  };
 }
 
 export default async function ProductPage({
@@ -23,6 +19,7 @@ export default async function ProductPage({
     query,
     page,
     limit,
+    isArchived,
   }
 }: ProductPageProps) {
   const product = await getProductById(+productId);

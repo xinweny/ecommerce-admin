@@ -4,14 +4,8 @@ import { BillboardsClient } from "./_components/billboards-client";
 
 interface BillboardsPageProps {
   searchParams: {
-    id?: string;
-    page?: string;
-    limit?: string;
-    label?: string;
-    createdAt?: string;
-    query?: string;
-    categoryCount?: string;
-  }
+    [key: string]: string | undefined;
+  };
 }
 
 export default async function BillboardsPage({
