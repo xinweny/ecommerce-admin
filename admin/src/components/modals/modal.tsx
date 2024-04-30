@@ -45,7 +45,7 @@ export function Modal({
         title={title}
         description={description}
         disableOutsideInteraction={!modal}
-        className={cn("max-h-[calc(100vh-4rem)] overflow-y-auto", className)}
+        className={className}
       >
         {children}
       </ModalContent>
@@ -74,7 +74,7 @@ export function ModalContent({
         ? (e) => { e.preventDefault(); }
         : undefined
       }
-      className={className}
+      className={cn("max-h-[calc(100vh-4rem)] overflow-y-auto", className)}
     >
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>

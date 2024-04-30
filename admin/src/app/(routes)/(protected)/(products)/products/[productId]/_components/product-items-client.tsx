@@ -28,14 +28,21 @@ export function ProductItemsClient({
     sku,
     stock,
     price,
+    product,
     images,
+    isArchived,
   }) => ({
     id,
     name,
     sku,
     stock,
     price,
-    imageUrls: images.map(image => image.imageUrl),
+    product: {
+      id: product.id,
+      name: product.name,
+    },
+    images,
+    isArchived,
   }));
 
   return (

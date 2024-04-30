@@ -1,6 +1,7 @@
 "use client";
  
 import { ColumnDef } from "@tanstack/react-table";
+import { ProductItemImage } from "@prisma/client";
 
 import { ToggleSort } from "@/components/ui/data-table";
 
@@ -11,10 +12,15 @@ import { CellAction } from "./cell-action";
 export interface ProductItemRow {
   id: number;
   name: string;
+  product: {
+    id: number;
+    name: string;
+  };
   sku: string;
   stock: number;
   price: number;
-  imageUrls: string[];
+  images: ProductItemImage[];
+  isArchived: boolean;
 }
 
 export const columns: ColumnDef<ProductItemRow>[] = [
@@ -30,8 +36,10 @@ export const columns: ColumnDef<ProductItemRow>[] = [
   {
     accessorKey: "imageUrls",
     header: "",
-    cell: ({ row }) => (row.original.imageUrls.length > 0 ? (
-      <ProductItemCellCarousel imageUrls={row.original.imageUrls} />
+    cell: ({ row }) => (row.original.images.length > 0 ? (
+      <ProductItemCellCarousel
+        imageUrls={row.original.images.map(image => image.imageUrl)}
+      />
     ) : null),
   },
   {
@@ -69,6 +77,16 @@ export const columns: ColumnDef<ProductItemRow>[] = [
         label="Price"
       />
     ),
+  },
+  {
+    accessorKey: "isArchived",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="Archived"
+      />
+    ),
+    cell: ({ row }) => row.original.isArchived ? "Yes" : "No",
   },
   {
     id: "actions",
