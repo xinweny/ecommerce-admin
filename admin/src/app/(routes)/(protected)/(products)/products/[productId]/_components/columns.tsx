@@ -9,6 +9,7 @@ import { ProductItemCellCarousel } from "@/app/(routes)/(protected)/_components/
 
 import { CellAction } from "./cell-action";
 import { UpdateStockForm } from "./update-stock-form";
+import { UpdateArchivedForm } from "./update-archived-form";
 
 export interface ProductItemRow {
   id: number;
@@ -78,10 +79,12 @@ export const columns: ColumnDef<ProductItemRow>[] = [
         label="Stock"
       />
     ),
-    cell: ({ row }) => (<UpdateStockForm
-      productItemId={row.original.id}
-      stock={row.original.stock}
-    />)
+    cell: ({ row }) => (
+      <UpdateStockForm
+        productItemId={row.original.id}
+        stock={row.original.stock}
+      />
+    ),
   },
   {
     accessorKey: "isArchived",
@@ -91,7 +94,12 @@ export const columns: ColumnDef<ProductItemRow>[] = [
         label="Archived"
       />
     ),
-    cell: ({ row }) => row.original.isArchived ? "Yes" : "No",
+    cell: ({ row }) => (
+      <UpdateArchivedForm
+        productItemId={row.original.id}
+        isArchived={row.original.isArchived}
+      />
+    ),
   },
   {
     id: "actions",

@@ -11,6 +11,8 @@ import {
   type ProductItemSchema,
   updateProductItemStockSchema,
   type UpdateProductItemStockSchema,
+  updateProductItemArchivedSchema,
+  type UpdateProductItemArchivedSchema,
 } from "@/schemas/product";
 
 export const updateProductItem = async (productItemId: number, values: ProductItemSchema) => {
@@ -53,7 +55,7 @@ export const updateProductItem = async (productItemId: number, values: ProductIt
 
     return {
       data: { productId: productItem.id },
-      success: `${productItem.name} updated.`,
+      success: `${productItem.sku} updated.`,
     };
   } catch (error) {
     console.log(error);
@@ -76,7 +78,30 @@ export const updateProductItemStock = async (productItemId: number, values: Upda
 
     return {
       data: { productId: productItem.id },
-      success: `${productItem.name} stock updated.`,
+      success: `${productItem.sku} stock updated.`,
+    };
+  } catch (error) {
+    console.log(error);
+    return { error: "Something went wrong." };
+  }
+};
+
+export const updateProductItemArchived = async (productItemId: number, values: UpdateProductItemArchivedSchema) => {
+  try {
+    const validatedFields = updateProductItemArchivedSchema.safeParse(values);
+
+    if (!validatedFields.success) return { error: "Invalid fields." };
+
+    const productItem = await db.productItem.update({
+      where: { id: productItemId },
+      data: { ...values },
+    });
+
+    revalidatePath(`/products/${productItem.productId}`);
+
+    return {
+      data: { productId: productItem.id },
+      success: `${productItem.sku} ${productItem.isArchived ? "archived" : "unarchived"}.`,
     };
   } catch (error) {
     console.log(error);
