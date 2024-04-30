@@ -24,6 +24,7 @@ import { ModalContent } from "@/components/modals/modal";
 
 import { UpdateProductItemForm } from "./update-product-item-form";
 import { ProductItemRow } from "./columns";
+
 interface CellActionProps {
   data: ProductItemRow;
 }
@@ -40,7 +41,7 @@ export function CellAction({
     <Dialog
       modal={false}
       open={openModal}
-      onOpenChange={() => { setOpenModal(true); }}
+      onOpenChange={setOpenModal}
     >
       <AlertDialog>
         <DropdownMenu>
@@ -72,6 +73,7 @@ export function CellAction({
         <ModalContent
           title="Edit Product Item"
           description={data.product.name}
+          disableOutsideInteraction
         >
           <UpdateProductItemForm
             productItem={data}

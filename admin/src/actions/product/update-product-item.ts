@@ -6,7 +6,12 @@ import { extractPublicId } from "cloudinary-build-url";
 import { db } from "@/db/client";
 import { cloudinary } from "@/lib/cloudinary";
 
-import { productItemSchema, type ProductItemSchema } from "@/schemas/product";
+import {
+  productItemSchema,
+  type ProductItemSchema,
+  updateProductItemStockSchema,
+  type UpdateProductItemStockSchema,
+} from "@/schemas/product";
 
 export const updateProductItem = async (productItemId: number, values: ProductItemSchema) => {
   try {
@@ -49,6 +54,29 @@ export const updateProductItem = async (productItemId: number, values: ProductIt
     return {
       data: { productId: productItem.id },
       success: `${productItem.name} updated.`,
+    };
+  } catch (error) {
+    console.log(error);
+    return { error: "Something went wrong." };
+  }
+};
+
+export const updateProductItemStock = async (productItemId: number, values: UpdateProductItemStockSchema) => {
+  try {
+    const validatedFields = updateProductItemStockSchema.safeParse(values);
+
+    if (!validatedFields.success) return { error: "Invalid fields." };
+
+    const productItem = await db.productItem.update({
+      where: { id: productItemId },
+      data: { ...values },
+    });
+
+    revalidatePath(`/products/${productItem.productId}`);
+
+    return {
+      data: { productId: productItem.id },
+      success: `${productItem.name} stock updated.`,
     };
   } catch (error) {
     console.log(error);

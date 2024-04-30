@@ -37,3 +37,10 @@ export const createProductSchema = z.object({
 });
 
 export type CreateProductSchema = z.infer<typeof createProductSchema>;
+
+export const updateProductItemStockSchema = z.object({
+  stock: z.number().min(0)
+    .or(z.string().transform(v => +v)),
+});
+
+export type UpdateProductItemStockSchema = z.infer<typeof updateProductItemStockSchema>;

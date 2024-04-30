@@ -8,6 +8,7 @@ import { ToggleSort } from "@/components/ui/data-table";
 import { ProductItemCellCarousel } from "@/app/(routes)/(protected)/_components/product-item-cell-carousel";
 
 import { CellAction } from "./cell-action";
+import { UpdateStockForm } from "./update-stock-form";
 
 export interface ProductItemRow {
   id: number;
@@ -61,15 +62,6 @@ export const columns: ColumnDef<ProductItemRow>[] = [
     ),
   },
   {
-    accessorKey: "stock",
-    header: ({ column }) => (
-      <ToggleSort
-        column={column}
-        label="Stock"
-      />
-    ),
-  },
-  {
     accessorKey: "price",
     header: ({ column }) => (
       <ToggleSort
@@ -77,6 +69,19 @@ export const columns: ColumnDef<ProductItemRow>[] = [
         label="Price"
       />
     ),
+  },
+  {
+    accessorKey: "stock",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="Stock"
+      />
+    ),
+    cell: ({ row }) => (<UpdateStockForm
+      productItemId={row.original.id}
+      stock={row.original.stock}
+    />)
   },
   {
     accessorKey: "isArchived",
