@@ -9,7 +9,7 @@ import { ProductsClient } from "./_components/products-client";
 interface ProductsPageProps {
   searchParams: {
     [key: string]: string | undefined;
-  }
+  };
 }
 
 export default async function ProductsPage({

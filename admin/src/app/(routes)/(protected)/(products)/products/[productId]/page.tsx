@@ -19,7 +19,10 @@ export default async function ProductPage({
     query,
     page,
     limit,
+    sku,
     isArchived,
+    price,
+    stock,
   }
 }: ProductPageProps) {
   const product = await getProductById(+productId);
@@ -38,6 +41,10 @@ export default async function ProductPage({
     sort: {
       id,
       name,
+      sku,
+      isArchived,
+      price,
+      stock,
     },
   })
 
