@@ -5,9 +5,7 @@ import {
   MoreHorizontal,
   Edit,
   Trash,
-  Image as ImageIcon,
 } from "lucide-react";
-import toast from "react-hot-toast";
 
 import {
   DropdownMenu,
@@ -31,6 +29,7 @@ export function CellAction({
   const router = useRouter();
 
   const onDelete = async () => {
+    console.log("TODO: Delete product");
   };
 
   return (

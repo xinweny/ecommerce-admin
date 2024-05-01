@@ -11,10 +11,10 @@ export default async function DashboardLayout({
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar className="border-r h-full" />
-      <div className="flex-grow flex-col overflow-y-auto h-full">
+      <div className="grow flex-col overflow-y-auto h-full">
         <Navbar />
-        <div className="flex-col flex-grow overflow-hidden">
-          <div className="flex-1 space-y-4 p-8 pt-6">
+        <div className="grow flex flex-col overflow-hidden">
+          <div className="grow space-y-4 p-8 pb-0 pt-6">
             {children}
           </div>
         </div>

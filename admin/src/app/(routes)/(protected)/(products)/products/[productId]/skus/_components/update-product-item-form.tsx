@@ -20,7 +20,7 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { updateProductItem } from "@/actions/product";
 
 interface UpdateProductItemFormProps {
-  productItem: Omit<AdminProductItem, "productId">;
+  productItem: Omit<AdminProductItem, "productId" | "createdAt" | "updatedAt">;
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }

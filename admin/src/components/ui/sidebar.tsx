@@ -8,6 +8,7 @@ import { Route } from "next";
 import { cn } from "@/lib/utils";
 
 import { Button, ButtonProps } from "./button";
+import { ScrollArea } from "./scroll-area";
 
 export function SidebarDesktop({
   className,
@@ -15,11 +16,11 @@ export function SidebarDesktop({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <nav className={cn("w-[270px] max-w-xs h-full", className)} {...props}>
-      <div className="px-3 py-4">
+    <ScrollArea className="w-[270px] max-w-xs overflow-hidden">
+      <nav className={cn("p-4 min-h-screen", className)} {...props}>
         {children}
-      </div>
-    </nav>
+      </nav>
+    </ScrollArea>
   );
 }
 

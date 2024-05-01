@@ -10,6 +10,8 @@ import {
   Award,
   Settings,
   Image as ImageIcon,
+  Star,
+  ListChecks,
 } from "lucide-react";
 
 import {
@@ -54,6 +56,16 @@ export function Sidebar({
             icon={Boxes}
           />
         </SidebarDesktopAccordion>
+        <SidebarDesktopLinkButton
+          label="Orders"
+          href="/orders"
+          icon={ListChecks}
+        />
+        <SidebarDesktopLinkButton
+          label="Reviews"
+          href="/reviews"
+          icon={Star}
+        />
         <SidebarDesktopAccordion
           label="Store"
           icon={Store}

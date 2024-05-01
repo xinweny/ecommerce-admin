@@ -3,22 +3,18 @@
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { AdminProductItem, FullProduct } from "@/db/query/product";
+import { FullProduct } from "@/db/query/product";
 
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
 
-import { ProductItemsClient } from "./product-items-client";
-
 interface ProductClientProps {
   product: FullProduct;
-  productItems: AdminProductItem[];
 }
 
 export function ProductClient({
   product,
-  productItems,
 }: ProductClientProps) {
   const router = useRouter();
 
@@ -35,7 +31,7 @@ export function ProductClient({
   } = product;
 
   return (
-    <div className="space-y-4">
+    <div className="grow">
       <div className="flex justify-between">
         <Heading title={name} />
         <Button onClick={() => { router.push(`/products/edit?productId=${product.id}`) }}>
@@ -44,10 +40,6 @@ export function ProductClient({
         </Button>
       </div>
       <Separator />
-      <ProductItemsClient
-        product={product}
-        productItems={productItems}
-      />
     </div>
   );
 }

@@ -1,13 +1,11 @@
 "use client";
 
-import { Plus } from "lucide-react";
 import { Product } from "@prisma/client";
 
 import { AdminProductItem } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 
 import { columns } from "./columns";

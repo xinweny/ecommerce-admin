@@ -35,6 +35,7 @@ export function CellAction({
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const onDelete = async () => {
+    console.log("TODO: Delete product item");
   };
 
   return (
@@ -67,7 +68,7 @@ export function CellAction({
           </DropdownMenuContent>
         </DropdownMenu>
         <AlertModalContent
-          title={`Delete product ${data.name}?`}
+          title={`Delete product item ${data.name}?`}
           onConfirm={onDelete}
         />
         <ModalContent

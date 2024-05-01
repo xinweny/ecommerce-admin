@@ -33,10 +33,6 @@ const productItemGroupByArgs = Prisma.validator<Prisma.ProductItemGroupByArgs>()
   _sum: { stock: true },
 });
 
-const productItemWithImagesIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()({
-  include: { images: true },
-});
-
 const fullProductItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()({
   include: {
     product: { select: { id: true, name: true } },
@@ -71,15 +67,15 @@ export const getQueriedProducts = cache(async (params: DbQueryParams) => {
     const products = await db.product.findMany({
       ...productIncludeArgs,
       ...where(filter),
-      ...paginate(pagination),
       ...orderBy(sort),
+      ...paginate(pagination),
     });
+
+    const productIds = products.map(product => product.id);
 
     const productItems = await db.productItem.groupBy({
       where: {
-        productId: {
-          in: products.map(product => product.id),
-        },
+        productId: { in: productIds },
       },
       ...productItemGroupByArgs,
     });
