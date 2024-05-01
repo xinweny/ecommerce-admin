@@ -17,7 +17,7 @@ export function SidebarDesktop({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <ScrollArea className="w-[270px] max-w-xs overflow-hidden">
-      <nav className={cn("p-4 min-h-screen", className)} {...props}>
+      <nav className={cn("p-4 min-h-screen bg-secondary", className)} {...props}>
         {children}
       </nav>
     </ScrollArea>
