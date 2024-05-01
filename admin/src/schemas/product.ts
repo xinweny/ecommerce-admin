@@ -8,6 +8,9 @@ export const productItemSchema = z.object({
   price: z.number().min(1)
   .or(z.string().transform(v => +v)),
   imageUrls: z.array(z.string()),
+  isArchived: z.boolean()
+    .or(z.literal("true").transform(() => true))
+    .or(z.literal("false").transform(() => false)),
 });
 
 export type ProductItemSchema = z.infer<typeof productItemSchema>;
@@ -27,6 +30,9 @@ export const productSchema = z.object({
     .or(z.string().transform(v => +v)),
   seriesId: z.optional(z.number()
     .or(z.string().transform(v => +v))),
+  isArchived: z.boolean()
+    .or(z.literal("true").transform(() => true))
+    .or(z.literal("false").transform(() => false)),
 });
 
 export type ProductSchema = z.infer<typeof productSchema>;

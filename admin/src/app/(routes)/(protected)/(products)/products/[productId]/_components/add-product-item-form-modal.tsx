@@ -14,6 +14,7 @@ import { Form } from "@/components/ui/form";
 import { Modal } from "@/components/modals/modal";
 import { Button } from "@/components/ui/button";
 import { FormInput } from "@/components/form/form-input";
+import { FormSelect } from "@/components/form/form-select";
 import { ImageUpload } from "@/components/form/image-upload";
 import { ImagePreview } from "@/components/form/image-preview";
 import { SubmitButton } from "@/components/form/submit-button";
@@ -39,6 +40,7 @@ export function AddProductItemFormModal({
       price: undefined,
       stock: undefined,
       imageUrls: [],
+      isArchived: false,
     },
   });
 
@@ -99,6 +101,14 @@ export function AddProductItemFormModal({
           <ImagePreview
             name="imageUrls"
             containerClassName="w-[200px] h-[200px]"
+          />
+          <FormSelect
+            name="isArchived"
+            label="Archived"
+            values={[
+              { value: false, label: "No" },
+              { value: true, label: "Yes" },
+            ]}
           />
           <SubmitButton className="w-full">
             Create Product Item

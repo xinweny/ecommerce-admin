@@ -43,6 +43,7 @@ export function UpdateProductForm({
       subcategoryId: product.subcategoryId || undefined,
       brandId: product.brandId,
       seriesId: product.seriesId || undefined,
+      isArchived: product.isArchived,
     },
   });
 
@@ -150,6 +151,14 @@ export function UpdateProductForm({
           label="Description"
         />
         <FormInput name="videoUrl" label="Video Link" />
+        <FormSelect
+          name="isArchived"
+          label="Archived"
+          values={[
+            { value: false, label: "No" },
+            { value: true, label: "Yes" },
+          ]}
+        />
         <SubmitButton className="ml-auto">
           Save Changes
         </SubmitButton>

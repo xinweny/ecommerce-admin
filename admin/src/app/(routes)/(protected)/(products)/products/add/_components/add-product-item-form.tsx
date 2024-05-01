@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { FormInput } from "@/components/form/form-input";
 import { ImageUpload } from "@/components/form/image-upload";
 import { ImagePreview } from "@/components/form/image-preview";
+import { FormSelect } from "@/components/form/form-select";
 
 export function AddProductItemForm() {
   const name = "productItems";
@@ -45,6 +46,7 @@ export function AddProductItemForm() {
               stock: 0,
               price: 0,
               imageUrls: [],
+              isArchived: false,
             });
           }}
         >
@@ -84,6 +86,14 @@ export function AddProductItemForm() {
             label="Product Images"
             folder="/products"
             limit={10}
+          />
+          <FormSelect
+            name={`${name}.${index}.isArchived`}
+            label="Archived"
+            values={[
+              { value: false, label: "No" },
+              { value: true, label: "Yes" },
+            ]}
           />
           <ImagePreview
             name={`${name}.${index}.imageUrls`}

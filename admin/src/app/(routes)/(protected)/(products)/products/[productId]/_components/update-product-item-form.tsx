@@ -12,6 +12,7 @@ import { productItemSchema, type ProductItemSchema } from "@/schemas/product";
 
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
+import { FormSelect } from "@/components/form/form-select";
 import { ImageUpload } from "@/components/form/image-upload";
 import { ImagePreview } from "@/components/form/image-preview";
 import { SubmitButton } from "@/components/form/submit-button";
@@ -41,6 +42,7 @@ export function UpdateProductItemForm({
       price: productItem.price,
       stock: productItem.stock,
       imageUrls: productItem.images.map(image => image.imageUrl),
+      isArchived: productItem.isArchived,
     },
   });
 
@@ -90,6 +92,14 @@ export function UpdateProductItemForm({
         <ImagePreview
           name="imageUrls"
           containerClassName="w-[200px] h-[200px]"
+        />
+        <FormSelect
+          name="isArchived"
+          label="Archived"
+          values={[
+            { value: false, label: "No" },
+            { value: true, label: "Yes" },
+          ]}
         />
         <SubmitButton className="w-full">
           Save Changes

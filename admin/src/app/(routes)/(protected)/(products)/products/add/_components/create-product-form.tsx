@@ -49,6 +49,7 @@ export function CreateProductForm({
         price: undefined,
         imageUrls: [],
       }],
+      isArchived: false,
     },
   });
 
@@ -157,6 +158,14 @@ export function CreateProductForm({
         />
         <FormInput name="videoUrl" label="Video Link" />
         <AddProductItemForm />
+        <FormSelect
+          name="isArchived"
+          label="Archived"
+          values={[
+            { value: false, label: "No" },
+            { value: true, label: "Yes" },
+          ]}
+        />
         <SubmitButton className="ml-auto">
           Create Product
         </SubmitButton>

@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { updateProductItemStock } from "@/actions/product";
+import { Button } from "@/components/ui/button";
 
 interface UpdateStockFormProps {
   productItemId: number;
@@ -32,10 +33,6 @@ export function UpdateStockForm({
 
   const [showForm, setShowForm] = useState<boolean>(false);
 
-  const clickAwayRef = useClickAway(() => {
-    setShowForm(false);
-  });
-
   const form = useForm<UpdateProductItemStockSchema>({
     defaultValues: {
       stock,
@@ -45,6 +42,8 @@ export function UpdateStockForm({
   });
 
   const onSubmit = async (values: UpdateProductItemStockSchema) => {
+    if (values.stock === stock) return;
+
     const { success, error } = await updateProductItemStock(productItemId, values);
 
     if (success) {
@@ -56,11 +55,14 @@ export function UpdateStockForm({
     if (error) toast.error(error);
   };
 
+  const clickAwayRef = useClickAway(async () => {
+    await form.handleSubmit(onSubmit)();
+    setShowForm(false);
+  });
+
   return (
     <div
-      onClick={() => { setShowForm(true); }}
       ref={clickAwayRef as React.RefObject<HTMLDivElement>}
-      className="hover:cursor-pointer"
     >
       {showForm
         ? (
@@ -85,7 +87,12 @@ export function UpdateStockForm({
           </Form>
         )
         : (
-          <span>{stock}</span>
+          <Button
+            onClick={() => { setShowForm(true); }}
+            variant="outline"
+          >
+            {stock}
+          </Button>
         )
       }
     </div>
