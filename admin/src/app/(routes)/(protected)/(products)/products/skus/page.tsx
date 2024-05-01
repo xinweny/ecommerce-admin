@@ -3,13 +3,8 @@ import { ProductItemsClient } from "./_components/product-items-client";
 
 interface ProductItemsPageProps {
   searchParams: {
-    id?: string;
-    page?: string;
-    limit?: string;
-    name?: string;
-    productName?: string;
-    query?: string;
-  }
+    [key: string]: string | undefined;
+  };
 }
 
 export default async function ProductItemsPage({
@@ -20,6 +15,7 @@ export default async function ProductItemsPage({
     name,
     productName,
     query,
+    isArchived,
   },
 }: ProductItemsPageProps) {
   const productItems = await getQueriedProductItems({
@@ -28,6 +24,7 @@ export default async function ProductItemsPage({
       id,
       name,
       product: { name: productName },
+      isArchived,
     },
     filter: {
       sku: {

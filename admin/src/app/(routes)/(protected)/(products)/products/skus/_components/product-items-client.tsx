@@ -24,6 +24,7 @@ export function ProductItemsClient({
     price,
     images,
     product,
+    isArchived,
   }) => {
     return {
       id,
@@ -33,6 +34,7 @@ export function ProductItemsClient({
       price,
       imageUrls: images.map(image => image.imageUrl),
       product,
+      isArchived,
     };
   });
 

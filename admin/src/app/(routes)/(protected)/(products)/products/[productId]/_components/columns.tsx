@@ -8,8 +8,8 @@ import { ToggleSort } from "@/components/ui/data-table";
 import { ProductItemCellCarousel } from "@/app/(routes)/(protected)/_components/product-item-cell-carousel";
 
 import { CellAction } from "./cell-action";
-import { UpdateStockForm } from "./update-stock-form";
-import { UpdateArchivedForm } from "./update-archived-form";
+import { UpdateStockForm } from "../../_components/update-stock-form";
+import { UpdateArchivedForm } from "../../_components/update-archived-form";
 
 export interface ProductItemRow {
   id: number;
@@ -96,7 +96,7 @@ export const columns: ColumnDef<ProductItemRow>[] = [
     ),
     cell: ({ row }) => (
       <UpdateArchivedForm
-        productItemId={row.original.id}
+        id={row.original.id}
         isArchived={row.original.isArchived}
       />
     ),

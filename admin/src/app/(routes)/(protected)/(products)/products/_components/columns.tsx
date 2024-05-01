@@ -137,8 +137,9 @@ export const columns: ColumnDef<ProductRow>[] = [
     ),
     cell: ({ row }) => (
       <UpdateArchivedForm
-        productId={row.original.id}
+        id={row.original.id}
         isArchived={row.original.isArchived}
+        isProduct
       />
     ),
   },

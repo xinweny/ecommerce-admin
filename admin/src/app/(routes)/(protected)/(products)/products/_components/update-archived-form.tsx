@@ -22,16 +22,21 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
-import { updateProductArchived } from "@/actions/product";
+import {
+  updateProductArchived,
+  updateProductItemArchived,
+} from "@/actions/product";
 
 interface UpdateArchivedFormProps {
-  productId: number;
+  id: number;
   isArchived: boolean;
+  isProduct?: boolean;
 }
 
 export function UpdateArchivedForm({
-  productId,
+  id,
   isArchived,
+  isProduct = false,
 }: UpdateArchivedFormProps) {
   const router = useRouter();
 
@@ -52,7 +57,9 @@ export function UpdateArchivedForm({
   } = form;
 
   const onSubmit = async (values: UpdateArchivedSchema) => {
-    const { success, error } = await updateProductArchived(productId, values);
+    const { success, error } = isProduct
+    ? await updateProductArchived(id, values)
+    : await updateProductItemArchived(id, values);
 
     if (success) {
       form.reset(values);

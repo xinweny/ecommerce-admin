@@ -6,6 +6,8 @@ import Link from "next/link";
 import { ToggleSort } from "@/components/ui/data-table";
 
 import { ProductItemCellCarousel } from "@/app/(routes)/(protected)/_components/product-item-cell-carousel";
+import { UpdateStockForm } from "../../_components/update-stock-form";
+import { UpdateArchivedForm } from "../../_components/update-archived-form";
 
 import { CellAction } from "./cell-action";
 
@@ -20,6 +22,7 @@ export interface ProductItemRow {
     id: number;
     name: string;
   };
+  isArchived: boolean;
 }
 
 export const columns: ColumnDef<ProductItemRow>[] = [
@@ -70,6 +73,15 @@ export const columns: ColumnDef<ProductItemRow>[] = [
     ),
   },
   {
+    accessorKey: "price",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="Price"
+      />
+    ),
+  },
+  {
     accessorKey: "stock",
     header: ({ column }) => (
       <ToggleSort
@@ -77,13 +89,25 @@ export const columns: ColumnDef<ProductItemRow>[] = [
         label="Stock"
       />
     ),
+    cell: ({ row }) => (
+      <UpdateStockForm
+        productItemId={row.original.id}
+        stock={row.original.stock}
+      />
+    ),
   },
   {
-    accessorKey: "price",
+    accessorKey: "isArchived",
     header: ({ column }) => (
       <ToggleSort
         column={column}
-        label="Price"
+        label="Archived"
+      />
+    ),
+    cell: ({ row }) => (
+      <UpdateArchivedForm
+        id={row.original.id}
+        isArchived={row.original.isArchived}
       />
     ),
   },
