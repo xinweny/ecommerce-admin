@@ -153,8 +153,10 @@ model Brand {
 model Series {
   id Int @id @default(autoincrement())
 
-  name String
-  slug String @unique
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   brandId Int
   brand   Brand @relation(fields: [brandId], references: [id])
@@ -165,8 +167,10 @@ model Series {
 model Subcategory {
   id Int @id @default(autoincrement())
 
-  name String @unique
-  slug String @unique
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
@@ -179,41 +183,45 @@ model Product {
   id Int @id @default(autoincrement())
 
   name        String
-  model       String @unique
+  model       String   @unique
   description String?
   videoUrl    String?
-  slug        String @unique
-  isArchived  Boolean @default(false)
+  slug        String   @unique
+  isArchived  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt @default(now())
 
   categoryId    Int
   category      Category    @relation(fields: [categoryId], references: [id])
   subcategoryId Int
   subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
   brandId       Int
-  brand         Brand      @relation(fields: [brandId], references: [id])
+  brand         Brand       @relation(fields: [brandId], references: [id])
   seriesId      Int?
   series        Series?     @relation(fields: [seriesId], references: [id])
 
-  productItems      ProductItem[]
-  orders            OrderItem[]
-  reviews           Review[]
-  specifications    ProductSpecification[]
+  productItems   ProductItem[]
+  orders         OrderItem[]
+  reviews        Review[]
+  specifications ProductSpecification[]
 }
 
 model ProductItem {
   id Int @id @default(autoincrement())
 
-  name  String
-  price Int
-  sku   String @unique
-  stock Int
-  isArchived  Boolean @default(false)
+  name       String
+  price      Int
+  sku        String   @unique
+  stock      Int
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   productId Int
   product   Product @relation(fields: [productId], references: [id])
 
-  images                 ProductItemImage[]
-  orders                 OrderItem[]
+  images ProductItemImage[]
+  orders OrderItem[]
 }
 
 model ProductItemImage {
@@ -256,6 +264,8 @@ model Order {
   user      User        @relation(fields: [userId], references: [id])
   addressId String
   address   UserAddress @relation(fields: [addressId], references: [id])
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 
   timeline OrderTimeline[]
 }
@@ -290,8 +300,10 @@ enum OrderStatus {
 model Review {
   id Int @id @default(autoincrement())
 
-  rating  Int
-  comment String?
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   productId Int
   product   Product @relation(fields: [productId], references: [id])
