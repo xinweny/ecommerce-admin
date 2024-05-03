@@ -15,7 +15,7 @@ export default async function DashboardLayout({
       <Sidebar className="border-r h-full" />
       <ScrollArea className="grow flex flex-col h-full">
         <Navbar />
-        <div className="grow flex flex-col overflow-hidden">
+        <div className="grow flex flex-col overflow-hidden min-h-full">
           <div className="grow space-y-4 p-8 pb-0 pt-6">
             {children}
           </div>
