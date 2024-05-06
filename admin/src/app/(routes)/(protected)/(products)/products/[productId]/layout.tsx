@@ -8,6 +8,7 @@ interface ProductPageLayoutProps {
 }
 
 import { ProductNavbarDesktop } from "./_components/product-navbar";
+import { ProductHeader } from "./_components/product-header";
 
 export default async function ProductPageLayout({
   params: { productId },
@@ -18,8 +19,9 @@ export default async function ProductPageLayout({
   if (!product) redirect("/products");
 
   return (
-    <div className="grow flex">
-      <ProductNavbarDesktop product={product} />
+    <div className="space-y-4">
+      <ProductHeader product={product} />
+      <ProductNavbarDesktop productId={product.id} />
       {children}
     </div>
   );

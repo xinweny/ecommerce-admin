@@ -31,15 +31,8 @@ export function ProductClient({
   } = product;
 
   return (
-    <div className="grow">
-      <div className="flex justify-between">
-        <Heading title={name} />
-        <Button onClick={() => { router.push(`/products/edit?productId=${product.id}`) }}>
-          <Pencil className="mr-2 h-4 w-4" />
-          <span>Edit Product</span>
-        </Button>
-      </div>
-      <Separator />
+    <div>
+
     </div>
   );
 }

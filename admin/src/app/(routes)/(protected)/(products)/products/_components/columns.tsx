@@ -30,11 +30,12 @@ export interface ProductRow {
     name: string;
   };
   slug: string;
+  isArchived: boolean;
   productItems: {
     count: number;
     totalStock: number;
   };
-  isArchived: boolean;
+  rating: number | null;
 }
 
 export const columns: ColumnDef<ProductRow>[] = [
@@ -116,6 +117,11 @@ export const columns: ColumnDef<ProductRow>[] = [
       />
     ),
     cell: ({ row }) => row.original.series?.name || "",
+  },
+  {
+    accessorKey: "rating",
+    header: "Rating",
+    cell: ({ row }) => row.original.rating || "-",
   },
   {
     accessorKey: "skusCount",

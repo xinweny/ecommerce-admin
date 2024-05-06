@@ -1,21 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { Product } from "@prisma/client";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
 interface ProductNavbarProps {
-  product: Product;
+  productId: number;
 };
 
 export function ProductNavbarDesktop({
-  product,
+  productId,
 }: ProductNavbarProps) {
   const pathname = usePathname();
-
-  const { id, name } = product;
 
   const links = [
     { href: "", label: "Overview" },
@@ -25,27 +22,24 @@ export function ProductNavbarDesktop({
   ];
 
   return (
-    <div className="space-y-4 pr-8 pl-0 mr-8 border-r">
-      <h2 className="font-bold text-xl">{name}</h2>
-      <nav className="flex flex-col gap-2">
-        {links.map(({ href, label }) => (
-          <Link
-            key={href}
-            href={`/products/${id}${href}`}
+    <nav className="flex gap-8 overflow-x-auto">
+      {links.map(({ href, label }) => (
+        <Link
+          key={href}
+          href={`/products/${productId}${href}`}
+        >
+          <span
+            className={cn(
+              "text-sm font-semibold",
+              pathname === `/products/${productId}${href}`
+                ? "text-primary"
+                : "text-muted-foreground"
+            )}
           >
-            <span
-              className={cn(
-                "text-sm font-semibold",
-                pathname === `/products/${id}${href}`
-                  ? "text-primary"
-                  : "text-muted-foreground"
-              )}
-            >
-              {label}
-            </span>
-          </Link>
-        ))}
-      </nav>
-    </div>
+            {label}
+          </span>
+        </Link>
+      ))}
+    </nav>
   );
 }

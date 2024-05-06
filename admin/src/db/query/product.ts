@@ -27,11 +27,21 @@ const productIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
   },
 });
 
-const productItemGroupByArgs = Prisma.validator<Prisma.ProductItemGroupByArgs>()({
-  by: ["productId"],
+const reviewGroupByArgs = {
+  by: "productId",
+  _count: true,
+  _avg: { rating: true },
+} satisfies Prisma.ReviewGroupByArgs;
+
+type ReviewGroupByPayload = Awaited<Prisma.GetReviewGroupByPayload<typeof reviewGroupByArgs>>;
+
+const productItemGroupByArgs = {
+  by: "productId",
   _count: true,
   _sum: { stock: true },
-});
+} satisfies Prisma.ProductItemGroupByArgs;
+
+type ProductItemGroupByPayload = Awaited<Prisma.GetProductItemGroupByPayload<typeof productItemGroupByArgs>>;
 
 const fullProductItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()({
   include: {
@@ -43,10 +53,8 @@ const fullProductItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArg
 export type AdminProductItem = Prisma.ProductItemGetPayload<typeof fullProductItemIncludeArgs>;
 
 export type AdminProduct = Prisma.ProductGetPayload<typeof productIncludeArgs> & {
-  productItems: Prisma.PickEnumerable<Prisma.ProductItemGroupByOutputType, ["productId"]> & {
-    _count: number;
-    _sum: { stock: number | null };
-  },
+  productItems: ProductItemGroupByPayload[0];
+  reviews: ReviewGroupByPayload[0] | undefined;
 };
 
 export type FullProduct = Prisma.ProductGetPayload<typeof productIncludeArgs>;
@@ -73,16 +81,28 @@ export const getQueriedProducts = cache(async (params: DbQueryParams) => {
 
     const productIds = products.map(product => product.id);
 
-    const productItems = await db.productItem.groupBy({
-      where: {
-        productId: { in: productIds },
-      },
-      ...productItemGroupByArgs,
-    });
+    const [productItems, reviews] = await Promise.all([
+      db.productItem.groupBy({
+        where: { productId: { in: productIds } },
+        ...productItemGroupByArgs,
+      }).then(res => res.reduce((acc, next) => ({
+        ...acc,
+        [next.productId]: next,
+      }), {} as { [key: number]: ProductItemGroupByPayload[0] })),
+      db.review.groupBy({
+        where: { productId: { in: productIds } },
+        ...reviewGroupByArgs,
+      }).then(res => res.reduce((acc, next) => ({
+        ...acc,
+        [next.productId]: next,
+      }), {} as { [key: number]: ReviewGroupByPayload[0] })),
+    ]);
+    console.log(productItems);
   
-    return products.map((product, i) => ({
+    return products.map(product => ({
       ...product,
-      productItems: productItems[i],
+      productItems: productItems[product.id],
+      reviews: reviews[product.id],
     }));
   } catch (error) {
     return [];

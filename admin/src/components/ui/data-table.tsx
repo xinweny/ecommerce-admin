@@ -32,7 +32,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "./table";
 import {
   Pagination,
   PaginationContent,
@@ -40,22 +40,22 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
+} from "./pagination";
 import {
   Form,
   FormItem,
   FormField,
   FormControl,
   FormLabel,
-} from "@/components/ui/form";
+} from "./form";
 import {
   Select,
   SelectTrigger,
   SelectContent,
   SelectItem,
   SelectValue,
-} from "@/components/ui/select";
-
+} from "./select";
+import { ScrollArea } from "./scroll-area";
 import { Button } from "./button";
 import { Input } from "./input";
 
@@ -73,6 +73,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   totalCount: number;
   filters?: DataTableFilter[];
+  queryPlaceholder?: string;
 }
  
 export function DataTable<TData, TValue>({
@@ -80,6 +81,7 @@ export function DataTable<TData, TValue>({
   data,
   totalCount,
   filters = [],
+  queryPlaceholder,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -92,9 +94,9 @@ export function DataTable<TData, TValue>({
   });
  
   return (
-    <div>
+    <ScrollArea>
       <div className="flex items-center justify-between flex-wrap">
-        <DataTableSearch filters={filters} />
+        <DataTableSearch filters={filters} placeholder={queryPlaceholder} />
         <span className="text-xs text-muted-foreground mb-4 mx-2 self-end">
           {`${table.getRowCount()} of ${totalCount} items`}
         </span>
@@ -150,7 +152,7 @@ export function DataTable<TData, TValue>({
           className="mt-4"
         />        
       </div>
-    </div>
+    </ScrollArea>
   );
 }
 

@@ -1,7 +1,7 @@
 import { Navbar } from "./_components/navbar";
 import { Sidebar } from "./_components/sidebar";
 
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -15,11 +15,12 @@ export default async function DashboardLayout({
       <Sidebar className="border-r h-full" />
       <ScrollArea className="grow flex flex-col h-full">
         <Navbar />
-        <div className="grow flex flex-col overflow-hidden min-h-full">
-          <div className="grow space-y-4 p-8 pb-0 pt-6">
+        <div className="flex flex-col overflow-hidden min-h-full">
+          <div className="grow flex flex-col gap-4 p-8 pb-0 pt-6 h-full">
             {children}
           </div>
         </div>
+        <ScrollBar orientation="horizontal" />
       </ScrollArea>
     </div>
   );

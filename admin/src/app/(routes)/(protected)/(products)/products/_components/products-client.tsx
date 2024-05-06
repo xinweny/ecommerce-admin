@@ -39,8 +39,9 @@ export function ProductsClient({
     series,
     category,
     subcategory,
-    productItems,
     isArchived,
+    productItems,
+    reviews,
   }) => {
     return {
       id,
@@ -52,11 +53,12 @@ export function ProductsClient({
         : undefined,
       category: { id: category.id, name: category.name },
       subcategory: { id: subcategory.id, name: subcategory.name },
-      productItems: {
-        count: productItems._count,
-        totalStock: productItems._sum.stock || 0,
-      },
       isArchived,
+      productItems: {
+        count: productItems._count || 0,
+        totalStock: productItems._sum?.stock || 0,
+      },
+      rating: reviews?._avg?.rating || null,
     };
   });
 

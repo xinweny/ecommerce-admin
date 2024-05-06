@@ -5,7 +5,6 @@ import { Product } from "@prisma/client";
 import { AdminProductItem } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
-import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
 
 import { columns } from "./columns";
@@ -49,7 +48,6 @@ export function ProductItemsClient({
         <Heading title="SKUs" />
         <AddProductItemFormModal product={product} />
       </div>
-      <Separator />
       <DataTable
         data={data}
         columns={columns}

@@ -8,7 +8,7 @@ export default async function ProductsLayout({
   children,
 }: ProductsLayoutProps) {
   return (
-    <div className="grow flex flex-col gap-4 min-h-full">
+    <div className="grow flex flex-col gap-4 h-full">
       <ProductsBreadcrumb />
       {children}
     </div>
