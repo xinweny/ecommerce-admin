@@ -4,6 +4,8 @@ import {
   MoreHorizontal,
   Trash,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 import {
   DropdownMenu,
@@ -17,6 +19,8 @@ import { AlertModalContent } from "@/components/modals/alert-modal";
 
 import { ReviewRow } from "./columns";
 
+import { deleteReview } from "@/actions/review";
+
 interface CellActionProps {
   data: ReviewRow;
 }
@@ -24,8 +28,20 @@ interface CellActionProps {
 export function CellAction({
   data,
 }: CellActionProps) {
+  const router = useRouter();
+  
   const onDelete = async () => {
-    console.log("TODO: Delete review");
+    const { success, error } = await deleteReview(data.id);
+
+    if (error) {
+      toast.error(error);
+      return;
+    }
+
+    if (success) {
+      toast.success(success);
+      router.refresh();
+    }
   };
 
   return (

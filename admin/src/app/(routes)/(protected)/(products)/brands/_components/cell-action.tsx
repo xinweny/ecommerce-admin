@@ -41,7 +41,7 @@ export function CellAction({
 
     if (success) {
       toast.success(success);
-      router.push("/categories");
+      router.refresh();
     }
   };
 
