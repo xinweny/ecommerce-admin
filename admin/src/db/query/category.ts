@@ -22,7 +22,7 @@ const categoryIncludeArgs = Prisma.validator<Prisma.CategoryDefaultArgs>()({
   },
 });
 
-export type AdminCategory = Prisma.CategoryGetPayload<typeof categoryIncludeArgs>;
+export type CategoryIncludePayload = Prisma.CategoryGetPayload<typeof categoryIncludeArgs>;
 
 export const getCategoryById = cache(async (categoryId: number) => {
   const category = await db.category.findUnique({

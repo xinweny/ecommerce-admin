@@ -4,7 +4,7 @@ import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 
-import { AdminBillboard } from "@/db/query/billboard";
+import { BillboardIncludePayload } from "@/db/query/billboard";
 
 import { Heading } from "@/components/shared/heading";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { BillboardRow, columns } from "./columns";
 
 interface BillboardsClientProps {
-  billboards: AdminBillboard[];
+  billboards: BillboardIncludePayload[];
   totalCount: number;
 }
 

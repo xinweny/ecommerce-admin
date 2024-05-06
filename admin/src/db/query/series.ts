@@ -21,7 +21,7 @@ const seriesIncludeArgs = Prisma.validator<Prisma.SeriesDefaultArgs>()({
   },
 });
 
-export type AdminSeries = Prisma.SeriesGetPayload<typeof seriesIncludeArgs>;
+export type SeriesIncludePayload = Prisma.SeriesGetPayload<typeof seriesIncludeArgs>;
 
 export const getSeriesById = cache(async (seriesId: number) => {
   const series = await db.series.findUnique({

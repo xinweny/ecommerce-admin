@@ -43,21 +43,21 @@ const productItemGroupByArgs = {
 
 type ProductItemGroupByPayload = Awaited<Prisma.GetProductItemGroupByPayload<typeof productItemGroupByArgs>>;
 
-const fullProductItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()({
+const productItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()({
   include: {
     product: { select: { id: true, name: true } },
     images: true,
   },
 });
 
-export type AdminProductItem = Prisma.ProductItemGetPayload<typeof fullProductItemIncludeArgs>;
+export type ProductIncludePayload = Prisma.ProductGetPayload<typeof productIncludeArgs>;
 
-export type AdminProduct = Prisma.ProductGetPayload<typeof productIncludeArgs> & {
+export type ProductItemIncludePayload = Prisma.ProductItemGetPayload<typeof productItemIncludeArgs>;
+
+export type ProductIncludeGroupByPayload = ProductIncludePayload & {
   productItems: ProductItemGroupByPayload[0];
   reviews: ReviewGroupByPayload[0] | undefined;
 };
-
-export type FullProduct = Prisma.ProductGetPayload<typeof productIncludeArgs>;
 
 export const getProductById = cache(async (productId: number) => {
   const product = await db.product.findUnique({
@@ -97,7 +97,6 @@ export const getQueriedProducts = cache(async (params: DbQueryParams) => {
         [next.productId]: next,
       }), {} as { [key: number]: ReviewGroupByPayload[0] })),
     ]);
-    console.log(productItems);
   
     return products.map(product => ({
       ...product,
@@ -125,7 +124,7 @@ export const getQueriedProductItems = cache(async (params: DbQueryParams) => {
   const { pagination, sort, filter } = params;
 
   const productItems = await db.productItem.findMany({
-    ...fullProductItemIncludeArgs,
+    ...productItemIncludeArgs,
     ...where(filter),
     ...paginate(pagination),
     ...orderBy(sort),

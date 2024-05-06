@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 
-import { AdminSubcategory } from "@/db/query/subcategory";
+import { SubcategoryIncludePayload } from "@/db/query/subcategory";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { SubcategoryRow, columns } from "./columns";
 
 interface SubcategoriesClientProps {
-  subcategories: AdminSubcategory[];
+  subcategories: SubcategoryIncludePayload[];
   totalCount: number;
 }
 

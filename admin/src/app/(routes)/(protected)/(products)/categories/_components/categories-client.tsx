@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 
-import { AdminCategory } from "@/db/query/category";
+import { CategoryIncludePayload } from "@/db/query/category";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { CategoryRow, columns } from "./columns";
 
 interface CategoriesClientProps {
-  categories: AdminCategory[];
+  categories: CategoryIncludePayload[];
   totalCount: number;
 }
 

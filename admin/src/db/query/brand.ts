@@ -21,7 +21,7 @@ const brandIncludeArgs = Prisma.validator<Prisma.BrandDefaultArgs>()({
   },
 });
 
-export type AdminBrand = Prisma.BrandGetPayload<typeof brandIncludeArgs>;
+export type BrandIncludePayload = Prisma.BrandGetPayload<typeof brandIncludeArgs>;
 
 export const getBrandById = cache(async (brandId: number) => {
   const brand = await db.brand.findUnique({

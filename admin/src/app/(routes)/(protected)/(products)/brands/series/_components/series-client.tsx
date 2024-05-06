@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 
-import { AdminSeries } from "@/db/query/series";
+import { SeriesIncludePayload } from "@/db/query/series";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { SeriesRow, columns } from "./columns";
 
 interface SeriesClientProps {
-  series: AdminSeries[];
+  series: SeriesIncludePayload[];
   totalCount: number;
 }
 

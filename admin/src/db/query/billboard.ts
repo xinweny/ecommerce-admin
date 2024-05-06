@@ -20,7 +20,7 @@ const billboardIncludeArgs = Prisma.validator<Prisma.BillboardDefaultArgs>()({
   },
 });
 
-export type AdminBillboard = Prisma.BillboardGetPayload<typeof billboardIncludeArgs>;
+export type BillboardIncludePayload = Prisma.BillboardGetPayload<typeof billboardIncludeArgs>;
 
 export const getBillboardById = cache(async (billboardId: number) => {
   const billboard = await db.billboard.findUnique({

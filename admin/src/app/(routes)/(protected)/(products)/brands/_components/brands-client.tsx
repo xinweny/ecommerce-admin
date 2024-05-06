@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 
-import { AdminBrand } from "@/db/query/brand";
+import { BrandIncludePayload } from "@/db/query/brand";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { BrandRow, columns } from "./columns";
 
 interface BrandsClientProps {
-  brands: AdminBrand[];
+  brands: BrandIncludePayload[];
   totalCount: number;
 }
 

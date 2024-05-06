@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminReview } from "@/db/query/review";
+import { ReviewIncludePayload } from "@/db/query/review";
 
 import { Heading } from "@/components/shared/heading";
 import { DataTable } from "@/components/ui/data-table";
@@ -8,7 +8,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { columns } from "./columns";
 
 interface ProductReviewsClientProps {
-  reviews: AdminReview[];
+  reviews: ReviewIncludePayload[];
 }
 
 export function ProductReviewsClient({

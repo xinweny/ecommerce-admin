@@ -3,14 +3,14 @@
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { FullProduct } from "@/db/query/product";
+import { ProductIncludePayload } from "@/db/query/product";
 
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
 
 interface ProductClientProps {
-  product: FullProduct;
+  product: ProductIncludePayload;
 }
 
 export function ProductClient({

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { Brand, Category, Series, Subcategory } from "@prisma/client";
 
-import { AdminProduct } from "@/db/query/product";
+import { ProductIncludeGroupByPayload } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { ProductRow, columns } from "./columns";
 
 interface ProductsClientProps {
-  products: AdminProduct[];
+  products: ProductIncludeGroupByPayload[];
   totalCount: number;
   filters: {
     categories: Category[];

@@ -2,7 +2,7 @@
 
 import { Product } from "@prisma/client";
 
-import { AdminProductItem } from "@/db/query/product";
+import { ProductItemIncludePayload } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
 import { DataTable } from "@/components/ui/data-table";
@@ -12,7 +12,7 @@ import { AddProductItemFormModal } from "./add-product-item-form-modal";
 
 interface ProductItemsClientProps {
   product: Product;
-  productItems: AdminProductItem[];
+  productItems: ProductItemIncludePayload[];
 }
 
 export function ProductItemsClient({
