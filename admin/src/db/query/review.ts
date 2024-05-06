@@ -22,7 +22,7 @@ const reviewAggregateArgs = {
   _avg: { rating: true },
 } satisfies Prisma.ReviewAggregateArgs;
 
-type ReviewAggregatePayload = Awaited<Prisma.GetReviewAggregateType<typeof reviewAggregateArgs>>;
+export type ReviewAggregatePayload = Prisma.GetReviewAggregateType<typeof reviewAggregateArgs>;
 
 export type ReviewIncludePayload = Prisma.ReviewGetPayload<typeof reviewIncludeArgs>;
 

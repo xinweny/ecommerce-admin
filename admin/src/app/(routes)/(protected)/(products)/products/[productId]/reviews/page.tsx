@@ -1,5 +1,5 @@
-import { getProductById, getQueriedProductItems } from "@/db/query/product";
-import { getQueriedReviews } from "@/db/query/review";
+import { getProductById } from "@/db/query/product";
+import { getProductReviewAggregate, getQueriedReviews } from "@/db/query/review";
 
 import { redirect } from "next/navigation";
 
@@ -27,25 +27,29 @@ export default async function ProductPage({
 
   if (!product) redirect("/products");
 
-  const reviews = await getQueriedReviews({
-    filter: {
-      productId: product.id,
-      comment: {
-        contains: query,
-        mode: "insensitive",
+  const [reviews, reviewAggregate] = await Promise.all([
+    getQueriedReviews({
+      filter: {
+        productId: product.id,
+        comment: {
+          contains: query,
+          mode: "insensitive",
+        },
       },
-    },
-    pagination: { page, limit },
-    sort: {
-      id,
-      rating,
-      createdAt,
-    },
-  });
+      pagination: { page, limit },
+      sort: {
+        id,
+        rating,
+        createdAt,
+      },
+    }),
+    getProductReviewAggregate(product.id),
+  ]);
 
   return (
     <ProductReviewsClient
       reviews={reviews}
+      reviewAggregate={reviewAggregate}
     />
   );
 }
