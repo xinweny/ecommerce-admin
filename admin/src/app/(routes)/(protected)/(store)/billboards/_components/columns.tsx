@@ -1,6 +1,7 @@
 "use client";
  
 import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 
 import { ToggleSort } from "@/components/ui/data-table";
 
@@ -9,7 +10,7 @@ import { CellAction } from "./cell-action";
 export interface BillboardRow {
   id: number;
   label: string;
-  createdAt: string;
+  createdAt: Date;
   categoryCount: number;
 }
  
@@ -40,6 +41,7 @@ export const columns: ColumnDef<BillboardRow>[] = [
         label="Created"
       />
     ),
+    cell: ({ row }) => format(row.original.createdAt, "dd/mm/yyyy"),
   },
   {
     accessorKey: "categoryCount",

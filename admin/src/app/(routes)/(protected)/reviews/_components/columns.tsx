@@ -5,8 +5,6 @@ import Link from "next/link";
 
 import { ToggleSort } from "@/components/ui/data-table";
 
-import { CellAction } from "./cell-action";
-
 export interface ProductReviewRow {
   product: {
     id: number;
@@ -53,8 +51,4 @@ export const columns: ColumnDef<ProductReviewRow>[] = [
       />
     ),
   },
-  {
-    id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />
-  }
 ];

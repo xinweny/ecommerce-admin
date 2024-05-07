@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, OrderStatus } from "@prisma/client";
 
 import { getOrdersCount, getQueriedOrders } from "@/db/query/order";
 
@@ -16,6 +16,9 @@ export default async function ProductsPage({
     page,
     limit,
     query,
+    total,
+    createdAt,
+    currentStatus,
   },
 }: ProductsPageProps) {
   const filter = {
@@ -23,6 +26,7 @@ export default async function ProductsPage({
       query,
       mode: Prisma.QueryMode.insensitive,
     },
+    ...(currentStatus && { currentStatus: currentStatus as OrderStatus }),
   };
 
   const [orders, totalCount] = await Promise.all([
@@ -30,6 +34,8 @@ export default async function ProductsPage({
       pagination: { page, limit },
       sort: {
         id,
+        total,
+        createdAt,
       },
       filter,
     }),

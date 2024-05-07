@@ -1,5 +1,7 @@
 "use client";
 
+import { OrderStatus } from "@prisma/client";
+
 import { OrderIncludePayload } from "@/db/query/order";
 
 import { Heading } from "@/components/shared/heading";
@@ -15,26 +17,37 @@ interface OrdersClientProps {
 
 export function OrdersClient({
   orders,
+  totalCount,
 }: OrdersClientProps) {
   const data = orders.map(({
     id,
     total,
     currentStatus,
+    createdAt,
   }) => ({
     id,
     total,
     currentStatus,
+    createdAt,
   })) satisfies OrderRow[];
 
   return (
     <div className="space-y-4">
-      <Heading title="Reviews" />
+      <Heading title="Orders" />
       <Separator />
       <DataTable
         data={data}
         columns={columns}
         totalCount={totalCount}
-        queryPlaceholder="Search ID"
+        queryPlaceholder="Search Order ID"
+        filters={[{
+          label: "Statuses",
+          name: "currentStatus",
+          values: Object.values(OrderStatus).map(status => ({
+            label: status,
+            value: status,
+          })),
+        }]}
       />
     </div>
   );

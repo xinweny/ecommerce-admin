@@ -4,7 +4,6 @@ import {
   MoreHorizontal,
   Trash,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 import {
   DropdownMenu,
@@ -14,16 +13,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-import { ProductReviewRow } from "./columns";
+import { OrderRow } from "./columns";
 
 interface CellActionProps {
-  data: ProductReviewRow;
+  data: OrderRow;
 }
 
 export function CellAction({
   data,
 }: CellActionProps) {
-  const router = useRouter();
 
   return (
     <DropdownMenu>

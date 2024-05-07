@@ -2,7 +2,6 @@
 
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns";
 
 import { BillboardIncludePayload } from "@/db/query/billboard";
 
@@ -27,7 +26,7 @@ export function BillboardsClient({
   const data = billboards.map(({ id, label, createdAt, _count }) => ({
     id,
     label,
-    createdAt: format(createdAt, "dd/mm/yyyy"),
+    createdAt,
     categoryCount: _count.categories,
   })) satisfies BillboardRow[];
 
