@@ -55,7 +55,7 @@ import {
   SelectItem,
   SelectValue,
 } from "./select";
-import { ScrollArea } from "./scroll-area";
+import { ScrollArea, ScrollBar } from "./scroll-area";
 import { Button } from "./button";
 import { Input } from "./input";
 
@@ -152,6 +152,7 @@ export function DataTable<TData, TValue>({
           className="mt-4"
         />        
       </div>
+      <ScrollBar orientation="horizontal" />
     </ScrollArea>
   );
 }
