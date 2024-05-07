@@ -19,7 +19,7 @@ const subcategoryIncludeArgs = Prisma.validator<Prisma.SubcategoryDefaultArgs>()
   },
 });
 
-export type AdminSubcategory = Prisma.SubcategoryGetPayload<typeof subcategoryIncludeArgs>;
+export type SubcategoryIncludePayload = Prisma.SubcategoryGetPayload<typeof subcategoryIncludeArgs>;
 
 export const getSubcategoryById = cache(async (subcategoryId: number) => {
   const subcategory = await db.subcategory.findUnique({
@@ -35,9 +35,9 @@ export const getQueriedSubcategories = cache(async (params: DbQueryParams) => {
 
     const subcategories = await db.subcategory.findMany({
       ...where(filter),
-      ...subcategoryIncludeArgs,
-      ...paginate(pagination),
       ...orderBy(sort),
+      ...paginate(pagination),
+      ...subcategoryIncludeArgs,
     });
   
     return subcategories;

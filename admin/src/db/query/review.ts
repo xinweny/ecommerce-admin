@@ -10,12 +10,22 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
+import { productSelectNameArgs } from "./product";
+
 const reviewIncludeArgs = Prisma.validator<Prisma.ReviewDefaultArgs>()({
   include: {
     product: { select: { id: true, name: true } },
     user: { select: { id: true, firstName: true, lastName: true }},
   },
 });
+
+const reviewGroupByArgs = {
+  by: "productId",
+  _count: true,
+  _avg: { rating: true },
+} satisfies Prisma.ReviewGroupByArgs;
+
+export type ReviewGroupByPayload = Awaited<Prisma.GetReviewGroupByPayload<typeof reviewGroupByArgs>>;
 
 const reviewAggregateArgs = {
   _count: true,
@@ -30,10 +40,10 @@ export const getQueriedReviews = cache(async (params: DbQueryParams) => {
   const { pagination, sort, filter } = params;
 
   const productItems = await db.review.findMany({
-    ...reviewIncludeArgs,
     ...where(filter),
-    ...paginate(pagination),
     ...orderBy(sort),
+    ...paginate(pagination),
+    ...reviewIncludeArgs,
   });
 
   return productItems;
@@ -46,4 +56,19 @@ export const getProductReviewAggregate = cache(async (productId: number) => {
   });
 
   return reviewAggregate;
+});
+
+export const getReviewsGroupByProduct = cache(async (params: DbQueryParams) => {
+  const { pagination, sort, filter } = params;
+
+  const reviews = await db.review.groupBy({
+    ...where(filter),
+    ...reviewGroupByArgs,
+    ...orderBy(sort) as any,
+    ...paginate(pagination),
+  });
+
+  console.log(reviews);
+
+  return reviews;
 });

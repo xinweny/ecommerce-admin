@@ -51,9 +51,9 @@ export const getQueriedSeries = cache(async (params: DbQueryParams) => {
 
     const series = await db.series.findMany({
       ...where(filter),
-      ...seriesIncludeArgs,
-      ...paginate(pagination),
       ...orderBy(sort),
+      ...paginate(pagination),
+      ...seriesIncludeArgs,
     });
   
     return series;

@@ -44,9 +44,9 @@ export const getQueriedCategories = cache(async (params: DbQueryParams) => {
 
     const categories = await db.category.findMany({
       ...where(filter),
-      ...categoryIncludeArgs,
-      ...paginate(pagination),
       ...orderBy(sort),
+      ...paginate(pagination),
+      ...categoryIncludeArgs,
     });
   
     return categories;

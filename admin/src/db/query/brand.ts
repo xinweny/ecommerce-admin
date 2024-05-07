@@ -43,9 +43,9 @@ export const getQueriedBrands = cache(async (params: DbQueryParams) => {
 
     const brands = await db.brand.findMany({
       ...where(filter),
-      ...brandIncludeArgs,
-      ...paginate(pagination),
       ...orderBy(sort),
+      ...paginate(pagination),
+      ...brandIncludeArgs,
     });
   
     return brands;

@@ -48,9 +48,9 @@ export const getQueriedBillboards = cache(async (params: DbQueryParams) => {
 
     const billboards = await db.billboard.findMany({
       ...where(filter),
-      ...billboardIncludeArgs,
-      ...paginate(pagination),
       ...orderBy(sort),
+      ...paginate(pagination),
+      ...billboardIncludeArgs,
     });
   
     return billboards;
