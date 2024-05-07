@@ -44,17 +44,17 @@ type ReviewGroupByOrderByArgs = {
   )[];
 };
 
-export const getQueriedReviews = cache(async (params: DbQueryParams) => {
+export const getQueriedReviews = cache(async (params: DbQueryParams<Prisma.ReviewWhereInput>) => {
   const { pagination, sort, filter } = params;
 
-  const productItems = await db.review.findMany({
+  const reviews = await db.review.findMany({
     ...where(filter),
     ...orderBy(sort),
     ...paginate(pagination),
     ...reviewIncludeArgs,
   });
 
-  return productItems;
+  return reviews;
 });
 
 export const getProductReviewAggregate = cache(async (productId: number) => {
@@ -66,7 +66,7 @@ export const getProductReviewAggregate = cache(async (productId: number) => {
   return reviewAggregate;
 });
 
-export const getReviewsGroupByProduct = cache(async (params: DbQueryParams): Promise<ReviewGroupByPayload[]> => {
+export const getReviewsGroupByProduct = cache(async (params: DbQueryParams<Prisma.ReviewWhereInput>): Promise<ReviewGroupByPayload[]> => {
   const { pagination, sort, filter } = params;
 
   const reviews = await db.review.groupBy({
@@ -85,4 +85,10 @@ export const getReviewsGroupByProduct = cache(async (params: DbQueryParams): Pro
     ...review,
     product: products[i],
   }));
+});
+
+export const getReviewsCount = cache(async (query?: Prisma.ReviewWhereInput) => {
+  const count = await db.review.count({ where: query });
+
+  return count;
 });

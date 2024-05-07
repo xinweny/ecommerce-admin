@@ -37,7 +37,7 @@ export const getBrands = cache(async () => {
   return brands;
 });
 
-export const getQueriedBrands = cache(async (params: DbQueryParams) => {
+export const getQueriedBrands = cache(async (params: DbQueryParams<Prisma.BrandWhereInput>) => {
   try {
     const { pagination, sort, filter } = params;
 
@@ -54,8 +54,8 @@ export const getQueriedBrands = cache(async (params: DbQueryParams) => {
   }
 });
 
-export const getBrandsCount = cache(async () => {
-  const count = await db.brand.count();
+export const getBrandsCount = cache(async (query?: Prisma.BrandWhereInput) => {
+  const count = await db.brand.count({ where: query });
 
   return count;
 });

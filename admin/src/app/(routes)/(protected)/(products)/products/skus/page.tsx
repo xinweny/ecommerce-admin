@@ -1,4 +1,7 @@
-import { getQueriedProductItems } from "@/db/query/product";
+import { Prisma } from "@prisma/client";
+
+import { getProductItemsCount, getQueriedProductItems } from "@/db/query/product";
+
 import { ProductItemsClient } from "./_components/product-items-client";
 
 interface ProductItemsPageProps {
@@ -18,23 +21,31 @@ export default async function ProductItemsPage({
     isArchived,
   },
 }: ProductItemsPageProps) {
-  const productItems = await getQueriedProductItems({
-    pagination: { page, limit },
-    sort: {
-      id,
-      name,
-      product: { name: productName },
-      isArchived,
+  const filter = {
+    sku: {
+      contains: query,
+      mode: Prisma.QueryMode.insensitive,
     },
-    filter: {
-      sku: {
-        contains: query,
-        mode: "insensitive",
+  }
+
+  const [productItems, totalCount] = await Promise.all([
+    getQueriedProductItems({
+      pagination: { page, limit },
+      sort: {
+        id,
+        name,
+        product: { name: productName },
+        isArchived,
       },
-    },
-  });
+      filter,
+    }),
+    getProductItemsCount(filter),
+  ]);
 
   return (
-    <ProductItemsClient productItems={productItems} />
+    <ProductItemsClient
+      productItems={productItems}
+      totalCount={totalCount}
+    />
   );
 }

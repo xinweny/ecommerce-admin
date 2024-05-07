@@ -29,7 +29,7 @@ export function BillboardsClient({
     label,
     createdAt: format(createdAt, "dd/mm/yyyy"),
     categoryCount: _count.categories,
-  } as BillboardRow));
+  })) satisfies BillboardRow[];
 
   return (
     <div className="space-y-4">

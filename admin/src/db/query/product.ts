@@ -66,7 +66,7 @@ export const getProductById = cache(async (productId: number) => {
   return product;
 });
 
-export const getQueriedProducts = cache(async (params: DbQueryParams) => {
+export const getQueriedProducts = cache(async (params: DbQueryParams<Prisma.ProductWhereInput>) => {
   try {
     const { pagination, sort, filter } = params;
 
@@ -96,19 +96,19 @@ export const getQueriedProducts = cache(async (params: DbQueryParams) => {
   }
 });
 
-export const getProductsCount = cache(async () => {
-  const count = await db.product.count();
+export const getProductsCount = cache(async (query?: Prisma.ProductWhereInput) => {
+  const count = await db.product.count({ where: query });
 
   return count;
 });
 
-export const getProductItemsCount = cache(async () => {
-  const count = await db.productItem.count();
+export const getProductItemsCount = cache(async (query?: Prisma.ProductItemWhereInput) => {
+  const count = await db.productItem.count({ where: query });
 
   return count;
 });
 
-export const getQueriedProductItems = cache(async (params: DbQueryParams) => {
+export const getQueriedProductItems = cache(async (params: DbQueryParams<Prisma.ProductItemWhereInput>) => {
   const { pagination, sort, filter } = params;
 
   const productItems = await db.productItem.findMany({

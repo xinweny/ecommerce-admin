@@ -23,7 +23,7 @@ export function CategoriesClient({
 }: CategoriesClientProps) {
   const router = useRouter();
 
-  const data: CategoryRow[] = categories.map(({ id, name, slug, billboard, _count }) => {
+  const data = categories.map(({ id, name, slug, billboard, _count }) => {
     return {
       id,
       name,
@@ -34,7 +34,7 @@ export function CategoriesClient({
         ? { id: billboard.id, label: billboard.label }
         : null,
     };
-  });
+  }) satisfies CategoryRow[];
 
   return (
     <div className="space-y-4">

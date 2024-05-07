@@ -23,7 +23,7 @@ export function BrandsClient({
 }: BrandsClientProps) {
   const router = useRouter();
 
-  const data: BrandRow[] = brands.map(({ id, name, slug, _count }) => {
+  const data = brands.map(({ id, name, slug, _count }) => {
     return {
       id,
       name,
@@ -31,7 +31,7 @@ export function BrandsClient({
       productCount: _count.products,
       seriesCount: _count.series,
     };
-  });
+  }) satisfies BrandRow[];
 
   return (
     <div className="space-y-4">

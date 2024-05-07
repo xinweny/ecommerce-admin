@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminProductItem } from "@/db/query/product";
+import { ProductItemIncludePayload } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
@@ -10,13 +10,15 @@ import { Button } from "@/components/ui/button";
 import { ProductItemRow, columns } from "./columns";
 
 interface ProductItemsClientProps {
-  productItems: AdminProductItem[];
+  productItems: ProductItemIncludePayload[];
+  totalCount: number;
 }
 
 export function ProductItemsClient({
   productItems,
+  totalCount,
 }: ProductItemsClientProps) {
-  const data: ProductItemRow[] = productItems.map(({
+  const data = productItems.map(({
     id,
     name,
     sku,
@@ -36,7 +38,7 @@ export function ProductItemsClient({
       product,
       isArchived,
     };
-  });
+  }) satisfies ProductItemRow[];
 
   return (
     <div className="space-y-4">
@@ -45,7 +47,7 @@ export function ProductItemsClient({
       <DataTable
         data={data}
         columns={columns}
-        totalCount={productItems.length}
+        totalCount={totalCount}
       />
     </div>
   );

@@ -1,17 +1,17 @@
 import { Prisma } from "@prisma/client";
 
-export interface DbQueryParams {
+export interface DbQueryParams<T> {
   pagination?: Pagination;
   sort?: SortStack<string>;
-  filter?: Object;
+  filter?: T;
 }
 
-interface Pagination {
+export interface Pagination {
   page?: string;
   limit?: string;
 }
 
-type SortStack<T> = {
+export type SortStack<T> = {
   [key: string]: SortStack<T> | T | undefined;
 };
 
@@ -70,7 +70,5 @@ export const orderBy = (
 export const where = (filter?: Object) => {
   if (!filter) return undefined;
 
-  return {
-    where: filter,
-  };
+  return { where: filter };
 };

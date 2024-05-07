@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 import { getQueriedProducts, getProductsCount } from "@/db/query/product";
 import { getCategories } from "@/db/query/category";
 import { getBrands } from "@/db/query/brand";
@@ -32,6 +34,17 @@ export default async function ProductsPage({
     isArchived,
   },
 }: ProductsPageProps) {
+  const filter = {
+    name: {
+      contains: query,
+      mode: Prisma.QueryMode.insensitive,
+    },
+    ...(categoryId && { categoryId: +categoryId }),
+    ...(subcategoryId && { subcategoryId: +subcategoryId }),
+    ...(brandId && { brandId: +brandId }),
+    ...(seriesId && { seriesId: +seriesId }),
+  };
+
   const [
     products,
     totalCount,
@@ -53,18 +66,9 @@ export default async function ProductsPage({
         series: { name: seriesName },
         isArchived,
       },
-      filter: {
-        name: {
-          contains: query,
-          mode: "insensitive",
-        },
-        ...(categoryId && { categoryId: +categoryId }),
-        ...(subcategoryId && { subcategoryId: +subcategoryId }),
-        ...(brandId && { brandId: +brandId }),
-        ...(seriesId && { seriesId: +seriesId }),
-      },
+      filter,
     }),
-    getProductsCount(),
+    getProductsCount(filter),
     getCategories(),
     getSubcategories(),
     getBrands(),

@@ -38,7 +38,7 @@ export const getCategories = cache(async () => {
   return categories;
 });
 
-export const getQueriedCategories = cache(async (params: DbQueryParams) => {
+export const getQueriedCategories = cache(async (params: DbQueryParams<Prisma.CategoryWhereInput>) => {
   try {
     const { pagination, sort, filter } = params;
 
@@ -55,8 +55,8 @@ export const getQueriedCategories = cache(async (params: DbQueryParams) => {
   }
 });
 
-export const getCategoriesCount = cache(async () => {
-  const count = await db.category.count();
+export const getCategoriesCount = cache(async (query?: Prisma.CategoryWhereInput) => {
+  const count = await db.category.count({ where: query });
 
   return count;
 });

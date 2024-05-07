@@ -23,7 +23,7 @@ export function SubcategoriesClient({
 }: SubcategoriesClientProps) {
   const router = useRouter();
 
-  const data: SubcategoryRow[] = subcategories.map(({ id, name, slug, category, _count }) => {
+  const data = subcategories.map(({ id, name, slug, category, _count }) => {
     return {
       id,
       name,
@@ -31,7 +31,7 @@ export function SubcategoriesClient({
       productCount: _count.products,
       category: { id: category.id, name: category.name },
     };
-  });
+  }) satisfies SubcategoryRow[];
 
   return (
     <div className="space-y-4">

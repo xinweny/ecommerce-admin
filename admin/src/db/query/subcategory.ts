@@ -29,7 +29,7 @@ export const getSubcategoryById = cache(async (subcategoryId: number) => {
   return subcategory;
 });
 
-export const getQueriedSubcategories = cache(async (params: DbQueryParams) => {
+export const getQueriedSubcategories = cache(async (params: DbQueryParams<Prisma.SubcategoryWhereInput>) => {
   try {
     const { pagination, sort, filter } = params;
 
@@ -46,8 +46,8 @@ export const getQueriedSubcategories = cache(async (params: DbQueryParams) => {
   }
 });
 
-export const getSubcategoriesCount = cache(async () => {
-  const count = await db.subcategory.count();
+export const getSubcategoriesCount = cache(async (query?: Prisma.SubcategoryWhereInput) => {
+  const count = await db.subcategory.count({ where: query });
 
   return count;
 });

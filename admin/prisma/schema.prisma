@@ -189,7 +189,7 @@ model Product {
   slug        String   @unique
   isArchived  Boolean  @default(false)
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
 
   categoryId    Int
   category      Category    @relation(fields: [categoryId], references: [id])
@@ -260,21 +260,27 @@ model ProductSpecification {
 model Order {
   id String @id @default(cuid())
 
-  userId    String
-  user      User        @relation(fields: [userId], references: [id])
-  addressId String
-  address   UserAddress @relation(fields: [addressId], references: [id])
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  addressId     String
+  address       UserAddress @relation(fields: [addressId], references: [id])
+  total         Int
+  currentStatus OrderStatus @default(processing)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
-  timeline OrderTimeline[]
+  timeline   OrderTimeline[]
+  orderItems OrderItem[]
 }
 
 model OrderItem {
   id String @id @default(cuid())
 
   quantity Int
+  price    Int
 
+  orderId       String
+  order         Order       @relation(fields: [orderId], references: [id])
   productId     Int
   product       Product     @relation(fields: [productId], references: [id])
   productItemId Int
@@ -293,6 +299,7 @@ model OrderTimeline {
 
 enum OrderStatus {
   processing
+  shipped
   fulfilled
   cancelled
 }

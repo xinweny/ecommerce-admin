@@ -5,7 +5,7 @@ import { ReviewAggregatePayload, ReviewIncludePayload } from "@/db/query/review"
 import { Heading } from "@/components/shared/heading";
 import { DataTable } from "@/components/ui/data-table";
 
-import { columns } from "./columns";
+import { columns, ReviewRow } from "./columns";
 
 interface ProductReviewsClientProps {
   reviews: ReviewIncludePayload[];
@@ -31,7 +31,7 @@ export function ProductReviewsClient({
     },
     comment,
     createdAt,
-  }));
+  })) satisfies ReviewRow[];
 
   const avgRating = reviewAggregate._avg.rating;
 

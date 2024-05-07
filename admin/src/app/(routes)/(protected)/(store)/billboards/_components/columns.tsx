@@ -10,7 +10,6 @@ export interface BillboardRow {
   id: number;
   label: string;
   createdAt: string;
-  storeId: string;
   categoryCount: number;
 }
  

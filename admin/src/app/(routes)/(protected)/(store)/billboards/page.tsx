@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 import { getBillboardsCount, getQueriedBillboards } from "@/db/query/billboard";
 
 import { BillboardsClient } from "./_components/billboards-client";
@@ -7,7 +9,6 @@ interface BillboardsPageProps {
     [key: string]: string | undefined;
   };
 }
-
 export default async function BillboardsPage({
   searchParams: {
     page,
@@ -19,6 +20,13 @@ export default async function BillboardsPage({
     query,
   },
 }: BillboardsPageProps) {
+  const filter = {
+    label: {
+      contains: query,
+      mode: Prisma.QueryMode.insensitive,
+    },
+  };
+
   const [billboards, totalCount] = await Promise.all([
     getQueriedBillboards({
       pagination: { page, limit },
@@ -28,14 +36,9 @@ export default async function BillboardsPage({
         createdAt,
         category: { _count: categoryCount },
       },
-      filter: {
-        label: {
-          contains: query,
-          mode: "insensitive",
-        },
-      },
+      filter,
     }),
-    getBillboardsCount(),
+    getBillboardsCount(filter),
   ]);
 
   return (

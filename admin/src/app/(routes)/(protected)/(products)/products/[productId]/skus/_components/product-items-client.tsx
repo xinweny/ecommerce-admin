@@ -7,7 +7,7 @@ import { ProductItemIncludePayload } from "@/db/query/product";
 import { Heading } from "@/components/shared/heading";
 import { DataTable } from "@/components/ui/data-table";
 
-import { columns } from "./columns";
+import { columns, ProductItemRow } from "./columns";
 import { AddProductItemFormModal } from "./add-product-item-form-modal";
 
 interface ProductItemsClientProps {
@@ -40,7 +40,7 @@ export function ProductItemsClient({
     },
     images,
     isArchived,
-  }));
+  })) satisfies ProductItemRow[];
 
   return (
     <div className="space-y-4">

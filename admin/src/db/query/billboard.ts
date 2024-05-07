@@ -36,13 +36,13 @@ export const getBillboards = cache(async () => {
   return billboards;
 });
 
-export const getBillboardsCount = cache(async () => {
-  const count = await db.billboard.count();
+export const getBillboardsCount = cache(async (query?: Prisma.BillboardWhereInput) => {
+  const count = await db.billboard.count({ where: query });
 
   return count;
 });
 
-export const getQueriedBillboards = cache(async (params: DbQueryParams) => {
+export const getQueriedBillboards = cache(async (params: DbQueryParams<Prisma.BillboardWhereInput>) => {
   try {
     const { pagination, sort, filter } = params;
 

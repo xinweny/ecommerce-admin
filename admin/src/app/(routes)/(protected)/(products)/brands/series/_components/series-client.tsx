@@ -23,7 +23,7 @@ export function SeriesClient({
 }: SeriesClientProps) {
   const router = useRouter();
 
-  const data: SeriesRow[] = series.map(({ id, name, slug, brand, _count }) => {
+  const data = series.map(({ id, name, slug, brand, _count }) => {
     return {
       id,
       name,
@@ -31,7 +31,7 @@ export function SeriesClient({
       brand: { id: brand.id, name: brand.name },
       productCount: _count.products,
     };
-  });
+  }) satisfies SeriesRow[];
 
   return (
     <div className="space-y-4">

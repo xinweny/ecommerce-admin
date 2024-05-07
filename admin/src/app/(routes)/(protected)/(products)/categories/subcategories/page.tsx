@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 import { getQueriedSubcategories, getSubcategoriesCount } from "@/db/query/subcategory";
 
 import { SubcategoriesClient } from "./_components/subcategories-client";
@@ -19,6 +21,13 @@ export default async function SubcategoriesPage({
     query,
   },
 }: SubcategoriesPageProps) {
+  const filter = {
+    name: {
+      contains: query,
+      mode: Prisma.QueryMode.insensitive,
+    },
+  };
+
   const [subcategories, totalCount] = await Promise.all([
     getQueriedSubcategories({
       pagination: { page, limit },
@@ -28,14 +37,9 @@ export default async function SubcategoriesPage({
         slug,
         productCount,
       },
-      filter: {
-        name: {
-          contains: query,
-          mode: "insensitive",
-        },
-      },
+      filter,
     }),
-    getSubcategoriesCount(),
+    getSubcategoriesCount(filter),
   ]);
 
   return (

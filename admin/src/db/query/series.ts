@@ -45,7 +45,7 @@ export const getSeriesByBrandId = cache(async (brandId: number) => {
   return series;
 });
 
-export const getQueriedSeries = cache(async (params: DbQueryParams) => {
+export const getQueriedSeries = cache(async (params: DbQueryParams<Prisma.SeriesWhereInput>) => {
   try {
     const { pagination, sort, filter } = params;
 
@@ -62,8 +62,8 @@ export const getQueriedSeries = cache(async (params: DbQueryParams) => {
   }
 });
 
-export const getSeriesCount = cache(async () => {
-  const count = await db.series.count();
+export const getSeriesCount = cache(async (query?: Prisma.SeriesWhereInput) => {
+  const count = await db.series.count({ where: query });
 
   return count;
 });
