@@ -35,7 +35,6 @@ export interface ProductRow {
     count: number;
     totalStock: number;
   };
-  rating: number | null;
 }
 
 export const columns: ColumnDef<ProductRow>[] = [
@@ -47,6 +46,11 @@ export const columns: ColumnDef<ProductRow>[] = [
         label="ID"
       />
     ),
+    cell: ({ row }) => (
+      <Link href={`/products/${row.original.id}`}>
+        {row.original.id}
+      </Link>
+    ),
   },
   {
     accessorKey: "name",
@@ -57,7 +61,9 @@ export const columns: ColumnDef<ProductRow>[] = [
       />
     ),
     cell: ({ row }) => (
-      <Link href={`/products/${row.original.id}`}>{row.original.name}</Link>
+      <Link href={`/products/${row.original.id}`}>
+        {row.original.name}
+      </Link>
     ),
   },
   {
@@ -117,11 +123,6 @@ export const columns: ColumnDef<ProductRow>[] = [
       />
     ),
     cell: ({ row }) => row.original.series?.name || "",
-  },
-  {
-    accessorKey: "rating",
-    header: "Rating",
-    cell: ({ row }) => row.original.rating || "-",
   },
   {
     accessorKey: "skusCount",

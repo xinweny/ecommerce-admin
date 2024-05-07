@@ -5,24 +5,23 @@ import { redirect } from "next/navigation";
 
 import { ProductReviewsClient } from "./_components/product-reviews-client";
 
-interface ProductPageProps {
+interface ProductReviewsPageProps {
   params: { productId: string };
   searchParams: {
     [key: string]: string | undefined;
   };
 }
 
-export default async function ProductPage({
+export default async function ProductReviewsPage({
   params: { productId },
   searchParams: {
     id,
     query,
     page,
     limit,
-    rating,
     createdAt,
   }
-}: ProductPageProps) {
+}: ProductReviewsPageProps) {
   const product = await getProductById(+productId);
 
   if (!product) redirect("/products");
@@ -39,7 +38,6 @@ export default async function ProductPage({
       pagination: { page, limit },
       sort: {
         id,
-        rating,
         createdAt,
       },
     }),

@@ -10,8 +10,6 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
-import { ReviewGroupByPayload } from "./review";
-
 const productIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
   include: {
     brand: {
@@ -57,11 +55,7 @@ export const productSelectNameArgs = {
   name: true,
 } satisfies Prisma.ProductSelect;
 
-export type ProductGroupByReviewPayload = Prisma.ProductGetPayload<{
-  select: typeof productSelectNameArgs;
-}> & {
-  reviews: ReviewGroupByPayload[0];
-};
+export type ProductSelectNamePayload = Prisma.ProductGetPayload<{ select: typeof productSelectNameArgs }>;
 
 export const getProductById = cache(async (productId: number) => {
   const product = await db.product.findUnique({

@@ -55,7 +55,6 @@ import {
   SelectItem,
   SelectValue,
 } from "./select";
-import { ScrollArea, ScrollBar } from "./scroll-area";
 import { Button } from "./button";
 import { Input } from "./input";
 
@@ -94,7 +93,7 @@ export function DataTable<TData, TValue>({
   });
  
   return (
-    <ScrollArea>
+    <div>
       <div className="flex items-center justify-between flex-wrap">
         <DataTableSearch filters={filters} placeholder={queryPlaceholder} />
         <span className="text-xs text-muted-foreground mb-4 mx-2 self-end">
@@ -152,8 +151,7 @@ export function DataTable<TData, TValue>({
           className="mt-4"
         />        
       </div>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+    </div>
   );
 }
 

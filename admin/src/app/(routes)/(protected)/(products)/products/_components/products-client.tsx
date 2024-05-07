@@ -41,7 +41,6 @@ export function ProductsClient({
     subcategory,
     isArchived,
     productItems,
-    reviews,
   }) => {
     return {
       id,
@@ -58,7 +57,6 @@ export function ProductsClient({
         count: productItems._count || 0,
         totalStock: productItems._sum?.stock || 0,
       },
-      rating: reviews?._avg?.rating || null,
     };
   });
 

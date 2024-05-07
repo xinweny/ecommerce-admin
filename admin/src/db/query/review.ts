@@ -10,7 +10,7 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
-import { productSelectNameArgs } from "./product";
+import { productSelectNameArgs, ProductSelectNamePayload } from "./product";
 
 const reviewIncludeArgs = Prisma.validator<Prisma.ReviewDefaultArgs>()({
   include: {
@@ -25,7 +25,9 @@ const reviewGroupByArgs = {
   _avg: { rating: true },
 } satisfies Prisma.ReviewGroupByArgs;
 
-export type ReviewGroupByPayload = Awaited<Prisma.GetReviewGroupByPayload<typeof reviewGroupByArgs>>;
+export type ReviewGroupByPayload = Awaited<Prisma.GetReviewGroupByPayload<typeof reviewGroupByArgs>>[0] & {
+  product: ProductSelectNamePayload;
+};
 
 const reviewAggregateArgs = {
   _count: true,
@@ -35,6 +37,12 @@ const reviewAggregateArgs = {
 export type ReviewAggregatePayload = Prisma.GetReviewAggregateType<typeof reviewAggregateArgs>;
 
 export type ReviewIncludePayload = Prisma.ReviewGetPayload<typeof reviewIncludeArgs>;
+
+type ReviewGroupByOrderByArgs = {
+  orderBy: ({ productId: Prisma.SortOrder })[] & (
+    { _avg: { rating: Prisma.SortOrder } } | { _count: Prisma.SortOrder }
+  )[];
+};
 
 export const getQueriedReviews = cache(async (params: DbQueryParams) => {
   const { pagination, sort, filter } = params;
@@ -58,17 +66,23 @@ export const getProductReviewAggregate = cache(async (productId: number) => {
   return reviewAggregate;
 });
 
-export const getReviewsGroupByProduct = cache(async (params: DbQueryParams) => {
+export const getReviewsGroupByProduct = cache(async (params: DbQueryParams): Promise<ReviewGroupByPayload[]> => {
   const { pagination, sort, filter } = params;
 
   const reviews = await db.review.groupBy({
     ...where(filter),
     ...reviewGroupByArgs,
-    ...orderBy(sort) as any,
+    ...orderBy(sort) as ReviewGroupByOrderByArgs,
     ...paginate(pagination),
   });
 
-  console.log(reviews);
+  const products = await db.product.findMany({
+    where: { id: { in: reviews.map(review => review.productId) } },
+    select: productSelectNameArgs,
+  });
 
-  return reviews;
+  return reviews.map((review, i) => ({
+    ...review,
+    product: products[i],
+  }));
 });
