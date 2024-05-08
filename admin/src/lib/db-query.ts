@@ -72,3 +72,16 @@ export const where = (filter?: Object) => {
 
   return { where: filter };
 };
+
+export const parseDateRange = (dateRange: string | undefined) => {
+  if (!dateRange) return;
+
+  const obj = JSON.parse(dateRange);
+
+  if (typeof obj !== "object" || obj === null || Array.isArray(obj)) return;
+
+  return {
+    gte: obj.from  ? new Date(obj.from) : undefined,
+    lte: obj.to ? new Date(obj.to): undefined,
+  };
+}

@@ -10,6 +10,7 @@ import {
   DataTableQueryForm,
   DataTableSearch,
   DataTableFilters,
+  DataTableDateRange,
 } from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
 
@@ -58,6 +59,7 @@ export function OrdersClient({
               })),
             }]}
           />
+          <DataTableDateRange />
         </DataTableQueryForm>}
       />
     </div>

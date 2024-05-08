@@ -57,6 +57,7 @@ import {
 } from "./select";
 import { Button } from "./button";
 import { Input } from "./input";
+import { FormDateRange } from "../form/form-date";
 
 interface DataTableFilter {
   name: string;
@@ -71,7 +72,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   totalCount: number;
-  queryForm: React.ReactNode;
+  queryForm?: React.ReactNode;
 }
  
 export function DataTable<TData, TValue>({
@@ -206,10 +207,15 @@ export function DataTableQueryForm({
   children,
 }: DataTableQueryFormProps) {
   const form = useForm();
+  const { formState: { isSubmitting, isDirty } } = form;
 
   const { navigateQueryString } = useQueryString();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: {
+    [key: string]: any;
+  }) => {
+    if (!data) return;
+  
     navigateQueryString(data);
   };
 
@@ -220,7 +226,11 @@ export function DataTableQueryForm({
     >
       <Form {...form}>
         {children}
-        <Button variant="secondary" type="submit">Search</Button>
+        <Button
+          variant="secondary"
+          type="submit"
+          disabled={isSubmitting || !isDirty}
+        >Search</Button>
       </Form>
     </form>
   );
@@ -315,6 +325,12 @@ export function DataTableFilters({
         />
       ))}
     </>
+  );
+}
+
+export function DataTableDateRange() {
+  return (
+    <FormDateRange name="dateRange" />
   );
 }
 

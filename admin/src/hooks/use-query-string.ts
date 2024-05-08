@@ -3,7 +3,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Route } from "next";
 
 interface QueryParams {
-  [key: string]: string | null;
+  [key: string]: string | Object | null;
 }
 
 export const useQueryString = () => {
@@ -20,9 +20,14 @@ export const useQueryString = () => {
       const params = getQueryString();
 
       Object.entries(values).forEach(([key, value]) => {
-        value
-          ? params.set(key, value)
-          : params.delete(key);
+        if (value === null || value === undefined || value === "") {
+          params.delete(key);
+        } else {
+          params.set(
+            key,
+            typeof value === "object" ? JSON.stringify(value) : value
+          );
+        }
       });
  
       return `${pathname}?${params.toString()}`;

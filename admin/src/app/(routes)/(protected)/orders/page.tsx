@@ -1,5 +1,7 @@
 import { Prisma, OrderStatus } from "@prisma/client";
 
+import { parseDateRange } from "@/lib/db-query";
+
 import { getOrdersCount, getQueriedOrders } from "@/db/query/order";
 
 import { OrdersClient } from "./_components/orders-client";
@@ -19,6 +21,7 @@ export default async function ProductsPage({
     total,
     createdAt,
     currentStatus,
+    dateRange,
   },
 }: ProductsPageProps) {
   const filter = {
@@ -26,6 +29,9 @@ export default async function ProductsPage({
       contains: query,
       mode: Prisma.QueryMode.insensitive,
     },
+    ...(dateRange && {
+      createdAt: parseDateRange(dateRange),
+    }),
     ...(currentStatus && { currentStatus: currentStatus as OrderStatus }),
   };
 
@@ -40,7 +46,7 @@ export default async function ProductsPage({
       filter,
     }),
     getOrdersCount(filter),
-  ])
+  ]);
 
   return (
     <OrdersClient
