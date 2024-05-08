@@ -22,6 +22,7 @@ export default async function ProductOrderItemsPage({
     limit,
     createdAt = "desc",
     dateRange,
+    productItemId,
   },
 }: ProductOrderItemsPageProps) {
   const product = await getProductById(+productId);
@@ -29,6 +30,11 @@ export default async function ProductOrderItemsPage({
   if (!product) redirect("/products");
 
   const filter = {
+    ...(productItemId && {
+      productItem: {
+        id: +productItemId,
+      },
+    }),
     ...(dateRange && {
       order: {
         createdAt: parseDateRange(dateRange),

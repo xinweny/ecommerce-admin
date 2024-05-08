@@ -10,7 +10,6 @@ import {
   DataTableFilters,
   DataTableDateRange,
 } from "@/components/ui/data-table";
-import { Separator } from "@/components/ui/separator";
 
 import { columns, ProductOrderItemRow } from "./columns";
 
@@ -42,7 +41,6 @@ export function ProductOrderItemsClient({
   return (
     <div className="space-y-4">
       <Heading title="Order Items" />
-      <Separator />
       <DataTable
         data={data}
         columns={columns}
@@ -51,7 +49,7 @@ export function ProductOrderItemsClient({
           <DataTableFilters
             filters={[{
               label: "SKUs",
-              name: "skuId",
+              name: "productItemId",
               values: productItems.map(({ sku, id }) => ({
                 label: sku,
                 value: id,
