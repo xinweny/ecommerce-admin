@@ -10,6 +10,14 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
+const productItemSelectArgs = Prisma.validator<Prisma.ProductItemSelect>()({
+  id: true,
+  name: true,
+  sku: true,
+});
+
+export type ProductItemSelectPayload = Prisma.ProductItemGetPayload<{ select: typeof productItemSelectArgs }>;
+
 const productIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
   include: {
     brand: {
@@ -23,6 +31,9 @@ const productIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
     },
     subcategory: {
       select: { id: true, name: true },
+    },
+    productItems: {
+      select: productItemSelectArgs,
     },
   },
 });

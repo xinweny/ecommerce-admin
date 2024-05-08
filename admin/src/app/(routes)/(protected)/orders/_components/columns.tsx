@@ -7,8 +7,6 @@ import Link from "next/link";
 
 import { ToggleSort } from "@/components/ui/data-table";
 
-import { CellAction } from "./cell-action";
-
 export interface OrderRow {
   id: string;
   total: number;
@@ -64,9 +62,5 @@ export const columns: ColumnDef<OrderRow>[] = [
         label="Total"
       />
     ),
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />
   },
 ];
