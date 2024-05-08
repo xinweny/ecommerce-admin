@@ -5,7 +5,12 @@ import { OrderStatus } from "@prisma/client";
 import { OrderIncludePayload } from "@/db/query/order";
 
 import { Heading } from "@/components/shared/heading";
-import { DataTable } from "@/components/ui/data-table";
+import {
+  DataTable,
+  DataTableQueryForm,
+  DataTableSearch,
+  DataTableFilters,
+} from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
 
 import { columns, OrderRow } from "./columns";
@@ -41,15 +46,19 @@ export function OrdersClient({
         data={data}
         columns={columns}
         totalCount={totalCount}
-        queryPlaceholder="Search Order ID"
-        filters={[{
-          label: "Statuses",
-          name: "currentStatus",
-          values: Object.values(OrderStatus).map(status => ({
-            label: status,
-            value: status,
-          })),
-        }]}
+        queryForm={<DataTableQueryForm>
+          <DataTableSearch placeholder="Search order ID" />
+          <DataTableFilters
+            filters={[{
+              label: "Statuses",
+              name: "currentStatus",
+              values: Object.values(OrderStatus).map(status => ({
+                label: status,
+                value: status,
+              })),
+            }]}
+          />
+        </DataTableQueryForm>}
       />
     </div>
   );

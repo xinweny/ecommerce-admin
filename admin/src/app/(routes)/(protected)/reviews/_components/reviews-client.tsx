@@ -3,7 +3,11 @@
 import { ReviewGroupByPayload } from "@/db/query/review";
 
 import { Heading } from "@/components/shared/heading";
-import { DataTable } from "@/components/ui/data-table";
+import {
+  DataTable,
+  DataTableQueryForm,
+  DataTableSearch,
+} from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
 
 import { columns, ProductReviewRow } from "./columns";
@@ -36,7 +40,9 @@ export function ReviewsClient({
         data={data}
         columns={columns}
         totalCount={reviews.length}
-        queryPlaceholder="Search products"
+        queryForm={<DataTableQueryForm>
+          <DataTableSearch placeholder="Search products" />
+        </DataTableQueryForm>}
       />
     </div>
   );

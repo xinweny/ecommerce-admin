@@ -8,7 +8,7 @@ import {
   ArrowDown,
   LucideIcon,
 } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, useFormContext } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Column,
@@ -71,16 +71,14 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   totalCount: number;
-  filters?: DataTableFilter[];
-  queryPlaceholder?: string;
+  queryForm: React.ReactNode;
 }
  
 export function DataTable<TData, TValue>({
   columns,
   data,
   totalCount,
-  filters = [],
-  queryPlaceholder,
+  queryForm,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -95,7 +93,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center justify-between flex-wrap">
-        <DataTableSearch filters={filters} placeholder={queryPlaceholder} />
+        {queryForm}
         <span className="text-xs text-muted-foreground mb-4 mx-2 self-end">
           {`${table.getRowCount()} of ${totalCount} items`}
         </span>
@@ -200,34 +198,16 @@ export function ToggleSort<TData, TValue>({
   );
 }
 
-interface DataTableSearchProps {
-  placeholder?: string;
-  filters: DataTableFilter[];
+interface DataTableQueryFormProps {
+  children: React.ReactNode;
 }
 
-export function DataTableSearch({
-  placeholder = "Search",
-  filters,
-}: DataTableSearchProps) {
-  const searchParams = useSearchParams();
-
-  const form = useForm({
-    defaultValues: {
-      query: "",
-      ...(filters.reduce((agg, { name }) => ({
-        ...agg,
-        [name]: searchParams.get(name) || "",
-      }), {})),
-    },
-  });
+export function DataTableQueryForm({
+  children,
+}: DataTableQueryFormProps) {
+  const form = useForm();
 
   const { navigateQueryString } = useQueryString();
-
-  const {
-    control,
-    formState: { isSubmitting },
-    handleSubmit,
-  } = form;
 
   const onSubmit = (data: any) => {
     navigateQueryString(data);
@@ -236,64 +216,108 @@ export function DataTableSearch({
   return (
     <form
       className="flex items-center py-4 gap-4 flex-wrap"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={form.handleSubmit(onSubmit)}
     >
       <Form {...form}>
-        <FormField
-          control={control}
-          name="query"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  {...field}
-                  disabled={isSubmitting}
-                  placeholder={placeholder}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        {filters.map(({ name, label, values }) => (
-          <FormField
-            key={name}
-            control={control}
-            name={name as any}
-            render={({ field }) => (
-              <FormItem>
-                <Select
-                  disabled={isSubmitting}
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue
-                        ref={field.ref}
-                        defaultValue={field.value}
-                      />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="">{`All ${label}`}</SelectItem>
-                    {values.map(({ value, label }) => (
-                      <SelectItem
-                        key={value}
-                        value={value.toString()}
-                      >
-                        {label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
-        ))}
+        {children}
         <Button variant="secondary" type="submit">Search</Button>
       </Form>
     </form>
+  );
+}
+
+interface DataTableSearchProps {
+  name?: string;
+  placeholder?: string;
+}
+
+export function DataTableSearch({
+  name = "query",
+  placeholder = "Search",
+}: DataTableSearchProps) {
+  const {
+    control,
+    formState: { isSubmitting },
+  } = useFormContext();
+
+  return (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <FormControl>
+            <Input
+              {...field}
+              disabled={isSubmitting}
+              placeholder={placeholder}
+            />
+          </FormControl>
+        </FormItem>
+      )}
+    />
+  );
+}
+
+interface DataTableFiltersProps {
+  filters: DataTableFilter[];
+}
+
+export function DataTableFilters({
+  filters,
+}: DataTableFiltersProps) {
+  const searchParams = useSearchParams();
+
+  const {
+    control,
+    formState: { isSubmitting },
+    setValue,
+  } = useFormContext();
+
+  filters.forEach(({ name }) => {
+    setValue(name, searchParams.get(name));
+  });
+
+  return (
+    <>
+      {filters.map(({ name, label, values }) => (
+        <FormField
+          key={name}
+          control={control}
+          name={name as any}
+          render={({ field }) => (
+            <FormItem>
+              <Select
+                disabled={isSubmitting}
+                onValueChange={field.onChange}
+                value={field.value}
+                defaultValue={field.value}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue
+                      ref={field.ref}
+                      defaultValue={field.value}
+                    />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="">{`All ${label}`}</SelectItem>
+                  {values.map(({ value, label }) => (
+                    <SelectItem
+                      key={value}
+                      value={value.toString()}
+                    >
+                      {label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+      ))}
+    </>
   );
 }
 

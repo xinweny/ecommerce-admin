@@ -32,7 +32,7 @@ export const columns: ColumnDef<OrderRow>[] = [
   },
   {
     accessorKey: "userId",
-    header: "User",
+    header: "Name",
     cell: ({ row }) => `${row.original.user.firstName} ${row.original.user.lastName}`,
   },
   {

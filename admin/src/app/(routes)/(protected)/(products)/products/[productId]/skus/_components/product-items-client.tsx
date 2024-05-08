@@ -5,7 +5,11 @@ import { Product } from "@prisma/client";
 import { ProductItemIncludePayload } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
-import { DataTable } from "@/components/ui/data-table";
+import {
+  DataTable,
+  DataTableQueryForm,
+  DataTableSearch,
+} from "@/components/ui/data-table";
 
 import { columns, ProductItemRow } from "./columns";
 import { AddProductItemFormModal } from "./add-product-item-form-modal";
@@ -52,6 +56,9 @@ export function ProductItemsClient({
         data={data}
         columns={columns}
         totalCount={productItems.length}
+        queryForm={<DataTableQueryForm>
+          <DataTableSearch placeholder="Search SKU number" />
+        </DataTableQueryForm>}
       />
     </div>
   );

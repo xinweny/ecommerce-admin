@@ -4,8 +4,11 @@ import { ProductItemIncludePayload } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
-import { DataTable } from "@/components/ui/data-table";
-import { Button } from "@/components/ui/button";
+import {
+  DataTable,
+  DataTableQueryForm,
+  DataTableSearch,
+} from "@/components/ui/data-table";
 
 import { ProductItemRow, columns } from "./columns";
 
@@ -48,6 +51,9 @@ export function ProductItemsClient({
         data={data}
         columns={columns}
         totalCount={totalCount}
+        queryForm={<DataTableQueryForm>
+          <DataTableSearch placeholder="Search SKU number" />
+        </DataTableQueryForm>}
       />
     </div>
   );

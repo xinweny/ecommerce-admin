@@ -8,7 +8,11 @@ import { BillboardIncludePayload } from "@/db/query/billboard";
 import { Heading } from "@/components/shared/heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { DataTable } from "@/components/ui/data-table";
+import {
+  DataTable,
+  DataTableQueryForm,
+  DataTableSearch,
+} from "@/components/ui/data-table";
 
 import { BillboardRow, columns } from "./columns";
 
@@ -49,6 +53,9 @@ export function BillboardsClient({
         data={data}
         columns={columns}
         totalCount={totalCount}
+        queryForm={<DataTableQueryForm>
+          <DataTableSearch placeholder="Search billboard label" />
+        </DataTableQueryForm>}
       />
     </div>
   );

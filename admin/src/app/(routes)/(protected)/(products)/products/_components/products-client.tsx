@@ -8,7 +8,12 @@ import { ProductIncludeGroupByPayload } from "@/db/query/product";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
-import { DataTable } from "@/components/ui/data-table";
+import {
+  DataTable,
+  DataTableQueryForm,
+  DataTableSearch,
+  DataTableFilters,
+} from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
 
 import { ProductRow, columns } from "./columns";
@@ -121,7 +126,10 @@ export function ProductsClient({
         data={data}
         columns={columns}
         totalCount={totalCount}
-        filters={productFilters}
+        queryForm={<DataTableQueryForm>
+          <DataTableSearch placeholder="Search product name" />
+          <DataTableFilters filters={productFilters} />
+        </DataTableQueryForm>}
       />
     </div>
   );

@@ -7,7 +7,11 @@ import { SubcategoryIncludePayload } from "@/db/query/subcategory";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
-import { DataTable } from "@/components/ui/data-table";
+import {
+  DataTable,
+  DataTableQueryForm,
+  DataTableSearch,
+} from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
 
 import { SubcategoryRow, columns } from "./columns";
@@ -52,6 +56,9 @@ export function SubcategoriesClient({
         data={data}
         columns={columns}
         totalCount={totalCount}
+        queryForm={<DataTableQueryForm>
+          <DataTableSearch placeholder="Search subcategory name" />
+        </DataTableQueryForm>}
       />
     </div>
   );

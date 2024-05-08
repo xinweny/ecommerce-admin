@@ -23,7 +23,7 @@ export default async function ProductsPage({
 }: ProductsPageProps) {
   const filter = {
     id: {
-      query,
+      contains: query,
       mode: Prisma.QueryMode.insensitive,
     },
     ...(currentStatus && { currentStatus: currentStatus as OrderStatus }),

@@ -7,7 +7,11 @@ import { CategoryIncludePayload } from "@/db/query/category";
 
 import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
-import { DataTable } from "@/components/ui/data-table";
+import {
+  DataTable,
+  DataTableQueryForm,
+  DataTableSearch,
+} from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
 
 import { CategoryRow, columns } from "./columns";
@@ -55,6 +59,9 @@ export function CategoriesClient({
         data={data}
         columns={columns}
         totalCount={totalCount}
+        queryForm={<DataTableQueryForm>
+          <DataTableSearch placeholder="Search category name" />
+        </DataTableQueryForm>}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { Route } from "next";
 
 interface QueryParams {
   [key: string]: string | null;
@@ -31,7 +32,7 @@ export const useQueryString = () => {
 
   const navigateQueryString = useCallback(
     (values: QueryParams) => {
-      router.push(createQueryString(values));
+      router.push(createQueryString(values) as Route);
     },
     [createQueryString, router]
   );
