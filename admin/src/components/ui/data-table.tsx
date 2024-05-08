@@ -275,7 +275,7 @@ export function DataTableFilters({
   } = useFormContext();
 
   filters.forEach(({ name }) => {
-    setValue(name, searchParams.get(name));
+    setValue(name, searchParams.get(name) || "");
   });
 
   return (
@@ -304,10 +304,7 @@ export function DataTableFilters({
                 <SelectContent>
                   <SelectItem value="">{`All ${label}`}</SelectItem>
                   {values.map(({ value, label }) => (
-                    <SelectItem
-                      key={value}
-                      value={value.toString()}
-                    >
+                    <SelectItem key={value} value={value.toString()}>
                       {label}
                     </SelectItem>
                   ))}
