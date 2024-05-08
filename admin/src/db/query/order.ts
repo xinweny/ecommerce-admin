@@ -10,7 +10,17 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
-const orderIncludeArgs = Prisma.validator<Prisma.OrderDefaultArgs>()({});
+const orderIncludeArgs = Prisma.validator<Prisma.OrderDefaultArgs>()({
+  include: {
+    user: {
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+      },
+    },
+  },
+});
 
 export type OrderIncludePayload = Prisma.OrderGetPayload<typeof orderIncludeArgs>;
 

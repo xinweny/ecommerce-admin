@@ -1,7 +1,7 @@
 "use client";
  
 import { ColumnDef } from "@tanstack/react-table";
-import { OrderStatus } from "@prisma/client";
+import { OrderStatus, UserAddress } from "@prisma/client";
 import { format } from "date-fns";
 
 import { ToggleSort } from "@/components/ui/data-table";
@@ -13,6 +13,11 @@ export interface OrderRow {
   total: number;
   currentStatus: OrderStatus;
   createdAt: Date;
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+  };
 }
 
 export const columns: ColumnDef<OrderRow>[] = [
@@ -24,6 +29,11 @@ export const columns: ColumnDef<OrderRow>[] = [
         label="ID"
       />
     ),
+  },
+  {
+    accessorKey: "userId",
+    header: "User",
+    cell: ({ row }) => `${row.original.user.firstName} ${row.original.user.lastName}`,
   },
   {
     accessorKey: "createdAt",

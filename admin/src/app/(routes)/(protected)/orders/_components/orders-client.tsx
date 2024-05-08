@@ -24,11 +24,13 @@ export function OrdersClient({
     total,
     currentStatus,
     createdAt,
+    user,
   }) => ({
     id,
     total,
     currentStatus,
     createdAt,
+    user,
   })) satisfies OrderRow[];
 
   return (
