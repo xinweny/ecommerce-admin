@@ -14,18 +14,17 @@ interface ProductsPageProps {
 
 export default async function ProductsPage({
   searchParams: {
-    id,
     page,
     limit,
     query,
     total,
-    createdAt,
+    createdAt = "desc",
     currentStatus,
     dateRange,
   },
 }: ProductsPageProps) {
   const filter = {
-    id: {
+    orderNumber: {
       contains: query,
       mode: Prisma.QueryMode.insensitive,
     },
@@ -39,7 +38,6 @@ export default async function ProductsPage({
     getQueriedOrders({
       pagination: { page, limit },
       sort: {
-        id,
         total,
         createdAt,
       },

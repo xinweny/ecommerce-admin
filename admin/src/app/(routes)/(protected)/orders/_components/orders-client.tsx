@@ -31,12 +31,18 @@ export function OrdersClient({
     currentStatus,
     createdAt,
     user,
+    firstName,
+    lastName,
+    orderNumber,
   }) => ({
     id,
+    orderNumber,
     total,
     currentStatus,
     createdAt,
-    user,
+    user: { id: user.id },
+    firstName,
+    lastName,
   })) satisfies OrderRow[];
 
   return (
