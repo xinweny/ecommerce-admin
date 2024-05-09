@@ -2,10 +2,9 @@ import { redirect } from "next/navigation";
 
 import { getProductById } from "@/db/query/product";
 
-import { Card } from "@/components/ui/card";
-
 import { ProductNavbarDesktop } from "./_components/product-navbar";
 import { ProductHeader } from "./_components/product-header";
+import { ProductPageCard } from "./_components/product-page-content";
 
 interface ProductPageLayoutProps {
   params: { productId: string };
@@ -24,9 +23,9 @@ export default async function ProductPageLayout({
     <div className="space-y-4 pb-8">
       <ProductHeader product={product} />
       <ProductNavbarDesktop productId={product.id} />
-      <Card className="p-8">
+      <ProductPageCard>
         {children}
-      </Card>
+      </ProductPageCard>
     </div>
   );
 }

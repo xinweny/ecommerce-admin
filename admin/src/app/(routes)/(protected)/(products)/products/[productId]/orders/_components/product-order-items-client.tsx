@@ -3,7 +3,7 @@
 import { ProductItemSelectPayload } from "@/db/query/product";
 import { OrderItemIncludePayload } from "@/db/query/order";
 
-import { Heading } from "@/components/shared/heading";
+import { ProductPageCardHeading } from "../../_components/product-page-content";
 import {
   DataTable,
   DataTableQueryForm,
@@ -40,7 +40,7 @@ export function ProductOrderItemsClient({
 
   return (
     <div className="space-y-4">
-      <Heading title="Order Items" />
+      <ProductPageCardHeading>Order Items</ProductPageCardHeading>
       <DataTable
         data={data}
         columns={columns}

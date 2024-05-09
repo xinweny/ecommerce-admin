@@ -4,12 +4,13 @@ import { Product } from "@prisma/client";
 
 import { ProductItemIncludePayload } from "@/db/query/product";
 
-import { Heading } from "@/components/shared/heading";
 import {
   DataTable,
   DataTableQueryForm,
   DataTableSearch,
 } from "@/components/ui/data-table";
+
+import { ProductPageCardHeading } from "../../_components/product-page-content";
 
 import { columns, ProductItemRow } from "./columns";
 import { AddProductItemFormModal } from "./add-product-item-form-modal";
@@ -49,7 +50,7 @@ export function ProductItemsClient({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <Heading title="SKUs" />
+        <ProductPageCardHeading>SKUs</ProductPageCardHeading>
         <AddProductItemFormModal product={product} />
       </div>
       <DataTable

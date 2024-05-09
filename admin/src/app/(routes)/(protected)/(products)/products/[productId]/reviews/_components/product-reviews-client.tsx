@@ -2,7 +2,7 @@
 
 import { ReviewAggregatePayload, ReviewIncludePayload } from "@/db/query/review";
 
-import { Heading } from "@/components/shared/heading";
+import { ProductPageCardHeading } from "../../_components/product-page-content";
 import {
   DataTable,
   DataTableQueryForm,
@@ -41,7 +41,9 @@ export function ProductReviewsClient({
 
   return (
     <div className="space-y-4">
-      <Heading title={`Reviews${avgRating ? ` - ${avgRating}` : ""}`} />
+      <ProductPageCardHeading>
+        {`Reviews${avgRating ? ` - ${avgRating}` : ""}`}
+      </ProductPageCardHeading>
       <DataTable
         data={data}
         columns={columns}

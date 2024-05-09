@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-import { AdminProductItem } from "@/db/query/product";
+import { ProductItemIncludePayload } from "@/db/query/product";
 
 import { productItemSchema, type ProductItemSchema } from "@/schemas/product";
 
@@ -20,7 +20,7 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { updateProductItem } from "@/actions/product";
 
 interface UpdateProductItemFormProps {
-  productItem: Omit<AdminProductItem, "productId" | "createdAt" | "updatedAt">;
+  productItem: Omit<ProductItemIncludePayload, "productId" | "createdAt" | "updatedAt">;
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
