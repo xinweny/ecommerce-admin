@@ -18,6 +18,23 @@ const productItemSelectArgs = Prisma.validator<Prisma.ProductItemSelect>()({
 
 export type ProductItemSelectPayload = Prisma.ProductItemGetPayload<{ select: typeof productItemSelectArgs }>;
 
+const productsIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
+  include: {
+    brand: {
+      select: { id: true, name: true },
+    },
+    series: {
+      select: { id: true, name: true },
+    },
+    category: {
+      select: { id: true, name: true },
+    },
+    subcategory: {
+      select: { id: true, name: true },
+    },
+  },
+});
+
 const productIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
   include: {
     brand: {
@@ -33,7 +50,9 @@ const productIncludeArgs = Prisma.validator<Prisma.ProductDefaultArgs>()({
       select: { id: true, name: true },
     },
     productItems: {
-      select: productItemSelectArgs,
+      include: {
+        images: true,
+      },
     },
   },
 });
@@ -53,7 +72,7 @@ const productItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()
   },
 });
 
-export type ProductIncludePayload = Prisma.ProductGetPayload<typeof productIncludeArgs>;
+export type ProductIncludePayload = Prisma.ProductGetPayload<typeof productsIncludeArgs>;
 
 export type ProductItemIncludePayload = Prisma.ProductItemGetPayload<typeof productItemIncludeArgs>;
 
@@ -85,7 +104,7 @@ export const getQueriedProducts = cache(async (params: DbQueryParams<Prisma.Prod
       ...where(filter),
       ...orderBy(sort),
       ...paginate(pagination),
-      ...productIncludeArgs,
+      ...productsIncludeArgs,
     });
 
     const productIds = products.map(product => product.id);

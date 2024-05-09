@@ -12,8 +12,6 @@ interface ProductNavbarProps {
 export function ProductNavbarDesktop({
   productId,
 }: ProductNavbarProps) {
-  const pathname = usePathname();
-
   const links = [
     { href: "", label: "Overview" },
     { href: "/skus", label: "SKUs" },
@@ -22,24 +20,58 @@ export function ProductNavbarDesktop({
   ];
 
   return (
-    <nav className="flex gap-8 overflow-x-auto">
+    <nav className="inline-flex gap-2 p-1 overflow-x-auto no-scrollbar border rounded-md bg-secondary w-auto">
       {links.map(({ href, label }) => (
-        <Link
+        <ProductNavbarLink
           key={href}
-          href={`/products/${productId}${href}`}
+          productId={productId}
+          href={href}
+          label={label}
+        />
+      ))}
+    </nav>
+  );
+}
+
+interface ProductNavbarLinkProps {
+  href: string;
+  label: string;
+  productId: number;
+}
+
+function ProductNavbarLink({
+  href,
+  label,
+  productId,
+}: ProductNavbarLinkProps) {
+    const pathname = usePathname();
+
+    const link = `/products/${productId}${href}`;
+
+    const isActive = pathname === link;
+
+    return (
+      <Link
+        key={href}
+        href={`/products/${productId}${href}`}
+      >
+        <div
+          className={cn(
+            "px-4 py-1 rounded",
+            isActive ? "bg-background" : undefined
+          )}
         >
           <span
             className={cn(
-              "text-sm font-semibold",
-              pathname === `/products/${productId}${href}`
+              "text-sm font-medium",
+              isActive
                 ? "text-primary"
                 : "text-muted-foreground"
             )}
           >
             {label}
           </span>
-        </Link>
-      ))}
-    </nav>
-  );
+        </div>
+      </Link>
+    );
 }
