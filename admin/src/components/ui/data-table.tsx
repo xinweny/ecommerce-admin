@@ -95,9 +95,10 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center justify-between flex-wrap">
         {queryForm}
-        <span className="text-xs text-muted-foreground mb-4 mx-2 self-end">
-          {`${table.getRowCount()} of ${totalCount} items`}
-        </span>
+        <DataTablePaginationInfo
+          rowCount={table.getRowCount()}
+          totalCount={totalCount}
+        />
       </div>
       <div className="rounded-md border">
         <Table>
@@ -458,5 +459,26 @@ export function DataTableRowLimit() {
         />
       </Form>
     </form>
+  );
+}
+
+interface DataTablePaginationInfoProps {
+  rowCount: number;
+  totalCount: number;
+}
+
+export function DataTablePaginationInfo({
+  rowCount,
+  totalCount,
+}: DataTablePaginationInfoProps) {
+  const searchParams = useSearchParams();
+
+  const page = Number(searchParams.get("page")) || 1;
+  const limit = Number(searchParams.get("limit")) || 20;
+
+  return (
+    <span className="text-xs text-muted-foreground mb-4 mx-2 self-end">
+      <span className="font-bold">{(page - 1) + 1} - {((page - 1) * limit) + rowCount}</span> of <span className="font-bold">{totalCount}</span> items
+    </span>
   );
 }
