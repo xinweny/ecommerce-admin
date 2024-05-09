@@ -14,7 +14,6 @@ interface ProductPageProps {
 export default async function ProductPage({
   params: { productId },
   searchParams: {
-    id,
     name,
     query,
     page,
@@ -39,7 +38,6 @@ export default async function ProductPage({
     },
     pagination: { page, limit },
     sort: {
-      id,
       name,
       sku,
       isArchived,

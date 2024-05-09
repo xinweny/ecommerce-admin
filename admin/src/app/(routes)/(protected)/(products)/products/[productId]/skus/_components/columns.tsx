@@ -27,17 +27,8 @@ export interface ProductItemRow {
 
 export const columns: ColumnDef<ProductItemRow>[] = [
   {
-    accessorKey: "id",
-    header: ({ column }) => (
-      <ToggleSort
-        column={column}
-        label="ID"
-      />
-    ),
-  },
-  {
     accessorKey: "imageUrls",
-    header: "",
+    header: "Images",
     cell: ({ row }) => (row.original.images.length > 0 ? (
       <ProductItemCellCarousel
         imageUrls={row.original.images.map(image => image.imageUrl)}
@@ -45,20 +36,20 @@ export const columns: ColumnDef<ProductItemRow>[] = [
     ) : null),
   },
   {
-    accessorKey: "name",
-    header: ({ column }) => (
-      <ToggleSort
-        column={column}
-        label="Name"
-      />
-    ),
-  },
-  {
     accessorKey: "sku",
     header: ({ column }) => (
       <ToggleSort
         column={column}
         label="SKU"
+      />
+    ),
+  },
+  {
+    accessorKey: "name",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="Name"
       />
     ),
   },

@@ -14,7 +14,6 @@ export default async function ProductItemsPage({
   searchParams: {
     page,
     limit,
-    id,
     name,
     productName,
     query,
@@ -32,7 +31,6 @@ export default async function ProductItemsPage({
     getQueriedProductItems({
       pagination: { page, limit },
       sort: {
-        id,
         name,
         product: { name: productName },
         isArchived,
