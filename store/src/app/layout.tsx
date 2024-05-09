@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 
 import { auth } from "@/auth";
 
+import { cn } from "@/lib/utils";
+
+import { Navbar } from "./_components/navbar";
+import { Footer } from "./_components/footer";
+
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const font = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Songbird Instruments",
@@ -24,9 +29,13 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={cn(font.className, "flex flex-col")}>
           <Toaster position="top-center" />
-          {children}
+          <Navbar />
+          <main className="grow">
+            {children}
+          </main>
+          <Footer />
         </body>
       </html>
     </SessionProvider>

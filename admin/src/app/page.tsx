@@ -6,6 +6,4 @@ export default async function HomePage() {
   const user = await currentUser();
 
   redirect(user ? "/dashboard" : "/auth/login");
-
-  return null;
 }
