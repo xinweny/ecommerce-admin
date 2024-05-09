@@ -18,6 +18,7 @@ import { FormTextarea } from "@/components/form/form-textarea";
 import { AddProductItemForm } from "./add-product-item-form";
 
 import { createProduct } from "@/actions/product";
+import { FormSwitch } from "@/components/form/form-switch";
 
 interface CreateProductFormProps {
   categories: Category[];
@@ -157,15 +158,12 @@ export function CreateProductForm({
           label="Description"
         />
         <FormInput name="videoUrl" label="Video Link" />
-        <AddProductItemForm />
-        <FormSelect
+        <FormSwitch
           name="isArchived"
           label="Archived"
-          values={[
-            { value: false, label: "No" },
-            { value: true, label: "Yes" },
-          ]}
+          description="Archived products are hidden from the store and cannot be purchased."
         />
+        <AddProductItemForm />
         <SubmitButton className="ml-auto">
           Create Product
         </SubmitButton>

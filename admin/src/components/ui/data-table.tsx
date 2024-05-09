@@ -3,9 +3,9 @@
 import { Prisma } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 import {
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown,
+  ChevronsUpDown,
+  ChevronUp,
+  ChevronDown,
   LucideIcon,
 } from "lucide-react";
 import { useForm, useFormContext } from "react-hook-form";
@@ -170,10 +170,10 @@ export function ToggleSort<TData, TValue>({
   const sortValue = searchParams.get(column.id);
 
   const SortIcon: LucideIcon = (!sortValue || !(sortValue in Prisma.SortOrder))
-  ? ArrowUpDown
+  ? ChevronsUpDown
   : (sortValue === Prisma.SortOrder.asc
-    ? ArrowUp
-    : ArrowDown
+    ? ChevronUp
+    : ChevronDown
   );
 
   return (

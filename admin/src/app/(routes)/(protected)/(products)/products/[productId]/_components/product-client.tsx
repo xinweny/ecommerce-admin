@@ -31,8 +31,8 @@ export function ProductClient({
   } = product;
 
   return (
-    <div>
+    <>
 
-    </div>
+    </>
   );
 }

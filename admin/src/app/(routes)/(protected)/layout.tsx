@@ -13,10 +13,8 @@ export default async function DashboardLayout({
       <Sidebar className="border-r h-full" />
       <div className="flex-auto flex flex-col h-full overflow-y-auto">
         <Navbar />
-        <div className="flex flex-col overflow-hidden min-h-full">
-          <div className="grow flex flex-col gap-4 p-8 pb-0 pt-6 h-full">
-            {children}
-          </div>
+        <div className="grow flex flex-col gap-4 p-8 pb-0 pt-6 h-full">
+          {children}
         </div>
       </div>
     </div>

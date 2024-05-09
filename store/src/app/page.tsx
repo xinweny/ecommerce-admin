@@ -1,10 +1,10 @@
-import { LoginButton } from "./_components/auth/login-button";
-import { LogoutButton } from "./_components/auth/logout-button";
+import { LoginButton } from "@/components/auth/login-button";
+import { LogoutButton } from "@/components/auth/logout-button";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <main>
-      Store
+      <span>Store</span>
       <LoginButton>Login</LoginButton>
       <LogoutButton>Logout</LogoutButton>
     </main>
