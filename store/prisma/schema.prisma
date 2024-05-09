@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -8,8 +9,8 @@ datasource db {
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
+  id String @id @default(cuid())
+
   type              String
   provider          String
   providerAccountId String
@@ -21,7 +22,8 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -32,21 +34,38 @@ enum UserRole {
 }
 
 model User {
-  id                    String                 @id @default(cuid())
+  id String @id @default(cuid())
+
   firstName             String
   lastName              String
-  email                 String?                @unique
+  email                 String?
   password              String?
   emailVerified         DateTime?
   image                 String?
   role                  UserRole               @default(user)
-  accounts              Account[]
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+
+  accounts Account[]
+  orders   Order[]
+  reviews  Review[]
+
+  @@unique([email, role])
+}
+
+model TwoFactorToken {
+  id String @id @default(cuid())
+
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
 }
 
 model VerificationToken {
-  id      String   @id @default(cuid())
+  id String @id @default(cuid())
+
   email   String
   token   String   @unique
   expires DateTime
@@ -55,16 +74,8 @@ model VerificationToken {
 }
 
 model PasswordResetToken {
-  id      String   @id @default(cuid())
-  email   String
-  token   String   @unique
-  expires DateTime
+  id String @id @default(cuid())
 
-  @@unique([email, token])
-}
-
-model TwoFactorToken {
-  id      String   @id @default(cuid())
   email   String
   token   String   @unique
   expires DateTime
@@ -73,31 +84,241 @@ model TwoFactorToken {
 }
 
 model TwoFactorConfirmation {
-  id     String @id @default(cuid())
+  id String @id @default(cuid())
+
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
 }
 
-model Store {
-  id        String   @id @default(cuid())
-  name      String
-  userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  billboard   Billboard?
-}
-
 model Billboard {
-  id          String   @id @default(cuid())
-  imageUrl    String?
+  id Int @id @default(autoincrement())
+
+  imageUrl    String
+  label       String   @unique
   title       String?
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  
-  storeId     String @unique
-  store       Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  categories Category[]
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  billboardId Int?
+  billboard   Billboard? @relation(fields: [billboardId], references: [id], onDelete: SetNull)
+
+  subcategories Subcategory[]
+  products      Product[]
+}
+
+model Brand {
+  id Int @id @default(autoincrement())
+
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  imageUrl  String?
+
+  series   Series[]
+  products Product[]
+}
+
+model Series {
+  id Int @id @default(autoincrement())
+
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  brandId Int
+  brand   Brand @relation(fields: [brandId], references: [id])
+
+  products Product[]
+}
+
+model Subcategory {
+  id Int @id @default(autoincrement())
+
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  products       Product[]
+  specifications Specification[]
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+
+  name        String
+  model       String   @unique
+  description String?
+  videoUrl    String?
+  slug        String   @unique
+  isArchived  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  categoryId    Int
+  category      Category    @relation(fields: [categoryId], references: [id])
+  subcategoryId Int
+  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
+  brandId       Int
+  brand         Brand       @relation(fields: [brandId], references: [id])
+  seriesId      Int?
+  series        Series?     @relation(fields: [seriesId], references: [id])
+
+  productItems   ProductItem[]
+  orders         OrderItem[]
+  reviews        Review[]
+  specifications ProductSpecification[]
+}
+
+model ProductItem {
+  id Int @id @default(autoincrement())
+
+  name       String
+  price      Int
+  sku        String   @unique
+  stock      Int
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+
+  images ProductItemImage[]
+  orders OrderItem[]
+}
+
+model ProductItemImage {
+  id Int @id @default(autoincrement())
+
+  imageUrl String
+
+  productItemId Int
+  productItem   ProductItem @relation(fields: [productItemId], references: [id])
+
+  @@index([productItemId])
+}
+
+model Specification {
+  id Int @id @default(autoincrement())
+
+  key String
+
+  subcategoryId Int
+  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
+
+  products ProductSpecification[]
+}
+
+model ProductSpecification {
+  productId       Int
+  product         Product       @relation(fields: [productId], references: [id])
+  specificationId Int
+  specification   Specification @relation(fields: [specificationId], references: [id])
+
+  value String
+
+  @@id([productId, specificationId])
+}
+
+model Order {
+  id String @id @default(cuid())
+
+  orderNumber   String @unique
+  firstName     String
+  lastName      String
+  addressLine1  String
+  addressLine2  String?
+  addressLine3  String?
+  city          String
+  postalCode    String
+  state         String
+  country       String
+  total         Int
+  currentStatus OrderStatus @default(processing)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  timeline   OrderTimeline[]
+  orderItems OrderItem[]
+}
+
+model OrderItem {
+  id String @id @default(cuid())
+
+  quantity Int
+  price    Int
+
+  orderId       String
+  order         Order       @relation(fields: [orderId], references: [id])
+  productId     Int
+  product       Product     @relation(fields: [productId], references: [id])
+  productItemId Int
+  productItem   ProductItem @relation(fields: [productItemId], references: [id])
+}
+
+model OrderTimeline {
+  id Int @id @default(autoincrement())
+
+  status    OrderStatus
+  createdAt DateTime    @default(now())
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id])
+}
+
+enum OrderStatus {
+  processing
+  shipped
+  fulfilled
+  cancelled
+}
+
+model Review {
+  id Int @id @default(autoincrement())
+
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+}
+
+model Store {
+  id Int @id @default(autoincrement())
+
+  name       String
+  line1      String
+  line2      String?
+  line3      String?
+  city       String
+  postalCode String
+  state      String
+  country    String
 }
