@@ -13,6 +13,7 @@ export function LoginButton({
 
   return (
     <div
+      className="hover:cursor-pointer flex items-center justify-center"
       onClick={() => { router.push("/login"); }}
       role="button"
     >

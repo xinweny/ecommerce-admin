@@ -12,12 +12,12 @@ export function LogoutButton({ children }: LogoutButtonProps) {
   };
 
   return (
-    <span
-      className="cursor-pointer"
+    <div
+      className="cursor-pointer flex items-center justify-center"
       onClick={onClick}
       role="button"
     >
       {children}
-    </span>
+    </div>
   );
 }
