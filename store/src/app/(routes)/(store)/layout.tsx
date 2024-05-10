@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { Navbar } from "./_components/navbar";
 import { Footer } from "./_components/footer";
 
-import "./globals.css";
+import "../../globals.css";
 
 const font = Montserrat({ subsets: ["latin"] });
 
@@ -32,7 +32,7 @@ export default async function RootLayout({
         <body className={cn(font.className, "flex flex-col")}>
           <Toaster position="top-center" />
           <Navbar />
-          <main className="grow">
+          <main className="grow space-y-10 p-8">
             {children}
           </main>
           <Footer />

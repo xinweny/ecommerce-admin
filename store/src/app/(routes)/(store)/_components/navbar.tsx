@@ -4,7 +4,7 @@ import { currentUser } from "@/lib/auth";
 
 import { getCategories } from "@/db/query/category";
 
-import { MainNav } from "./main-nav";
+import { MainNav, NavbarActions } from "./main-nav";
 
 import { LoginButton } from "@/components/auth/login-button";
 import { LogoutButton } from "@/components/auth/logout-button";
@@ -30,12 +30,7 @@ export async function Navbar() {
         </div>
         <MainNav routes={routes} />
       </div>
-      <div>
-        {user
-          ? <LoginButton>Login</LoginButton>
-          : <LogoutButton>Logout</LogoutButton>
-        }
-      </div>
+      <NavbarActions user={user} />
     </div>
   );
 }
