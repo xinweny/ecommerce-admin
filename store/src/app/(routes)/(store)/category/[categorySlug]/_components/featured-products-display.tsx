@@ -1,4 +1,4 @@
-import { getFeaturedProductsByCategoryId } from "@/db/query/product";
+import { getFeaturedProducts } from "@/db/query/product";
 
 interface FeaturedProductsDisplayProps {
   categoryId: number;
@@ -7,7 +7,10 @@ interface FeaturedProductsDisplayProps {
 export async function FeaturedProductsDiplay({
   categoryId,
 }: FeaturedProductsDisplayProps) {
-  const featuredProducts = await getFeaturedProductsByCategoryId(categoryId);
+  const featuredProducts = await getFeaturedProducts({
+    filter: { product: { categoryId } },
+    pagination: { limit: 10 },
+  });
 
   return (
     <div>

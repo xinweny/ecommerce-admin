@@ -4,6 +4,12 @@ import { cache } from "react";
 import { db } from "../client";
 
 import {
+  where,
+  paginate,
+  DbQueryParams,
+} from "@/lib/db-query";
+
+import {
   bestsellerOrderItemGroupByArgs,
 } from "./order";
 
@@ -27,11 +33,13 @@ const featuredProductIncludeArgs = {
 
 export type FeaturedProductIncludePayload = Prisma.ProductGetPayload<{ include: typeof featuredProductIncludeArgs }>;
 
-export const getFeaturedProductsByCategoryId = cache(async (categoryId: number) => {
+export const getFeaturedProducts = cache(async (params: DbQueryParams<Prisma.OrderItemWhereInput>) => {
+  const { filter, pagination } = params;
+
   const orderItems = await db.orderItem.groupBy({
-    where: { product: { categoryId } },
+    ...where(filter),
     ...bestsellerOrderItemGroupByArgs,
-    take: 10,
+    ...paginate(pagination),
   });
 
   const productIds = orderItems.map(({ productId }) => productId);
