@@ -42,13 +42,18 @@ export function ProductCard({
           className="object-contain bg-slate-200 aspect-square"
           style={{ width: "100%", height: "100%" }}
         />
-        <div className="p-2">
+        <div className="flex flex-col py-2 px-4">
+          <span className="text-xs">{brand.name.toUpperCase()}</span>
+          <span className="text-sm font-semibold">{name}</span>
           {reviews && (
             <ReviewSummary aggregate={reviews} />
           )}
-          <span>{brand.name}</span>
-          <span>{name}</span>
-          <span>{`from ${Math.min(...productItems.map(productItem => productItem.price))}`}</span>
+          <span className="text-right">
+            <span className="text-xs">from </span>
+            <span className="text-lg font-bold">
+              {Math.min(...productItems.map(productItem => productItem.price))}
+            </span>
+          </span>
         </div>
       </div>
     </Link>

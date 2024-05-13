@@ -15,8 +15,8 @@ export async function FeaturedProductsDiplay({
   });
 
   return (
-    <div>
-      <h2>Bestsellers</h2>
+    <div className="space-y-6 px-8">
+      <h2 className="font-bold text-2xl">Bestsellers</h2>
       <div
         className="grid"
         style={{
