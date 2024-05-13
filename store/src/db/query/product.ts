@@ -9,9 +9,8 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
-import {
-  bestsellerOrderItemGroupByArgs,
-} from "./order";
+import { bestsellerOrderItemGroupByArgs } from "./order";
+import { reviewGroupByArgs, ReviewGroupByPayload } from "./review";
 
 const productsIncludeArgs = {
   category: {
@@ -31,7 +30,9 @@ const productsIncludeArgs = {
   },
 } satisfies Prisma.ProductInclude;
 
-export type ProductsIncludePayload = Prisma.ProductGetPayload<{ include: typeof productsIncludeArgs }>;
+export type ProductsIncludePayload = Prisma.ProductGetPayload<{ include: typeof productsIncludeArgs }> & {
+  reviews: ReviewGroupByPayload | null;
+};
 
 export const getFeaturedProducts = cache(async (params: DbQueryParams<Prisma.OrderItemWhereInput>) => {
   const { filter, pagination } = params;
@@ -55,5 +56,18 @@ export const getFeaturedProducts = cache(async (params: DbQueryParams<Prisma.Ord
     ...paginate(pagination),
   });
 
-  return products;
+  const reviewGroupBy = await db.review.groupBy({
+    where: {
+      productId: { in: products.map(product => product.id) },
+    },
+    ...reviewGroupByArgs,
+  }).then(res => res.reduce((acc, next) => ({
+    ...acc,
+    [next.productId]: next,
+  }), {} as { [key: number]: ReviewGroupByPayload }));
+
+  return products.map(product => ({
+    ...product,
+    reviews: reviewGroupBy[product.id] || null,
+  }));
 });

@@ -1,4 +1,4 @@
-import { ProductCard } from "../../../_components/product-card";
+import { ProductCard } from "@/components/shared/product-card";
 
 import { getFeaturedProducts } from "@/db/query/product";
 
@@ -17,7 +17,12 @@ export async function FeaturedProductsDiplay({
   return (
     <div>
       <h2>Bestsellers</h2>
-      <div className="grid">
+      <div
+        className="grid"
+        style={{
+          gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+        }}
+      >
         {featuredProducts.map(product => (
           <ProductCard
             key={product.id}

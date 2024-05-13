@@ -1,0 +1,56 @@
+import Link from "next/link";
+import Image from "next/image";
+
+import { ReviewSummary } from "./review-summary";
+
+import { ProductsIncludePayload } from "@/db/query/product";
+
+interface ProductCardProps {
+  product: ProductsIncludePayload;
+}
+
+export function ProductCard({
+  product,
+}: ProductCardProps) {
+  const {
+    name,
+    slug,
+    productItems,
+    brand,
+    reviews,
+  } = product;
+
+  const imageUrls = productItems
+    .sort((a, b) => a.id - b.id)
+    .reduce((acc, next) => [
+      ...acc,
+      ...next.images.map(image => image.imageUrl),
+    ], [] as string[]);
+
+  return (
+    <Link href={`/product/${slug}`}>
+      <div className="w-full h-auto rounded-lg shadow-md overflow-hidden">
+        <Image
+          src={imageUrls.length > 0
+            ? imageUrls[0]
+            : "/placeholders/no-product-image.jpeg"
+          }
+          alt="Product image"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="object-contain bg-slate-200 aspect-square"
+          style={{ width: "100%", height: "100%" }}
+        />
+        <div className="p-2">
+          {reviews && (
+            <ReviewSummary aggregate={reviews} />
+          )}
+          <span>{brand.name}</span>
+          <span>{name}</span>
+          <span>{`from ${Math.min(...productItems.map(productItem => productItem.price))}`}</span>
+        </div>
+      </div>
+    </Link>
+  );
+}
