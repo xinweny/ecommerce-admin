@@ -13,7 +13,7 @@ import {
   bestsellerOrderItemGroupByArgs,
 } from "./order";
 
-const featuredProductIncludeArgs = {
+const productsIncludeArgs = {
   category: {
     select: { id: true, name: true, slug: true, },
   },
@@ -27,11 +27,11 @@ const featuredProductIncludeArgs = {
     select: { id: true, name: true, slug: true },
   },
   productItems: {
-    select: { price: true, stock: true },
+    include: { images: true },
   },
 } satisfies Prisma.ProductInclude;
 
-export type FeaturedProductIncludePayload = Prisma.ProductGetPayload<{ include: typeof featuredProductIncludeArgs }>;
+export type ProductsIncludePayload = Prisma.ProductGetPayload<{ include: typeof productsIncludeArgs }>;
 
 export const getFeaturedProducts = cache(async (params: DbQueryParams<Prisma.OrderItemWhereInput>) => {
   const { filter, pagination } = params;
@@ -45,8 +45,14 @@ export const getFeaturedProducts = cache(async (params: DbQueryParams<Prisma.Ord
   const productIds = orderItems.map(({ productId }) => productId);
 
   const products = await db.product.findMany({
-    where: { id: { in: productIds } },
-    include: featuredProductIncludeArgs,
+    where: {
+      categoryId: filter?.product?.categoryId,
+      ...(productIds.length > 0 && {
+        id: { in: productIds },
+      }),
+    },
+    include: productsIncludeArgs,
+    ...paginate(pagination),
   });
 
   return products;

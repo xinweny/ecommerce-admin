@@ -1,3 +1,5 @@
+import { ProductCard } from "../../../_components/product-card";
+
 import { getFeaturedProducts } from "@/db/query/product";
 
 interface FeaturedProductsDisplayProps {
@@ -15,7 +17,14 @@ export async function FeaturedProductsDiplay({
   return (
     <div>
       <h2>Bestsellers</h2>
-      <div></div>
+      <div className="grid">
+        {featuredProducts.map(product => (
+          <ProductCard
+            key={product.id}
+            product={product}
+          />
+        ))}
+      </div>
     </div>
   );
 }
