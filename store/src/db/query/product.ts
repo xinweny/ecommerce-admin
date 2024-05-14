@@ -12,7 +12,7 @@ import {
 import { bestsellerOrderItemGroupByArgs } from "./order";
 import { reviewGroupByArgs, ReviewGroupByPayload } from "./review";
 
-const productsIncludeArgs = {
+const productIncludeArgs = {
   category: {
     select: { id: true, name: true, slug: true, },
   },
@@ -30,7 +30,7 @@ const productsIncludeArgs = {
   },
 } satisfies Prisma.ProductInclude;
 
-export type ProductsIncludePayload = Prisma.ProductGetPayload<{ include: typeof productsIncludeArgs }> & {
+export type ProductIncludePayload = Prisma.ProductGetPayload<{ include: typeof productIncludeArgs }> & {
   reviews: ReviewGroupByPayload | null;
 };
 
@@ -52,7 +52,7 @@ export const getFeaturedProducts = cache(async (params: DbQueryParams<Prisma.Ord
         id: { in: productIds },
       }),
     },
-    include: productsIncludeArgs,
+    include: productIncludeArgs,
     ...paginate(pagination),
   });
 
@@ -70,4 +70,13 @@ export const getFeaturedProducts = cache(async (params: DbQueryParams<Prisma.Ord
     ...product,
     reviews: reviewGroupBy[product.id] || null,
   }));
+});
+
+export const getProductBySlug = cache(async (productSlug: string) => {
+  const product = await db.product.findUnique({
+    where: { slug: productSlug },
+    include: productIncludeArgs,
+  });
+  
+  return product;
 });

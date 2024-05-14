@@ -1,12 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { Expand } from "lucide-react";
 
 import { ReviewSummary } from "./review-summary";
+import { Currency } from "./currency";
 
-import { ProductsIncludePayload } from "@/db/query/product";
+import { ProductIncludePayload } from "@/db/query/product";
 
 interface ProductCardProps {
-  product: ProductsIncludePayload;
+  product: ProductIncludePayload;
 }
 
 export function ProductCard({
@@ -29,30 +33,41 @@ export function ProductCard({
 
   return (
     <Link href={`/product/${slug}`}>
-      <div className="w-full h-auto rounded-lg shadow-md overflow-hidden">
-        <Image
-          src={imageUrls.length > 0
-            ? imageUrls[0]
-            : "/placeholders/no-product-image.jpeg"
-          }
-          alt="Product image"
-          width={0}
-          height={0}
-          sizes="100vw"
-          className="object-contain bg-slate-200 aspect-square"
-          style={{ width: "100%", height: "100%" }}
-        />
+      <div className="w-full h-auto rounded-lg shadow-md overflow-hidden group">
+        <div className="relative">
+          <Image
+            src={imageUrls.length > 0
+              ? imageUrls[0]
+              : "/placeholders/no-product-image.jpeg"
+            }
+            alt="Product image"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="object-contain bg-slate-200 aspect-square"
+            style={{ width: "100%", height: "100%" }}
+          />
+          <div className="opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-4 flex gap-6 justify-center z-1">
+            <button
+              className="rounded-full bg-white p-2"
+              onClick={() => {}}
+            >
+              <Expand size={20} className="text-gray-600" />
+            </button>
+          </div>
+        </div>
         <div className="flex flex-col py-2 px-4">
           <span className="text-xs">{brand.name.toUpperCase()}</span>
-          <span className="text-sm font-semibold">{name}</span>
+          <span className="font-semibold">{name}</span>
           {reviews && (
             <ReviewSummary aggregate={reviews} />
           )}
-          <span className="text-right">
+          <span className="text-right mt-2">
             <span className="text-xs">from </span>
-            <span className="text-lg font-bold">
-              {Math.min(...productItems.map(productItem => productItem.price))}
-            </span>
+            <Currency
+              className="font-semibold"
+              value={Math.min(...productItems.map(productItem => productItem.price))}
+            />
           </span>
         </div>
       </div>
