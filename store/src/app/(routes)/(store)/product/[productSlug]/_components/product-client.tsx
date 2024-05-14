@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-import { RelatedProductsDisplay } from "./related-products-display";
-import { ProductImageGallery } from "./product-image-gallery";
+import { ProductItemImageGallery } from "./product-item-image-gallery";
+import { ProductItemInfo } from "./product-item-info";
 
 import { ProductIncludePayload, ProductItemIncludePayload } from "@/db/query/product";
 
@@ -18,7 +18,12 @@ export function ProductClient({
 
   return (
     <div className="bg-white px-4 py-10 sm:px-6 lg:px-8 lg:grid lg-grid-cols-2 lg:items-start lg:gap-x-8">
-      <ProductImageGallery productItem={productItem} />
+      <ProductItemImageGallery
+        productItem={productItem}
+      />
+      <ProductItemInfo
+        productItem={productItem}
+      />
     </div>
   );
 }

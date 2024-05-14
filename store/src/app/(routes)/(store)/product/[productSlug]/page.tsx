@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 
+import { Separator } from "@/components/ui/separator";
+
 import { ProductClient } from "./_components/product-client";
 import { RelatedProductsDisplay } from "./_components/related-products-display";
 
@@ -19,6 +21,7 @@ export default async function ProductPage({
   return (
     <>
       <ProductClient product={product} />
+      <Separator className="mx-6 w-auto" />
       <RelatedProductsDisplay product={product} />
     </>
   );

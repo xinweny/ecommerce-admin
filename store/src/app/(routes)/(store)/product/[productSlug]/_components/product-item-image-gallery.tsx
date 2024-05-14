@@ -14,13 +14,13 @@ import { ProductItemIncludePayload } from "@/db/query/product";
 
 import { cn } from "@/lib/utils";
 
-interface ProductImageGalleryProps {
+interface ProductItemImageGalleryProps {
   productItem: ProductItemIncludePayload;
 }
 
-export function ProductImageGallery({
+export function ProductItemImageGallery({
   productItem,
-}: ProductImageGalleryProps) {
+}: ProductItemImageGalleryProps) {
   const { images } = productItem;
 
   return (
