@@ -1,4 +1,4 @@
-import { ProductCard } from "@/components/shared/product-card";
+import { ProductCardList } from "@/components/shared/product-card";
 
 import { getFeaturedProducts } from "@/db/query/product";
 
@@ -6,7 +6,7 @@ interface FeaturedProductsDisplayProps {
   categoryId: number;
 }
 
-export async function FeaturedProductsDiplay({
+export async function FeaturedProductsDisplay({
   categoryId,
 }: FeaturedProductsDisplayProps) {
   const featuredProducts = await getFeaturedProducts({
@@ -15,21 +15,6 @@ export async function FeaturedProductsDiplay({
   });
 
   return (
-    <div className="space-y-6 px-8">
-      <h2 className="font-bold text-2xl">Bestsellers</h2>
-      <div
-        className="grid"
-        style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-        }}
-      >
-        {featuredProducts.map(product => (
-          <ProductCard
-            key={product.id}
-            product={product}
-          />
-        ))}
-      </div>
-    </div>
+    <ProductCardList title="Bestsellers" products={featuredProducts} />
   );
 }

@@ -33,7 +33,7 @@ export function ProductCard({
 
   return (
     <Link href={`/product/${slug}`}>
-      <div className="w-full h-auto rounded-lg shadow-md overflow-hidden group">
+      <div className="w-full h-auto rounded-lg border shadow-md overflow-hidden group">
         <div className="relative">
           <Image
             src={imageUrls.length > 0
@@ -72,5 +72,34 @@ export function ProductCard({
         </div>
       </div>
     </Link>
+  );
+}
+
+interface ProductCardListProps {
+  title?: string;
+  products: ProductIncludePayload[];
+}
+
+export function ProductCardList({
+  title,
+  products,
+}: ProductCardListProps) {
+  return (
+    <div className="space-y-6 px-8">
+      {title && <h2 className="font-bold text-2xl">{title}</h2>}
+      <div
+        className="grid"
+        style={{
+          gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+        }}
+      >
+        {products.map(product => (
+          <ProductCard
+            key={product.id}
+            product={product}
+          />
+        ))}
+      </div>
+    </div>
   );
 }

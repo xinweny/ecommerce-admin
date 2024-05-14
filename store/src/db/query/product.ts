@@ -34,24 +34,11 @@ export type ProductIncludePayload = Prisma.ProductGetPayload<{ include: typeof p
   reviews: ReviewGroupByPayload | null;
 };
 
-export const getFeaturedProducts = cache(async (params: DbQueryParams<Prisma.OrderItemWhereInput>) => {
+export const getProducts = cache(async (params: DbQueryParams<Prisma.ProductWhereInput>) => {
   const { filter, pagination } = params;
 
-  const orderItems = await db.orderItem.groupBy({
-    ...where(filter),
-    ...bestsellerOrderItemGroupByArgs,
-    ...paginate(pagination),
-  });
-
-  const productIds = orderItems.map(({ productId }) => productId);
-
   const products = await db.product.findMany({
-    where: {
-      categoryId: filter?.product?.categoryId,
-      ...(productIds.length > 0 && {
-        id: { in: productIds },
-      }),
-    },
+    ...where(filter),
     include: productIncludeArgs,
     ...paginate(pagination),
   });
@@ -70,6 +57,24 @@ export const getFeaturedProducts = cache(async (params: DbQueryParams<Prisma.Ord
     ...product,
     reviews: reviewGroupBy[product.id] || null,
   }));
+});
+
+export const getFeaturedProducts = cache(async (params: DbQueryParams<Prisma.OrderItemWhereInput>) => {
+  const { filter, pagination } = params;
+
+  const orderItems = await db.orderItem.groupBy({
+    ...where(filter),
+    ...bestsellerOrderItemGroupByArgs,
+    ...paginate(pagination),
+  });
+
+  const productIds = orderItems.map(({ productId }) => productId);
+
+  const products = await getProducts({
+    filter: { id: { in: productIds } },
+  });
+
+  return products;
 });
 
 export const getProductBySlug = cache(async (productSlug: string) => {
