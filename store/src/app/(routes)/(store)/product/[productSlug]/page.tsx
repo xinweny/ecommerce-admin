@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation";
 
+import { ProductClient } from "./_components/product-client";
 import { RelatedProductsDisplay } from "./_components/related-products-display";
 
-import { getProductBySlug, getProducts } from "@/db/query/product";
+import { getProductBySlug } from "@/db/query/product";
 
 interface ProductPageProps {
   params: { productSlug: string };
@@ -15,19 +16,10 @@ export default async function ProductPage({
 
   if (!product) redirect("/");
 
-  const relatedProducts = await getProducts({
-    filter: {
-      AND: [
-        { subcategoryId: product.subcategoryId },
-        { id: { not: product.id } },
-      ],
-    },
-    pagination: { limit: 5 },
-  });
-
   return (
-    <div className="bg-white px-4 py-10 sm:px-6 lg:px-8 lg:grid lg-grid-cols-2 lg:items-start lg:gap-x-8">
+    <>
+      <ProductClient product={product} />
       <RelatedProductsDisplay product={product} />
-    </div>
+    </>
   );
 }

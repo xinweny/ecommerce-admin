@@ -34,7 +34,13 @@ export type ProductIncludePayload = Prisma.ProductGetPayload<{ include: typeof p
   reviews: ReviewGroupByPayload | null;
 };
 
-export const getProducts = cache(async (params: DbQueryParams<Prisma.ProductWhereInput>) => {
+const productItemIncludeArgs = {
+  images: true,
+} satisfies Prisma.ProductItemInclude;
+
+export type ProductItemIncludePayload = Prisma.ProductItemGetPayload<{ include: typeof productItemIncludeArgs }>;
+
+export const getProducts = cache(async (params: DbQueryParams<Prisma.ProductWhereInput>): Promise<ProductIncludePayload[]> => {
   const { filter, pagination } = params;
 
   const products = await db.product.findMany({
@@ -71,7 +77,9 @@ export const getFeaturedProducts = cache(async (params: DbQueryParams<Prisma.Ord
   const productIds = orderItems.map(({ productId }) => productId);
 
   const products = await getProducts({
-    filter: { id: { in: productIds } },
+    filter: productIds.length > 0
+      ? { id: { in: productIds } }
+      : { categoryId: filter?.product?.categoryId },
   });
 
   return products;

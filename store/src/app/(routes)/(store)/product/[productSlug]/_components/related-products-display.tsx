@@ -4,7 +4,6 @@ import { ProductCardList } from "@/components/shared/product-card";
 
 import { getProducts } from "@/db/query/product";
 
-
 interface RelatedProductsDisplayProps {
   product: Product;
 }

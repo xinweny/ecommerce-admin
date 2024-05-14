@@ -15,6 +15,9 @@ export async function FeaturedProductsDisplay({
   });
 
   return (
-    <ProductCardList title="Bestsellers" products={featuredProducts} />
+    <ProductCardList
+      title="Bestsellers"
+      products={featuredProducts}
+    />
   );
 }

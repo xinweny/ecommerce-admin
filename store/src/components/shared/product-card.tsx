@@ -44,7 +44,7 @@ export function ProductCard({
             width={0}
             height={0}
             sizes="100vw"
-            className="object-contain bg-slate-200 aspect-square"
+            className="object-contain object-center bg-slate-200 aspect-square"
             style={{ width: "100%", height: "100%" }}
           />
           <div className="opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-4 flex gap-6 justify-center z-1">
