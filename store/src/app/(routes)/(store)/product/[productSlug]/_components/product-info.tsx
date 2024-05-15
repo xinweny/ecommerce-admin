@@ -57,14 +57,17 @@ export function ProductInfo({
         </div>
       </div>
       <div className="mt-10 flex items-center gap-3">
-        <Button className="flex items-center gap-2 rounded-full">
+        <Button
+          onClick={() => { console.log("TODO: cart function"); }}
+          className="flex items-center gap-2 rounded-full"
+        >
           <span>Add to Cart</span>
           <ShoppingCart />
         </Button>
       </div>
       <Separator className="my-4" />
       <div className="flex flex-col gap-2">
-        <span className="font-semibold">Description</span>
+        <span className="font-semibold text-lg">Description</span>
         <p className="text-sm">{product.description}</p>
       </div>
     </div>

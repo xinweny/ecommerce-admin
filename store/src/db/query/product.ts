@@ -26,6 +26,7 @@ const productIncludeArgs = {
     select: { id: true, name: true, slug: true },
   },
   productItems: {
+    where: { isArchived: false },
     include: { images: true },
   },
 } satisfies Prisma.ProductInclude;
@@ -44,7 +45,10 @@ export const getProducts = cache(async (params: DbQueryParams<Prisma.ProductWher
   const { filter, pagination } = params;
 
   const products = await db.product.findMany({
-    ...where(filter),
+    ...where({
+      ...filter,
+      isArchived: false,
+    }),
     include: productIncludeArgs,
     ...paginate(pagination),
   });
@@ -65,7 +69,7 @@ export const getProducts = cache(async (params: DbQueryParams<Prisma.ProductWher
   }));
 });
 
-export const getFeaturedProducts = cache(async (params: DbQueryParams<Prisma.OrderItemWhereInput>) => {
+export const getProductsBySales = cache(async (params: DbQueryParams<Prisma.OrderItemWhereInput>) => {
   const { filter, pagination } = params;
 
   const orderItems = await db.orderItem.groupBy({

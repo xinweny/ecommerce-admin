@@ -1,7 +1,9 @@
+import { FeaturedProductsDisplay } from "./_components/featured-products-display";
+
 export default function HomePage() {
   return (
     <div>
-      store
+      <FeaturedProductsDisplay />
     </div>
   );
 }
