@@ -33,6 +33,9 @@ export const productSchema = z.object({
   isArchived: z.boolean()
     .or(z.literal("true").transform(() => true))
     .or(z.literal("false").transform(() => false)),
+  isFeatured: z.boolean()
+    .or(z.literal("true").transform(() => true))
+    .or(z.literal("false").transform(() => false)),
 });
 
 export type ProductSchema = z.infer<typeof productSchema>;

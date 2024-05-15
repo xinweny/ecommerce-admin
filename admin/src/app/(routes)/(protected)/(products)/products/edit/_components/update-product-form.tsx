@@ -15,6 +15,7 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { FormSelect } from "@/components/form/form-select";
 import { FormInputSlug } from "@/components/form/form-input-slug";
 import { FormTextarea } from "@/components/form/form-textarea";
+import { FormSwitch } from "@/components/form/form-switch";
 
 import { updateProduct } from "@/actions/product";
 
@@ -44,6 +45,7 @@ export function UpdateProductForm({
       brandId: product.brandId,
       seriesId: product.seriesId || undefined,
       isArchived: product.isArchived,
+      isFeatured: product.isFeatured,
     },
   });
 
@@ -151,13 +153,14 @@ export function UpdateProductForm({
           label="Description"
         />
         <FormInput name="videoUrl" label="Video Link" />
-        <FormSelect
+        <FormSwitch
           name="isArchived"
           label="Archived"
-          values={[
-            { value: false, label: "No" },
-            { value: true, label: "Yes" },
-          ]}
+        />
+        <FormSwitch
+          name="isFeatured"
+          label="Featured"
+          description="Feature this product on the store's front page."
         />
         <SubmitButton className="ml-auto">
           Save Changes
