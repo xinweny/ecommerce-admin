@@ -90,6 +90,17 @@ export const getProductBySlug = cache(async (productSlug: string) => {
     where: { slug: productSlug },
     include: productIncludeArgs,
   });
+
+  if (!product) return null;
+
+  const reviewAggregate = await db.review.aggregate({
+    where: { product: { slug: productSlug } },
+    _avg: { rating: true },
+    _count: true,
+  });
   
-  return product;
+  return {
+    ...product,
+    reviews: reviewAggregate as ReviewGroupByPayload,
+  };
 });
