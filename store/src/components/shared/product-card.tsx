@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Expand } from "lucide-react";
 
-import { ReviewSummary } from "./review-summary";
+import { ReviewSummaryShort } from "./review-summary";
 import { Currency } from "./currency";
 
 import { ProductIncludePayload } from "@/db/query/product";
@@ -60,7 +60,7 @@ export function ProductCard({
           <span className="text-xs">{brand.name.toUpperCase()}</span>
           <span className="font-semibold">{name}</span>
           {reviews && (
-            <ReviewSummary aggregate={reviews} />
+            <ReviewSummaryShort aggregate={reviews} />
           )}
           <span className="text-right mt-2">
             <span className="text-xs">from </span>
