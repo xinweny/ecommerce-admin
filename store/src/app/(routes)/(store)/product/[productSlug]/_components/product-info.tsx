@@ -16,15 +16,19 @@ export function ProductInfo({
   productItem,
   setProductItem,
 }: ProductInfoProps) {
-  const { productItems } = product;
+  const {
+    brand,
+    productItems,
+  } = product;
 
   return (
-    <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-      <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
-      <div className="mt-4 flex items-end justify-between">
-        <Currency className="text-2xl text-gray-900" value={productItem.price} />
+    <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0 space-y-4">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
+        <span>{brand.name}</span>
       </div>
       <Separator className="my-4" />
+      <Currency className="block text-2xl text-gray-900" value={productItem.price} />
       <div className="flex items-center gap-4">
         {productItems.map((item) => (
           <Button
@@ -38,6 +42,8 @@ export function ProductInfo({
           </Button>
         ))}
       </div>
+      <Separator className="my-4" />
+      <p>{product.description}</p>
     </div>
   );
 }
