@@ -13,6 +13,7 @@ import {
 const categoryIncludeArgs = {
   billboard: true,
   subcategories: true,
+  products: { select: { _count: true } },
 } satisfies Prisma.CategoryInclude;
 
 export type CategoryIncludePayload = Prisma.CategoryGetPayload<{ include: typeof categoryIncludeArgs }>;

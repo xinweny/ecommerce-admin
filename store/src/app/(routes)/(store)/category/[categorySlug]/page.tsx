@@ -64,7 +64,9 @@ export default async function CategoryPage({
   return (
     <div>
       <CategoryBillboard category={category} />
-      <CategoryFilter category={category} />
+      <div className="lg:grid lg:grid-cols-5 lg:gap-x-8 px-4 sm:px-6 lg:px-8">
+        <CategoryFilter category={category} />
+      </div>
     </div>
   );
 }

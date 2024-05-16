@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Route } from "next";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import qs from "qs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus } from "lucide-react";
 
 import {
-  stringArrayStore,
-  type StringArrayStore,
+  arrayStore,
+  type ArrayStore,
   numberRangeStore,
   type NumberRangeStore,
 } from "@/schemas/filters";
@@ -24,13 +25,18 @@ import {
 import { Checkbox } from "../ui/checkbox";
 import { RangeSlider } from "../ui/slider";
 import { Button } from "../ui/button";
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+} from "../ui/drawer";
 
 import { Currency } from "./currency";
 
 interface SelectFilterProps {
   values: {
     label: string;
-    value: string;
+    value: any;
   }[];
   name: string;
   title: string;
@@ -45,11 +51,13 @@ export function SelectFilter({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const form = useForm<StringArrayStore>({
+  const selectStr = searchParams.get(name);
+
+  const form = useForm<ArrayStore>({
     defaultValues: {
-      [name]: [],
+      [name]: selectStr ? JSON.parse(selectStr) : [],
     },
-    resolver: zodResolver(stringArrayStore),
+    resolver: zodResolver(arrayStore),
   });
   const {
     control,
@@ -58,7 +66,7 @@ export function SelectFilter({
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = (data: StringArrayStore) => {
+  const onSubmit = (data: ArrayStore) => {
     const currentParams = qs.parse(searchParams.toString());
 
     const query = {
@@ -82,7 +90,8 @@ export function SelectFilter({
   return (
     <Form {...form}>
       <form>
-        <h3 className="font-semibold">{title}</h3>
+        <h3 className="font-semibold text-sm">{title}</h3>
+        <hr className="my-1" />
         {values.map(({ label, value }) => (
           <FormField
             key={value}
@@ -132,9 +141,11 @@ export function RangeFilter({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const rangeStr = searchParams.get(name);
+
   const form = useForm<NumberRangeStore>({
     defaultValues: {
-      [name]: [min, max],
+      [name]: rangeStr ? JSON.parse(rangeStr) : [min, max],
     },
     resolver: zodResolver(numberRangeStore),
   });
@@ -165,7 +176,8 @@ export function RangeFilter({
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h3 className="font-semibold">{title}</h3>
+        <h3 className="font-semibold text-sm">{title}</h3>
+        <hr className="my-1" />
         <span className="text-xs font-bold">
           <Currency value={range[0]} />
           <span> - </span>
@@ -181,7 +193,7 @@ export function RangeFilter({
                   <RangeSlider
                     min={min}
                     max={max}
-                    defaultValue={[min, max]}
+                    defaultValue={rangeStr ? JSON.parse(rangeStr) : [min, max]}
                     step={step}
                     disabled={isSubmitting}
                     onValueChange={field.onChange}
@@ -201,5 +213,39 @@ export function RangeFilter({
         </div>
       </form>
     </Form>
+  );
+}
+
+interface FiltersProps {
+  children: React.ReactNode;
+}
+
+export function Filters({
+  children,
+}: FiltersProps) {
+  return (
+    <div className="hidden lg:block mb-8 space-y-6">
+      {children}
+    </div>
+  );
+}
+
+export function MobileFilters({
+  children,
+}: FiltersProps) {
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button className="rounded-full lg:hidden flex items-center gap-2">
+          <span>Filters</span>
+          <Plus size={20} />
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <div className="p-8 space-y-6">
+          {children}
+        </div>
+      </DrawerContent>
+    </Drawer>
   );
 }

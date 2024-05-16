@@ -1,8 +1,8 @@
 import * as z from "zod";
 
-export const stringArrayStore = z.record(z.string(), z.array(z.string()));
+export const arrayStore = z.record(z.string(), z.array(z.any()));
 
-export type StringArrayStore = z.infer<typeof stringArrayStore>;
+export type ArrayStore = z.infer<typeof arrayStore>;
 
 export const numberRangeStore = z.record(z.string(), z.array(z.number()).length(2));
 
