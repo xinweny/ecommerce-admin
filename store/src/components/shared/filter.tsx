@@ -7,7 +7,12 @@ import qs from "qs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { stringIdsStore, type StringIdsStore } from "@/schemas/filters";
+import {
+  stringArrayStore,
+  type StringArrayStore,
+  numberRangeStore,
+  type NumberRangeStore,
+} from "@/schemas/filters";
 
 import {
   Form,
@@ -17,6 +22,10 @@ import {
   FormLabel,
 } from "../ui/form";
 import { Checkbox } from "../ui/checkbox";
+import { RangeSlider } from "../ui/slider";
+import { Button } from "../ui/button";
+
+import { Currency } from "./currency";
 
 interface SelectFilterProps {
   values: {
@@ -36,11 +45,11 @@ export function SelectFilter({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const form = useForm<StringIdsStore>({
+  const form = useForm<StringArrayStore>({
     defaultValues: {
       [name]: [],
     },
-    resolver: zodResolver(stringIdsStore),
+    resolver: zodResolver(stringArrayStore),
   });
   const {
     control,
@@ -49,7 +58,7 @@ export function SelectFilter({
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = (data: StringIdsStore) => {
+  const onSubmit = (data: StringArrayStore) => {
     const currentParams = qs.parse(searchParams.toString());
 
     const query = {
@@ -99,6 +108,97 @@ export function SelectFilter({
             )}
           />
         ))}
+      </form>
+    </Form>
+  );
+}
+
+interface RangeFilterProps {
+  min: number;
+  max: number;
+  step: number;
+  name: string;
+  title: string;
+}
+
+export function RangeFilter({
+  min,
+  max,
+  step,
+  name,
+  title,
+}: RangeFilterProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const form = useForm<NumberRangeStore>({
+    defaultValues: {
+      [name]: [min, max],
+    },
+    resolver: zodResolver(numberRangeStore),
+  });
+  const {
+    control,
+    watch,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = form;
+
+  const onSubmit = (data: NumberRangeStore) => {
+    const currentParams = qs.parse(searchParams.toString());
+
+    const query = {
+      ...currentParams,
+      [name]: data[name].length === 2
+        ? JSON.stringify(data[name])
+        : null,
+    };
+
+    const url = `${pathname}?${qs.stringify(query, { skipNulls: true })}`;
+
+    router.push(url as Route, { scroll: false });
+  };
+
+  const range = watch(name);
+
+  return (
+    <Form {...form}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <h3 className="font-semibold">{title}</h3>
+        <span className="text-xs font-bold">
+          <Currency value={range[0]} />
+          <span> - </span>
+          <Currency value={range[1]} />
+        </span>
+        <div className="flex items-center gap-4">
+          <FormField
+            control={control}
+            name={name}
+            render={({ field }) => (
+              <FormItem className="grow">
+                <FormControl>
+                  <RangeSlider
+                    min={min}
+                    max={max}
+                    defaultValue={[min, max]}
+                    step={step}
+                    disabled={isSubmitting}
+                    onValueChange={field.onChange}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <Button
+            type="submit"
+            size="sm"
+            variant="outline"
+            disabled={isSubmitting}
+          >
+            Go
+          </Button>
+        </div>
       </form>
     </Form>
   );

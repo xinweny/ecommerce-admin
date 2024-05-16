@@ -1,48 +1,36 @@
-"use client";
+import { CategoryIncludePayload } from "@/db/query/category";
 
-import { Route } from "next";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import qs from "qs";
+import { SelectFilter, RangeFilter } from "@/components/shared/filter";
 
-import { Subcategory } from "@prisma/client";
-import { SelectFilter } from "@/components/shared/filter";
+import { getProductItemsPriceRange } from "@/db/query/product";
 
 interface CategoryFilterProps {
-  subcategories: Subcategory[];
+  category: CategoryIncludePayload;
 }
 
-export function CategoryFilter({
-  subcategories,
+export async function CategoryFilter({
+  category,
 }: CategoryFilterProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const onClick = (key: string, value: string) => {
-    const currentParams = qs.parse(searchParams.toString());
-
-    const query = {
-      ...currentParams,
-      [key]: currentParams[key] === value ? null : value,
-    };
-
-    const url = qs.stringify({
-      url: pathname,
-      query,
-    }, { skipNulls: true });
-
-    router.push(url as Route);
-  };
+  const priceRange = await getProductItemsPriceRange({
+    product: { categoryId: category.id },
+  });
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 space-y-4">
       <SelectFilter
         name="subcategoryIds"
-        values={subcategories.map(({ id, name }) => ({
+        values={category.subcategories.map(({ id, name }) => ({
           label: name,
           value: id.toString() as string,
         }))}
         title="Subcategories"
+      />
+      <RangeFilter
+        name="priceRange"
+        title="Price"
+        min={priceRange?._min.price || 0}
+        max={priceRange?._max.price || 100_000}
+        step={10}
       />
     </div>
   );

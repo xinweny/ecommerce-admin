@@ -1,7 +1,9 @@
 import * as z from "zod";
 
-const StringIds = z.array(z.string());
+export const stringArrayStore = z.record(z.string(), z.array(z.string()));
 
-export const stringIdsStore = z.record(z.string(), StringIds);
+export type StringArrayStore = z.infer<typeof stringArrayStore>;
 
-export type StringIdsStore = z.infer<typeof stringIdsStore>;
+export const numberRangeStore = z.record(z.string(), z.array(z.number()).length(2));
+
+export type NumberRangeStore = z.infer<typeof numberRangeStore>;

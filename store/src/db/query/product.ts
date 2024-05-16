@@ -5,11 +5,11 @@ import { db } from "../client";
 
 import {
   where,
+  orderBy,
   paginate,
   DbQueryParams,
 } from "@/lib/db-query";
 
-import { bestsellerOrderItemGroupByArgs } from "./order";
 import { reviewGroupByArgs, ReviewGroupByPayload } from "./review";
 
 const productIncludeArgs = {
@@ -69,26 +69,6 @@ export const getProducts = cache(async (params: DbQueryParams<Prisma.ProductWher
   }));
 });
 
-export const getProductsBySales = cache(async (params: DbQueryParams<Prisma.OrderItemWhereInput>) => {
-  const { filter, pagination } = params;
-
-  const orderItems = await db.orderItem.groupBy({
-    ...where(filter),
-    ...bestsellerOrderItemGroupByArgs,
-    ...paginate(pagination),
-  });
-
-  const productIds = orderItems.map(({ productId }) => productId);
-
-  const products = await getProducts({
-    filter: productIds.length > 0
-      ? { id: { in: productIds } }
-      : { categoryId: filter?.product?.categoryId },
-  });
-
-  return products;
-});
-
 export const getProductBySlug = cache(async (productSlug: string) => {
   const product = await db.product.findUnique({
     where: { slug: productSlug },
@@ -108,3 +88,13 @@ export const getProductBySlug = cache(async (productSlug: string) => {
     reviews: reviewAggregate as ReviewGroupByPayload,
   };
 });
+
+export const getProductItemsPriceRange = cache(async (filter: Prisma.ProductItemWhereInput) => {
+  const productItemAggregate = await db.productItem.aggregate({
+    where: filter,
+    _min: { price: true },
+    _max: { price: true },
+  });
+
+  return productItemAggregate;
+})
