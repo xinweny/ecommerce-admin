@@ -1,9 +1,12 @@
 import { redirect } from "next/navigation";
 
-import { getCategoryBySlug } from "@/db/query/category";
+import {
+  getCategoryBySlug,
+  getSubcategories,
+} from "@/db/query/category";
 
 import { CategoryBillboard } from "./_components/category-billboard";
-import { FeaturedProductsDisplay } from "./_components/featured-products-display";
+import { CategoryFilter } from "./_components/category-filter";
 
 interface CategoryPageProps {
   params: { categorySlug: string };
@@ -18,10 +21,14 @@ export default async function CategoryPage({
 
   if (!category) redirect("/");
 
+  const subcategories = await getSubcategories({
+    filter: { categoryId: category.id },
+  });
+
   return (
-    <>
+    <div>
       <CategoryBillboard category={category} />
-      <FeaturedProductsDisplay categoryId={category.id} />
-    </>
+      <CategoryFilter subcategories={subcategories} />
+    </div>
   );
 }
