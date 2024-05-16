@@ -22,7 +22,7 @@ export function ReviewSummaryShort({
     <div className="flex items-center gap-4">
       <div className="relative">
         <div className="flex gap-2">
-          {Array.from(Array(5)).map((i) => (
+          {Array.from(Array(5).keys()).map((i) => (
             <Star
               key={i}
               className="fill-gray-300"
@@ -65,7 +65,7 @@ export function ReviewSummaryFull({
       {avgRating && <span>{+avgRating.toFixed(2)}</span>}
       <div className="relative">
         <div className="flex">
-          {Array.from(Array(5)).map((i) => (
+          {Array.from(Array(5).keys()).map((i) => (
             <Star
               key={i}
               className="fill-gray-300"

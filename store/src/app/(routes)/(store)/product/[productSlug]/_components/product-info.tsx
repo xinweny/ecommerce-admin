@@ -1,11 +1,11 @@
-import { ShoppingCart } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Currency } from "@/components/shared/currency";
 import { ReviewSummaryFull } from "@/components/shared/review-summary";
+
+import { AddToCardSection } from "./add-to-cart-section";
 
 import { ProductItemIncludePayload, ProductIncludePayload } from "@/db/query/product";
 
@@ -56,15 +56,12 @@ export function ProductInfo({
           ))}
         </div>
       </div>
-      <div className="mt-10 flex items-center gap-3">
-        <Button
-          onClick={() => { console.log("TODO: cart function"); }}
-          className="flex items-center gap-2 rounded-full"
-        >
-          <span>Add to Cart</span>
-          <ShoppingCart />
-        </Button>
-      </div>
+      <AddToCardSection
+        productItem={{
+          ...productItem,
+          product,
+        }}
+      />
       <Separator className="my-4" />
       <div className="flex flex-col gap-2">
         <span className="font-semibold text-lg">Description</span>

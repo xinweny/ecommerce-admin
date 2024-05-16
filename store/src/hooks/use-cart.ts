@@ -3,21 +3,24 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import toast from "react-hot-toast";
 
-const cartProductItem = {
+const productItemInCartArgs = {
   product: {
-    select: { id: true, name: true, model: true }
+    select: { id: true, name: true, model: true },
   },
+  images: true,
 } satisfies Prisma.ProductItemInclude;
 
-type CartItem = Prisma.ProductItemGetPayload<{
-  include: typeof cartProductItem;
-}> & {
+export type ProductItemInCart = Prisma.ProductItemGetPayload<{
+  include: typeof productItemInCartArgs;
+}>;
+
+export type CartItem = ProductItemInCart & {
   quantity: number;
 };
 
 interface CartStore {
   items: CartItem[];
-  addItem: (productItem: CartItem) => void;
+  addItem: (productItem: ProductItemInCart, quantity: number) => void;
   removeItem: (productItemId: number) => void;
   removeAll: () => void;
   updateQuantity: (productItemId: number, quantity: number) => void;
@@ -25,16 +28,24 @@ interface CartStore {
 
 export const useCart = create(persist<CartStore>((set, get) => ({
   items: [],
-  addItem: (productItem: CartItem) => {
+  addItem: (productItem: ProductItemInCart, quantity: number) => {
+    if (quantity > productItem.stock) {
+      toast.error("Quantity requested exceeds stock.");
+      
+      return;
+    }
+
     set((state) => {
       const index = state.items.findIndex((item) => item.id === productItem.id);
 
       if (index === -1) {
-        state.items.push(productItem);
+        state.items.push({
+          ...productItem,
+          quantity,
+        });
       } else {
-        state.items[index].quantity += productItem.quantity;
+        state.items[index].quantity += quantity;
       }
-      state.items[index].quantity += productItem.quantity;
 
       return state;
     });

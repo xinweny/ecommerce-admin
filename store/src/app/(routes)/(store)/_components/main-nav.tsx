@@ -8,7 +8,7 @@ import { ShoppingBag } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import { useIsMounted } from "@/hooks";
+import { useIsMounted, useCart } from "@/hooks";
 
 import { Button } from "@/components/ui/button";
 import { LoginButton } from "@/components/auth/login-button";
@@ -53,6 +53,8 @@ export function NavbarActions({
 }: NavbarActionsProps) {
   const isMounted = useIsMounted();
 
+  const cart = useCart();
+
   if (!isMounted) return null;
 
   return (
@@ -67,7 +69,9 @@ export function NavbarActions({
       }
       <Button className="rounded-full px-4 py-2">
         <ShoppingBag size={20} />
-        <span className="ml-2 text-sm font-medium text-white">0</span>
+        <span className="ml-2 text-sm font-medium text-white">
+          {cart.items.length}
+        </span>
       </Button>
     </div>
   );
