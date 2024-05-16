@@ -29,6 +29,7 @@ import {
   Drawer,
   DrawerTrigger,
   DrawerContent,
+  DrawerTitle,
 } from "../ui/drawer";
 
 import { Currency } from "./currency";
@@ -243,6 +244,7 @@ export function MobileFilters({
       </DrawerTrigger>
       <DrawerContent>
         <div className="p-8 space-y-6">
+          <DrawerTitle className="text-center mb-2">Filters</DrawerTitle>
           {children}
         </div>
       </DrawerContent>
