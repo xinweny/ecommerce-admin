@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Route } from "next";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import qs from "qs";
