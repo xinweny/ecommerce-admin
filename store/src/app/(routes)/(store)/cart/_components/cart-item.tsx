@@ -23,8 +23,9 @@ export function CartItem({
   } = cartItem;
 
   const specifications = {
-    ...(product.model && { model: product.model }),
     type: cartItem.name,
+    ...(product.model && { model: product.model }),
+    
   };
 
   return (
@@ -60,7 +61,7 @@ export function CartItem({
           </div>
           <div className="flex flex-col">
             <Currency
-              className="text-xl font-bold"
+              className="text-lg font-semibold mb-2"
               value={cartItem.price}
             />
             <UpdateItemQuantityForm cartItem={cartItem} />
@@ -78,8 +79,7 @@ export function CartItemsList() {
   const cartItems = useCart(({ items }) => items);
 
   return (
-    <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start gap-x-12">
-      <div className="lg:col-span-7">
+    <div className="lg:col-span-7">
         {cartItems.length === 0
           ? (
             <p className="text-neutral-500">Cart is empty.</p>
@@ -96,6 +96,5 @@ export function CartItemsList() {
           )
         }
       </div>
-    </div>
   );
 }

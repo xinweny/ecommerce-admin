@@ -52,6 +52,7 @@ export function UpdateItemQuantityForm({
               <FormLabel className="text-xs">Qty</FormLabel>
               <FormControl>
                 <Input
+                  className="text-right"
                   type="number"
                   min={1}
                   max={cartItem.stock}
