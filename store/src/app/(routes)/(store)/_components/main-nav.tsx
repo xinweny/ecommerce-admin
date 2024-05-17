@@ -67,12 +67,14 @@ export function NavbarActions({
           <span className="text-sm">Logout</span>
         </LogoutButton>
       }
-      <Button className="rounded-full px-4 py-2">
-        <ShoppingBag size={20} />
-        <span className="ml-2 text-sm font-medium text-white">
-          {cart.items.length}
-        </span>
-      </Button>
-    </div>
+      <Link href="/cart">
+        <Button className="rounded-full px-4 py-2">
+          <ShoppingBag size={20} />
+          <span className="ml-2 text-sm font-medium text-white">
+            {cart.items.length}
+          </span>
+        </Button>
+      </Link>
+    </div>    
   );
 }

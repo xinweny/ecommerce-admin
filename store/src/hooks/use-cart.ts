@@ -1,12 +1,11 @@
 import { Prisma } from "@prisma/client";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
 import toast from "react-hot-toast";
 
 const productItemInCartArgs = {
-  product: {
-    select: { id: true, name: true, model: true },
-  },
+  product: true,
   images: true,
 } satisfies Prisma.ProductItemInclude;
 
@@ -26,7 +25,7 @@ interface CartStore {
   updateQuantity: (productItemId: number, quantity: number) => void;
 }
 
-export const useCart = create(persist<CartStore>((set, get) => ({
+export const useCart = create(immer(persist<CartStore>((set, get) => ({
   items: [],
   addItem: (productItem: ProductItemInCart, quantity: number) => {
     if (quantity > productItem.stock) {
@@ -95,4 +94,4 @@ export const useCart = create(persist<CartStore>((set, get) => ({
 }), {
   name: "cartStorage",
   storage: createJSONStorage(() => localStorage),
-}));
+})));
