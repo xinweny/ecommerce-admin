@@ -5,7 +5,11 @@ import { immer } from "zustand/middleware/immer";
 import toast from "react-hot-toast";
 
 const productItemInCartArgs = {
-  product: true,
+  product: {
+    include: {
+      brand: { select: { id: true, name: true } },
+    },
+  },
   images: true,
 } satisfies Prisma.ProductItemInclude;
 
@@ -28,9 +32,13 @@ interface CartStore {
 export const useCart = create(immer(persist<CartStore>((set, get) => ({
   items: [],
   addItem: (productItem: ProductItemInCart, quantity: number) => {
+    if (Number.isNaN(quantity) || quantity < 1) {
+      toast.error("Invalid quantity.");
+      return;
+    }
+
     if (quantity > productItem.stock) {
       toast.error("Quantity requested exceeds stock.");
-      
       return;
     }
 
@@ -75,21 +83,32 @@ export const useCart = create(immer(persist<CartStore>((set, get) => ({
     toast.success("Cart cleared successfully.");
   },
   updateQuantity: (productItemId: number, quantity: number) => {
+    if (Number.isNaN(quantity) || quantity < 1) {
+      toast.error("Invalid quantity.");
+      return;
+    }
+
     const currentItems = get().items;
 
     const index = currentItems.findIndex((item) => item.id === productItemId);
 
     if (index === -1) {
       toast.error("Item not found.");
-    } else {
-      set((state) => {
-        state.items[index].quantity = quantity;
-  
-        return state;
-      });
-  
-      toast.success("Quantity updated.");
+      return;
     }
+
+    if (quantity >= currentItems[index].stock) {
+      toast.error("Quantity requested exceeds stock.");
+      return;
+    }
+
+    set((state) => {
+      state.items[index].quantity = quantity;
+
+      return state;
+    });
+
+    toast.success("Quantity updated.");
   },
 }), {
   name: "cartStorage",

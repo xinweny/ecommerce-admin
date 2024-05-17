@@ -1,12 +1,14 @@
-import { type CartItem, useCart } from "@/hooks";
-
 import Link from "next/link";
 import Image from "next/image";
-import toast from "react-hot-toast";
-import { X } from "lucide-react";
 
-import { Input } from "@/components/ui/input";
+import { capitalize } from "@/lib/utils";
+
+import { useCart, type CartItem } from "@/hooks";
+
 import { Currency } from "@/components/shared/currency";
+
+import { RemoveItemButton } from "./remove-item-button";
+import { UpdateItemQuantityForm } from "./update-item-quantity-form";
 
 interface CartItemProps {
   cartItem: CartItem;
@@ -15,15 +17,15 @@ interface CartItemProps {
 export function CartItem({
   cartItem,
 }: CartItemProps) {
-  const cart = useCart(({ updateQuantity, removeItem }) => ({
-    updateQuantity,
-    removeItem,
-  }));
-
   const {
     images,
     product,
   } = cartItem;
+
+  const specifications = {
+    ...(product.model && { model: product.model }),
+    type: cartItem.name,
+  };
 
   return (
     <li className="flex py-6 border-b">
@@ -40,38 +42,32 @@ export function CartItem({
           />
         </Link>
       </div>
-      <div className="grow ml-4 flex flex-col sm:ml-6">
-        <button
-          onClick={() => {
-            cart.removeItem(cartItem.id);
-          }}
-          className="self-end"
-        >
-          <X size={16} />
-        </button>
+      <div className="grow ml-4 flex flex-col sm:ml-6 justify-between">
         <div className="flex justify-between">
           <div className="flex flex-col">
             <Link href={`/product/${product.slug}`}>
               <span className="text-lg font-medium">{product.name}</span>
             </Link>
-            <span>{cartItem.name}</span>
+            <span className="text-sm">{product.brand.name}</span>
+            <div className="flex flex-col mt-4">
+              {Object.entries(specifications).map(([key, value]) => (
+                <span key={key} className="text-sm">
+                  <span className="font-bold">{`${capitalize(key)}: `}</span>
+                  <span>{value}</span>
+                </span>
+              ))}
+            </div>
           </div>
           <div className="flex flex-col">
             <Currency
               className="text-xl font-bold"
               value={cartItem.price}
             />
-            <Input
-              className="text-right"
-              type="number"
-              min={1}
-              max={cartItem.stock}
-              defaultValue={cartItem.quantity}
-              onBlur={(e) => {
-                cart.updateQuantity(cartItem.id, +e.target.value);
-              }}
-            />
+            <UpdateItemQuantityForm cartItem={cartItem} />
           </div>
+        </div>
+        <div className="self-end">
+          <RemoveItemButton itemId={cartItem.id} />
         </div>
       </div>
     </li>

@@ -34,7 +34,7 @@ export function MainNav({
           href={`/category${href}` as Route}
           className={cn(
             "text-sm font-medium transition-colors hover:text-black",
-            pathname === `/category${href}` ? "text-black" : "text-neutral-500",
+            pathname === `/category${href}` ? "text-black" : "text-slate-500",
           )}
         >
           {label}

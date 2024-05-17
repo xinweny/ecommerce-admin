@@ -1,11 +1,11 @@
-import { useEffect } from "react";
-import { ShoppingCart } from "lucide-react";
+"use client";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { quantitySchema, QuantitySchema } from "@/schemas/quantity";
 
-import { ProductItemInCart, useCart } from "@/hooks";
+import { useCart, type CartItem } from "@/hooks";
 
 import {
   Form,
@@ -15,47 +15,46 @@ import {
   FormControl,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
-interface AddToCardSectionProps {
-  productItem: ProductItemInCart;
+interface UpdateItemQuantityFormProps {
+  cartItem: CartItem;
 }
 
-export function AddToCardSection({
-  productItem,
-}: AddToCardSectionProps) {
-  const addItem = useCart(({ addItem }) => addItem);
+export function UpdateItemQuantityForm({
+  cartItem,
+}: UpdateItemQuantityFormProps) {
+  const updateQuantity = useCart(({ updateQuantity }) => updateQuantity);
 
   const form = useForm<QuantitySchema>({
     defaultValues: {
-      quantity: 1,
+      quantity: cartItem.quantity,
     },
     resolver: zodResolver(quantitySchema),
   });
 
   const onSubmit = (values: QuantitySchema) => {
-    addItem(productItem, values.quantity);
-  };
+    if (values.quantity === cartItem.quantity) return;
 
-  useEffect(() => { form.reset(); }, [productItem]);
+    updateQuantity(cartItem.id, values.quantity);
+  };
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="mt-10 flex items-end gap-3"
+        onBlur={form.handleSubmit(onSubmit)}
       >
         <FormField
           control={form.control}
           name="quantity"
           render={({ field }) => (
-            <FormItem className="space-y-0">
-              <FormLabel className="text-xs">Quantity</FormLabel>
+            <FormItem className="space-y-0 flex items-center gap-2">
+              <FormLabel className="text-xs">Qty</FormLabel>
               <FormControl>
                 <Input
                   type="number"
                   min={1}
-                  max={productItem.stock}
+                  max={cartItem.stock}
                   {...field}
                   disabled={form.formState.isSubmitting}
                 />
@@ -63,14 +62,6 @@ export function AddToCardSection({
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="flex items-center gap-2 rounded-full"
-          disabled={form.formState.isSubmitting}
-        >
-          <span>Add to Cart</span>
-          <ShoppingCart />
-        </Button>
       </form>
     </Form>
   );
