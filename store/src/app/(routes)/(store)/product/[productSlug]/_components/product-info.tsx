@@ -22,6 +22,7 @@ export function ProductInfo({
 }: ProductInfoProps) {
   const {
     brand,
+    series,
     productItems,
     reviews,
   } = product;
@@ -31,7 +32,10 @@ export function ProductInfo({
       <div className="space-y-2 mb-10">
         <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
         <span className="flex items-center justify-between">
-          <span>{brand.name}</span>
+          <span>
+            <span>{brand.name}</span>
+            {series && <span className="italic"> {series.name}</span>}
+          </span>
           <span>{product.model}</span>
         </span>
         <ReviewSummaryFull aggregate={reviews} />
