@@ -29,6 +29,7 @@ export function OrderSummary() {
           onClick={onCheckout}
           className="rounded-full w-full"
           size="lg"
+          disabled={total === 0}
         >
           <span className="font-medium">Checkout</span>
         </Button>
