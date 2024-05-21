@@ -16,23 +16,23 @@ export function OrderSummary() {
   );
 
   const onCheckout = async () => {
-    const res = await fetch("/api/stripe/checkout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        cartItems: items.map(item => ({
-          productItemId: item.id,
-          quantity: item.quantity,
-        })),
-      }),
-    });
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        body: JSON.stringify({
+          cartItems: items.map(item => ({
+            productItemId: item.id,
+            quantity: item.quantity,
+          })),
+        }),
+      });
 
-    if (res.status === 500) {
       const data = await res.json();
 
-      toast.error(data.message);
+      window.location.assign(data.url);
+
+    } catch (error) {
+      toast.error("Something went wrong.");
     }
   };
 

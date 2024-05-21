@@ -11,12 +11,14 @@ interface CartItem {
 }
 
 const corsHeaders = {
+  "Access-Control-Allow-Origin": process.env.CLIENT_URL!,
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
 export async function OPTIONS() {
-  return NextResponse.json({}, {
+  return NextResponse.json(null, {
+    status: 200,
     headers: corsHeaders,
   });
 }
@@ -51,9 +53,10 @@ export async function POST(
       currency: "CAD",
       product_data: {
         images: productItem.images.map(image => image.imageUrl),
-        name: `${productItem.product.name} - ${productItem.name}`,
+        name: productItem.product.name,
+        description: productItem.name,
       },
-      unit_amount: productItem.price,
+      unit_amount: productItem.price * 100,
     },
   }));
 
@@ -62,12 +65,12 @@ export async function POST(
     mode: "payment",
     billing_address_collection: "required",
     phone_number_collection: { enabled: true },
-    success_url: `${process.env.CLIENT_URL}/cart?success=1`,
+    success_url: `${process.env.CLIENT_URL}/summary`,
     cancel_url: `${process.env.CLIENT_URL}/cart?canceled=1`,
   });
 
   return session.url
-    ? NextResponse.redirect(session.url)
+    ? NextResponse.json({ url: session.url })
     : NextResponse.json(
       { message: "Something went wrong." },
       { status: 500 }
