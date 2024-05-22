@@ -66,7 +66,7 @@ export async function POST(
     billing_address_collection: "required",
     phone_number_collection: { enabled: true },
     success_url: `${process.env.CLIENT_URL}/summary`,
-    cancel_url: `${process.env.CLIENT_URL}/cart?canceled=1`,
+    cancel_url: `${process.env.CLIENT_URL}/cart`,
   });
 
   return session.url
