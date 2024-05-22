@@ -5,7 +5,7 @@ import authConfig from "@/config/auth";
 
 import {
   DEFAULT_LOGIN_REDIRECT,
-  apiAuthPrefix,
+  apiPrefix,
   authRoutes,
   publicRoutes,
 } from "@/config/routes";
@@ -18,7 +18,7 @@ export default auth((req) => {
 
   const path = nextUrl.pathname;
 
-  if (path.startsWith(apiAuthPrefix)) return;
+  if (path.startsWith(apiPrefix)) return;
   
   if (authRoutes.includes(path)) return isLoggedIn
     ? NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))

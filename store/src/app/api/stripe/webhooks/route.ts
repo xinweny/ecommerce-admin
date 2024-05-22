@@ -8,7 +8,7 @@ import { db } from "@/db/client";
 import { generateOrderNumber } from "@/lib/id";
 
 export async function POST(req: Request) {
-  const payload = await req.json();
+  const payload = await req.text();
 
   let event;
   
@@ -48,5 +48,5 @@ export async function POST(req: Request) {
   //   },
   // });
 
-  return NextResponse.json(null, { status: 200 });
+  return NextResponse.json({ received: true }, { status: 200 });
 }

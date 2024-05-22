@@ -67,6 +67,9 @@ export async function POST(
     phone_number_collection: { enabled: true },
     success_url: `${process.env.CLIENT_URL}/summary`,
     cancel_url: `${process.env.CLIENT_URL}/cart`,
+    metadata: {
+      productItemIds: JSON.stringify(productItems.map(productItem => productItem.id)),
+    },
   });
 
   return session.url

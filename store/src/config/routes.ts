@@ -10,6 +10,6 @@ export const authRoutes = [
   "/reset",
 ];
 
-export const apiAuthPrefix = "/api/auth";
+export const apiPrefix = "/api";
 
 export const DEFAULT_LOGIN_REDIRECT = "/"; // TODO: redirect to prev page
