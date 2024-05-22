@@ -61,14 +61,19 @@ export async function POST(
   }));
 
   const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
     line_items: lineItems,
     mode: "payment",
     billing_address_collection: "required",
     phone_number_collection: { enabled: true },
+    invoice_creation: { enabled: true },
     success_url: `${process.env.CLIENT_URL}/summary`,
     cancel_url: `${process.env.CLIENT_URL}/cart`,
     metadata: {
-      productItemIds: JSON.stringify(productItems.map(productItem => productItem.id)),
+      products: JSON.stringify(productItems.map(productItem => ({
+        productId: productItem.productId,
+        productItemId: productItem.id,
+      }))),
     },
   });
 

@@ -19,11 +19,10 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!,
     );
   } catch (error: unknown) {
-    return NextResponse.json(
-      { message: (error as StripeError).message },
-      { status: 400 }
-    );
+    return NextResponse.json({ message: (error as StripeError).message }, { status: 400 });
   }
+
+  if (!event) return;
 
   if (event.type === "checkout.session.completed") {
     const session = await stripe.checkout.sessions.retrieve(
@@ -32,8 +31,37 @@ export async function POST(req: Request) {
     );
 
     const lineItems = session.line_items?.data || [];
+    const productsMetadata: {
+      productId: number;
+      productItemId: number;
+    }[] = JSON.parse(session.metadata!.products);
 
-    console.log(lineItems);
+    const order = await db.order.create({
+      data: {
+        orderNumber: generateOrderNumber(),
+        customerName: session.customer_details!.name!,
+        phoneNumber: session.customer_details!.phone!,
+        email: session.customer_email!,
+        addressLine1: session.customer_details!.address!.line1!,
+        addressLine2: session.customer_details?.address?.line1,
+        city: session.customer_details!.address!.city!,
+        state: session.customer_details!.address!.state!,
+        postalCode: session.customer_details!.address!.postal_code!,
+        country: session.customer_details!.address!.country!,
+        userId: session.metadata?.userId,
+        orderItems: {
+          createMany: {
+            data: lineItems.map((lineItem, i) => ({
+              productItemId: productsMetadata[i].productItemId,
+              productId: productsMetadata[i].productId,
+              price: lineItem.price!.unit_amount! / 100,
+              quantity: lineItem.quantity!,
+            })),
+          }
+        },
+        total: lineItems.reduce((agg, next) => agg + (next.price!.unit_amount! / 100 * next.quantity!), 0),
+      },
+    });
   }
   // const order = await db.order.create({
   //   data: {

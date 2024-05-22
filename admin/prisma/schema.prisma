@@ -245,22 +245,22 @@ model Order {
   id String @id @default(cuid())
 
   orderNumber   String @unique
-  firstName     String
-  lastName      String
+  customerName  String  
   addressLine1  String
   addressLine2  String?
-  addressLine3  String?
   city          String
   postalCode    String
   state         String
   country       String
+  email         String
+  phoneNumber   String
   total         Int
   currentStatus OrderStatus @default(processing)
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
 
   timeline   OrderTimeline[]
   orderItems OrderItem[]
