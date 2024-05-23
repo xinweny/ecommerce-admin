@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { StripeError } from "@stripe/stripe-js";
+import { Prisma } from "@prisma/client";
 
 import { stripe } from "@/config/stripe";
 
@@ -27,7 +28,7 @@ export async function POST(req: Request) {
   if (event.type === "checkout.session.completed") {
     const session = await stripe.checkout.sessions.retrieve(
       event.data.object.id,
-      { expand: ["line_items"] }
+      { expand: ["line_items", "payment_intent.payment_method"] }
     );
 
     const lineItems = session.line_items?.data || [];
@@ -39,6 +40,7 @@ export async function POST(req: Request) {
     await db.order.create({
       data: {
         id: session.metadata!.orderId,
+        // @ts-ignore
         userId: session.client_reference_id,
         orderNumber: generateOrderNumber(),
         customerName: session.customer_details!.name!,
@@ -61,7 +63,7 @@ export async function POST(req: Request) {
           },
         },
         total: lineItems.reduce((agg, next) => agg + (next.price!.unit_amount! * next.quantity!), 0),
-      },
+      } satisfies Prisma.OrderCreateInput,
     });
   }
 

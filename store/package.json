@@ -28,6 +28,7 @@
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "date-fns": "^3.6.0",
     "immer": "^10.1.1",
     "lucide-react": "^0.356.0",
     "nanoid": "^5.0.7",

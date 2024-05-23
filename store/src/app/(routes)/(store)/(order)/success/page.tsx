@@ -4,6 +4,9 @@ import { stripe } from "@/config/stripe";
 
 import { getOrderById } from "@/db/query/order";
 
+import { OrderSuccessNotification } from "./_components/order-success-notification";
+import { OrderSummary } from "./_components/order-summary";
+
 interface OrderSuccessPageProps {
   searchParams: { [key: string]: string };
 }
@@ -17,16 +20,19 @@ export default async function OrderSuccessPage({
 
   if (!session) redirect("/");
 
+  console.log(session);
+
   const order = await getOrderById(session.metadata!.orderId);
 
   if (!order) redirect("/");
 
   return (
-    <div>
-      <h1>{`Order Placed (${order.orderNumber})`}</h1>
-      <div>
-        <span>Thank you for your order!</span>
-        <p>{`A receipt for order ${order.orderNumber} has been sent to ${order.email}.`}</p>
+    <div className="flex flex-col gap-8">
+      <OrderSuccessNotification
+        orderNumber={order.orderNumber}
+      />
+      <div className="grow">
+        <OrderSummary order={order} />
       </div>
     </div>
   );
