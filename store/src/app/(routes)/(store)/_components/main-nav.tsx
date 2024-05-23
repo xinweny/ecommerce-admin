@@ -8,7 +8,7 @@ import { ShoppingBag } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import { useIsMounted, useCart } from "@/hooks";
+import { useIsMounted, useCart, useCurrentUser } from "@/hooks";
 
 import { Button } from "@/components/ui/button";
 import { LoginButton } from "@/components/auth/login-button";
@@ -44,14 +44,9 @@ export function MainNav({
   );
 }
 
-interface NavbarActionsProps {
-  user: User | undefined;
-}
-
-export function NavbarActions({
-  user,
-}: NavbarActionsProps) {
+export function NavbarActions() {
   const isMounted = useIsMounted();
+  const user = useCurrentUser();
 
   const cart = useCart();
 
@@ -60,12 +55,16 @@ export function NavbarActions({
   return (
     <div className="flex items-center gap-x-4">
       {user
-        ? <LoginButton>
-          <span className="text-sm">Login</span>
-        </LoginButton>
-        : <LogoutButton>
-          <span className="text-sm">Logout</span>
-        </LogoutButton>
+        ? (
+          <LogoutButton>
+            <span className="text-sm">Logout</span>
+          </LogoutButton>
+        )
+        : (
+          <LoginButton>
+            <span className="text-sm">Login</span>
+          </LoginButton>
+        )
       }
       <Link href="/cart">
         <Button className="rounded-full px-4 py-2">

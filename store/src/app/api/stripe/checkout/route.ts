@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
+import { createId } from "@paralleldrive/cuid2";
 
 import { stripe } from "@/config/stripe";
 
@@ -26,7 +27,7 @@ export async function OPTIONS() {
 export async function POST(
   req: Request,
 ) {
-  const { cartItems } = await req.json();
+  const { cartItems, userId } = await req.json();
 
   if (!cartItems || cartItems.length === 0) return new NextResponse("Products at checkout are required.", { status: 400 });
 
@@ -56,24 +57,28 @@ export async function POST(
         name: productItem.product.name,
         description: productItem.name,
       },
-      unit_amount: productItem.price * 100,
+      unit_amount: productItem.price,
     },
   }));
 
+  const orderId = createId();
+
   const session = await stripe.checkout.sessions.create({
+    client_reference_id: userId,
     payment_method_types: ["card"],
     line_items: lineItems,
     mode: "payment",
     billing_address_collection: "required",
     phone_number_collection: { enabled: true },
     invoice_creation: { enabled: true },
-    success_url: `${process.env.CLIENT_URL}/summary`,
+    success_url: `${process.env.CLIENT_URL}/success?sessionId={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.CLIENT_URL}/cart`,
     metadata: {
       products: JSON.stringify(productItems.map(productItem => ({
         productId: productItem.productId,
         productItemId: productItem.id,
       }))),
+      orderId,
     },
   });
 

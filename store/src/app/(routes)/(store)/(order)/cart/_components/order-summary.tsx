@@ -2,12 +2,14 @@
 
 import toast from "react-hot-toast";
 
-import { useCart } from "@/hooks";
+import { useCart, useCurrentUser } from "@/hooks";
 
 import { Button } from "@/components/ui/button";
 import { Currency } from "@/components/shared/currency";
 
 export function OrderSummary() {
+  const user = useCurrentUser();
+
   const items = useCart(({ items }) => items);
 
   const total = items.reduce(
@@ -24,13 +26,13 @@ export function OrderSummary() {
             productItemId: item.id,
             quantity: item.quantity,
           })),
+          userId: user?.id,
         }),
       });
 
       const data = await res.json();
 
       window.location.assign(data.url);
-
     } catch (error) {
       toast.error("Something went wrong.");
     }

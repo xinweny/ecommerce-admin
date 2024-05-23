@@ -185,7 +185,7 @@ model Product {
   series        Series?     @relation(fields: [seriesId], references: [id])
 
   productItems   ProductItem[]
-  orders         OrderItem[]
+  orderItems     OrderItem[]
   reviews        Review[]
   specifications ProductSpecification[]
 }
@@ -204,8 +204,8 @@ model ProductItem {
   productId Int
   product   Product @relation(fields: [productId], references: [id])
 
-  images ProductItemImage[]
-  orders OrderItem[]
+  images     ProductItemImage[]
+  orderItems OrderItem[]
 }
 
 model ProductItemImage {
@@ -244,7 +244,7 @@ model ProductSpecification {
 model Order {
   id String @id @default(cuid())
 
-  orderNumber   String @unique
+  orderNumber   String      @unique
   customerName  String
   addressLine1  String
   addressLine2  String?
