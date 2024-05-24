@@ -1,6 +1,7 @@
 const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "CAD",
+  minimumFractionDigits: 2,
 });
 
 interface CurrencyProps {
@@ -15,7 +16,7 @@ export function Currency({
 
   return (
     <span className={className}>
-      {formatter.format(Number(value))}
+      {formatter.format(Number(value) / 100)}
     </span>
   );
 }

@@ -4,8 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ProductItemImage } from "@prisma/client";
 
 import { ToggleSort } from "@/components/ui/data-table";
-
 import { ImageCarousel } from "@/components/shared/image-carousel";
+import { Currency } from "@/components/shared/currency";
 
 import { CellAction } from "./cell-action";
 import { UpdateStockForm } from "../../../_components/update-stock-form";
@@ -61,6 +61,7 @@ export const columns: ColumnDef<ProductItemRow>[] = [
         label="Price"
       />
     ),
+    cell: ({ row }) => <Currency value={row.original.price} />,
   },
   {
     accessorKey: "stock",

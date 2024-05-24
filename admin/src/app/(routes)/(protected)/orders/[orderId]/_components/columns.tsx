@@ -4,6 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import Image from "next/image";
 
+import { Currency } from "@/components/shared/currency";
+
 export interface OrderItemRow {
   id: string;
   product: {
@@ -67,6 +69,6 @@ export const columns: ColumnDef<OrderItemRow>[] = [
   {
     accessorKey: "price",
     header: "Price",
-    cell: ({ row }) => row.original.price,
+    cell: ({ row }) => <Currency value={row.original.price} />,
   },
 ];

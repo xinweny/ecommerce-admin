@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 
 import { ToggleSort } from "@/components/ui/data-table";
+import { Currency } from "@/components/shared/currency";
 
 export interface ProductOrderItemRow {
   quantity: number;
@@ -49,7 +50,8 @@ export const columns: ColumnDef<ProductOrderItemRow>[] = [
   },
   {
     accessorKey: "price",
-    header: "Price"
+    header: "Price",
+    cell: ({ row }) => <Currency value={row.original.price} />,
   },
   {
     accessorKey: "createdAt",
