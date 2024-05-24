@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
 
-import { getOrderById } from "@/db/query/order";
+import { OrderClient } from "./_components/order-client";
 
+import { getOrderById } from "@/db/query/order";
 interface OrderPageProps {
   params: { orderId: string };
 }
@@ -14,6 +15,8 @@ export default async function OrderPage({
   if (!order) redirect("/orders");
 
   return (
-    <></>
+    <OrderClient
+      order={order}
+    />
   );
 }

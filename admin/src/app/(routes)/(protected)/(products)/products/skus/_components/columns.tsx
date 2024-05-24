@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { ToggleSort } from "@/components/ui/data-table";
 
-import { ProductItemCellCarousel } from "@/app/(routes)/(protected)/_components/product-item-cell-carousel";
+import { ProductItemCellCarousel } from "@/components/shared/image-carousel";
 import { UpdateStockForm } from "../../_components/update-stock-form";
 import { UpdateArchivedForm } from "../../_components/update-archived-form";
 

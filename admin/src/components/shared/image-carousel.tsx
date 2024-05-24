@@ -3,13 +3,13 @@
 import { useState } from "react";
 import Image from "next/image";
 
-interface ProductItemCellCarouselProps {
+interface ImageCarouselProps {
   imageUrls: string[];
 }
 
-export function ProductItemCellCarousel({
+export function ImageCarousel({
   imageUrls,
-}: ProductItemCellCarouselProps) {
+}: ImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   return (

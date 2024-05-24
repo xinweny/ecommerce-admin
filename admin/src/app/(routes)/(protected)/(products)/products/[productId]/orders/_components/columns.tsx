@@ -59,6 +59,6 @@ export const columns: ColumnDef<ProductOrderItemRow>[] = [
         label="Created"
       />
     ),
-    cell: ({ row }) => format(row.original.order.createdAt, "dd/mm/yyyy"),
+    cell: ({ row }) => format(row.original.order.createdAt, "dd/LL/yyyy"),
   },
 ];

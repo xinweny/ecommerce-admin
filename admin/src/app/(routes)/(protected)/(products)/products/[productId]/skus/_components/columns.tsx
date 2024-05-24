@@ -5,7 +5,7 @@ import { ProductItemImage } from "@prisma/client";
 
 import { ToggleSort } from "@/components/ui/data-table";
 
-import { ProductItemCellCarousel } from "@/app/(routes)/(protected)/_components/product-item-cell-carousel";
+import { ImageCarousel } from "@/components/shared/image-carousel";
 
 import { CellAction } from "./cell-action";
 import { UpdateStockForm } from "../../../_components/update-stock-form";
@@ -30,7 +30,7 @@ export const columns: ColumnDef<ProductItemRow>[] = [
     accessorKey: "imageUrls",
     header: "Images",
     cell: ({ row }) => (row.original.images.length > 0 ? (
-      <ProductItemCellCarousel
+      <ImageCarousel
         imageUrls={row.original.images.map(image => image.imageUrl)}
       />
     ) : null),

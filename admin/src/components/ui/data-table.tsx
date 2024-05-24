@@ -73,6 +73,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   totalCount: number;
   queryForm?: React.ReactNode;
+  showPaginationInfo?: boolean;
 }
  
 export function DataTable<TData, TValue>({
@@ -80,6 +81,7 @@ export function DataTable<TData, TValue>({
   data,
   totalCount,
   queryForm,
+  showPaginationInfo = true,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -95,10 +97,12 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center justify-between flex-wrap">
         {queryForm}
-        <DataTablePaginationInfo
-          rowCount={table.getRowCount()}
-          totalCount={totalCount}
-        />
+        {showPaginationInfo && (
+          <DataTablePaginationInfo
+            rowCount={table.getRowCount()}
+            totalCount={totalCount}
+          />
+        )}
       </div>
       <div className="rounded-md border">
         <Table>
