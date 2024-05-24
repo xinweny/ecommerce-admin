@@ -14,10 +14,11 @@ export interface OrderRow {
   createdAt: Date;
   user: {
     id: string;
-  };
+    firstName: string;
+    lastName: string;
+  } | null;
   orderNumber: string;
-  firstName: string;
-  lastName: string;
+  customerName: string;
 }
 
 export const columns: ColumnDef<OrderRow>[] = [
@@ -32,8 +33,8 @@ export const columns: ColumnDef<OrderRow>[] = [
   },
   {
     accessorKey: "userId",
-    header: "User",
-    cell: ({ row }) => `${row.original.firstName} ${row.original.lastName}`,
+    header: "Customer",
+    cell: ({ row }) => row.original.customerName,
   },
   {
     accessorKey: "createdAt",
@@ -43,7 +44,7 @@ export const columns: ColumnDef<OrderRow>[] = [
         label="Created"
       />
     ),
-    cell: ({ row }) => format(row.original.createdAt, "dd/mm/yyyy"),
+    cell: ({ row }) => format(row.original.createdAt, "dd/LL/yyyy"),
   },
   {
     accessorKey: "currentStatus",

@@ -2,7 +2,7 @@
 
 import { OrderStatus } from "@prisma/client";
 
-import { OrderIncludePayload } from "@/db/query/order";
+import { OrdersIncludePayload } from "@/db/query/order";
 
 import { Heading } from "@/components/shared/heading";
 import {
@@ -17,7 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { columns, OrderRow } from "./columns";
 
 interface OrdersClientProps {
-  orders: OrderIncludePayload[];
+  orders: OrdersIncludePayload[];
   totalCount: number;
 }
 
@@ -31,8 +31,7 @@ export function OrdersClient({
     currentStatus,
     createdAt,
     user,
-    firstName,
-    lastName,
+    customerName,
     orderNumber,
   }) => ({
     id,
@@ -40,9 +39,8 @@ export function OrdersClient({
     total,
     currentStatus,
     createdAt,
-    user: { id: user.id },
-    firstName,
-    lastName,
+    user,
+    customerName,
   })) satisfies OrderRow[];
 
   return (
@@ -54,7 +52,7 @@ export function OrdersClient({
         columns={columns}
         totalCount={totalCount}
         queryForm={<DataTableQueryForm>
-          <DataTableSearch placeholder="Search order ID" />
+          <DataTableSearch placeholder="Search order number" />
           <DataTableFilters
             filters={[{
               label: "Statuses",

@@ -10,7 +10,7 @@ import {
   DbQueryParams,
 } from "@/lib/db-query";
 
-const orderIncludeArgs = Prisma.validator<Prisma.OrderDefaultArgs>()({
+const ordersIncludeArgs = Prisma.validator<Prisma.OrderDefaultArgs>()({
   include: {
     user: {
       select: {
@@ -22,7 +22,7 @@ const orderIncludeArgs = Prisma.validator<Prisma.OrderDefaultArgs>()({
   },
 });
 
-export type OrderIncludePayload = Prisma.OrderGetPayload<typeof orderIncludeArgs>;
+export type OrdersIncludePayload = Prisma.OrderGetPayload<typeof ordersIncludeArgs>;
 
 export const getQueriedOrders = cache(async (params: DbQueryParams<Prisma.OrderWhereInput>) => {
   const { pagination, sort, filter } = params;
@@ -31,7 +31,7 @@ export const getQueriedOrders = cache(async (params: DbQueryParams<Prisma.OrderW
     ...where(filter),
     ...orderBy(sort),
     ...paginate(pagination),
-    ...orderIncludeArgs,
+    ...ordersIncludeArgs,
   });
 
   return orders;
@@ -88,4 +88,37 @@ export const getOrderItemsCount = cache(async (query?: Prisma.OrderItemWhereInpu
   const count = await db.orderItem.count({ where: query });
 
   return count;
+});
+
+const orderIncludeArgs = Prisma.validator<Prisma.OrderDefaultArgs>()({
+  include: {
+    user: {
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+      },
+    },
+    orderItems: {
+      include: {
+        productItem: {
+          include: {
+            images: true,
+          },
+        },
+        product: true,
+      },
+    },
+  },
+});
+
+export type OrderIncludePayload = Prisma.OrderGetPayload<typeof orderIncludeArgs>;
+
+export const getOrderById = cache(async (orderId: string) => {
+  const order = await db.order.findUnique({
+    where: { id: orderId },
+    ...orderIncludeArgs,
+  });
+
+  return order;
 });
