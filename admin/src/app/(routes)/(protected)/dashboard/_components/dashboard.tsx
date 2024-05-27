@@ -13,28 +13,50 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Currency } from "@/components/shared/currency";
-import { getOrderAggregate } from "@/db/query/order";
+import { getOrderAggregate, getSelectOrders } from "@/db/query/order";
 import { getProductsCount } from "@/db/query/product";
-import { OverviewGraph } from "./overview-graph";
+import { SalesGraph } from "./sales-graph";
 
-export async function Dashboard() {
-  const [orderAgg, productCount] = await Promise.all([
-    getOrderAggregate({
-      currentStatus: { not: OrderStatus.cancelled },
-      // ...(timeframe && {
-      //   createdAt: {
-      //     gte: timeframe.from,
-      //     lte: timeframe.to,
-      //   },
-      // }),
-    }),
+interface DashboardProps {
+  from: Date;
+  to: Date;
+}
+
+export async function Dashboard({
+  from,
+  to,
+}: DashboardProps) {
+  const orderWhereQuery = {
+    currentStatus: { not: OrderStatus.cancelled },
+    createdAt: {
+      gte: from,
+      lte: to,
+    },
+  };
+
+  const [
+    orderAgg,
+    productCount,
+    orders,
+  ] = await Promise.all([
+    getOrderAggregate(orderWhereQuery),
     getProductsCount({
       isArchived: false,
     }),
+    getSelectOrders(
+      {
+        filter: orderWhereQuery,
+        sort: { createdAt: "asc" },
+      },
+      {
+        total: true,
+        createdAt: true,
+      }
+    ),
   ]);
 
   return (
-    <div className="grid gap-4 grid-cols-3">
+    <div className="flex flex-col lg:grid gap-4 lg:grid-cols-3">
       <DashboardCard
         title="Total Revenue"
         icon={DollarSign}
@@ -54,7 +76,11 @@ export async function Dashboard() {
         {productCount}
       </DashboardCard>
       <div className="col-span-3">
-        <OverviewGraph />
+        <SalesGraph
+          from={from}
+          to={to}
+          orders={orders}
+        />
       </div>
     </div>
   );
@@ -76,7 +102,7 @@ function DashboardCard({
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+        <CardTitle className="text-sm font-semibold">{title}</CardTitle>
         <Icon className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="text-2xl font-bold">

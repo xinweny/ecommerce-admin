@@ -13,7 +13,7 @@ export default async function DashboardLayout({
       <Sidebar className="border-r h-full" />
       <div className="flex-auto flex flex-col h-full overflow-hidden">
         <Navbar />
-        <div className="grow flex flex-col gap-4 px-8 h-full overflow-y-auto">
+        <div className="grow flex flex-col gap-4 px-8 h-full overflow-y-auto pb-4">
           {children}
         </div>
       </div>

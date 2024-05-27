@@ -123,7 +123,19 @@ export const getOrderById = cache(async (orderId: string) => {
   return order;
 });
 
-export const getOrderAggregate = cache(async (query: Prisma.OrderWhereInput) => {
+export const getSelectOrders = cache(async (query: DbQueryParams<Prisma.OrderWhereInput>, select?: Prisma.OrderSelect) => {
+  const { filter, sort } = query;
+
+  const orders = await db.order.findMany({
+    where: filter,
+    orderBy: sort,
+    select,
+  });
+
+  return orders;
+});
+
+export const getOrderAggregate = cache(async (query?: Prisma.OrderWhereInput) => {
   const aggregate = await db.order.aggregate({
     where: query,
     _sum: { total: true },

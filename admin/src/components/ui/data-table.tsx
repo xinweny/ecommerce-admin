@@ -169,7 +169,7 @@ export function ToggleSort<TData, TValue>({
   column,
   label,
 }: ToggleSortProps<TData, TValue>) {
-  const { navigateQueryString } = useQueryString();
+  const { navigate } = useQueryString();
 
   const searchParams = useSearchParams();
 
@@ -186,7 +186,7 @@ export function ToggleSort<TData, TValue>({
     <Button
       variant="ghost"
       onClick={() => {
-        navigateQueryString({
+        navigate({
           [column.id]: (!sortValue || !(sortValue in Prisma.SortOrder))
             ? Prisma.SortOrder.asc
             : (sortValue === Prisma.SortOrder.asc
@@ -196,7 +196,7 @@ export function ToggleSort<TData, TValue>({
         });
       }}
       onDoubleClick={() => {
-        navigateQueryString({ [column.id]: null });
+        navigate({ [column.id]: null });
       }}
     >
       <span>{label}</span>
@@ -215,14 +215,14 @@ export function DataTableQueryForm({
   const form = useForm();
   const { formState: { isSubmitting, isDirty } } = form;
 
-  const { navigateQueryString } = useQueryString();
+  const { navigate } = useQueryString();
 
   const onSubmit = (data: {
     [key: string]: any;
   }) => {
     if (!data) return;
   
-    navigateQueryString(data);
+    navigate(data);
   };
 
   return (
@@ -424,7 +424,7 @@ export function DataTableRowLimit() {
     },
   });
 
-  const { navigateQueryString } = useQueryString();
+  const { navigate } = useQueryString();
 
   const {
     control,
@@ -433,7 +433,7 @@ export function DataTableRowLimit() {
   } = form;
 
   const onSubmit = (data: LimitSchema) => {
-    navigateQueryString({ limit: data.limit.toString() });
+    navigate({ limit: data.limit.toString() });
   };
 
   return (

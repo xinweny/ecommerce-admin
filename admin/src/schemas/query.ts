@@ -7,10 +7,10 @@ export const limitSchema = z.object({
 export type LimitSchema = z.infer<typeof limitSchema>;
 
 export const dateRangeSchema = z.object({
-  dateRange: z.object({
-    from: z.date(),
-    to: z.date(),
-  }),
+  dateRange: z.optional(z.object({
+    from: z.optional(z.date()),
+    to: z.optional(z.date()),
+  })),
 });
 
 export type DateRangeSchema = z.infer<typeof dateRangeSchema>;

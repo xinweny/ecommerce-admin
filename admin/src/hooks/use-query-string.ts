@@ -23,7 +23,7 @@ export const useQueryString = () => {
     [pathname]
   );
 
-  const navigateQueryString = useCallback(
+  const navigate = useCallback(
     (values: QueryParams) => {
       router.push(createQueryString(values) as Route);
     },
@@ -33,6 +33,6 @@ export const useQueryString = () => {
   return {
     getQueryParams,
     createQueryString,
-    navigateQueryString,
+    navigate,
   };
 }
