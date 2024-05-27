@@ -27,7 +27,7 @@ export function Sidebar({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <SidebarDesktop {...props}>
-      <Link href="/dashboard">
+      <Link href="/">
         <SidebarDesktopHeader>Songbird</SidebarDesktopHeader>
       </Link>
       <div className="mt-5 flex flex-col gap-1">

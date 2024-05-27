@@ -1,7 +1,16 @@
+import { Heading } from "@/components/shared/heading";
+import { Separator } from "@/components/ui/separator";
+import { Dashboard } from "./_components/dashboard";
+
 export default async function DashboardPage() {
   return (
-    <div>
-      <span>Overview</span>
-    </div>
+    <>
+      <Heading
+        title="Dashboard"
+        description="Store overview"
+      />
+      <Separator />
+      <Dashboard />
+    </>
   );
 }

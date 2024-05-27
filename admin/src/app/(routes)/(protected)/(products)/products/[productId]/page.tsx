@@ -6,24 +6,10 @@ import { ProductClient } from "./_components/product-client";
 
 interface ProductPageProps {
   params: { productId: string };
-  searchParams: {
-    [key: string]: string | undefined;
-  };
 }
 
 export default async function ProductPage({
   params: { productId },
-  searchParams: {
-    id,
-    name,
-    query,
-    page,
-    limit,
-    sku,
-    isArchived,
-    price,
-    stock,
-  }
 }: ProductPageProps) {
   const product = await getProductById(+productId);
 
