@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Prisma } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 import {
@@ -289,9 +290,11 @@ export function DataTableFilters({
     setValue,
   } = useFormContext();
 
-  filters.forEach(({ name }) => {
-    setValue(name, searchParams.get(name) || "");
-  });
+  useEffect(() => {
+    filters.forEach(({ name }) => {
+      setValue(name, searchParams.get(name) || "");
+    });
+  }, [filters, setValue, searchParams]);
 
   return (
     <>

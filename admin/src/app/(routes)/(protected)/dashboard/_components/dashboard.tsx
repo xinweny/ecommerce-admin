@@ -15,6 +15,7 @@ import {
 import { Currency } from "@/components/shared/currency";
 import { getOrderAggregate } from "@/db/query/order";
 import { getProductsCount } from "@/db/query/product";
+import { OverviewGraph } from "./overview-graph";
 
 export async function Dashboard() {
   const [orderAgg, productCount] = await Promise.all([
@@ -47,14 +48,14 @@ export async function Dashboard() {
         <span>{orderAgg._count ? `+${orderAgg._count}`: 0}</span>
       </DashboardCard>
       <DashboardCard
-        title="Products Available"
+        title="Products"
         icon={Box}
       >
         {productCount}
       </DashboardCard>
-      <Card className="col-span-3">
-
-      </Card>
+      <div className="col-span-3">
+        <OverviewGraph />
+      </div>
     </div>
   );
 }

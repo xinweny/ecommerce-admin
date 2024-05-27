@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 
 import { ToggleSort } from "@/components/ui/data-table";
+import { Currency } from "@/components/shared/currency";
 
 export interface OrderRow {
   id: string;
@@ -63,5 +64,6 @@ export const columns: ColumnDef<OrderRow>[] = [
         label="Total"
       />
     ),
+    cell: ({ row }) => <Currency value={row.original.total} />
   },
 ];

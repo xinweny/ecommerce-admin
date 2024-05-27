@@ -1,8 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { redirect } from "next/navigation";
 
-import { parseDateRange } from "@/lib/db-query";
-
 import { getProductById } from "@/db/query/product";
 import { getQueriedOrderItems, getOrderItemsCount } from "@/db/query/order";
 
@@ -17,14 +15,15 @@ interface ProductOrderItemsPageProps {
 
 export default async function ProductOrderItemsPage({
   params: { productId },
-  searchParams: {
+  searchParams,
+}: ProductOrderItemsPageProps) {
+  const {
     page,
     limit,
     createdAt = "desc",
-    dateRange,
     productItemId,
-  },
-}: ProductOrderItemsPageProps) {
+  } = searchParams;
+
   const product = await getProductById(+productId);
 
   if (!product) redirect("/products");
@@ -35,11 +34,12 @@ export default async function ProductOrderItemsPage({
         id: +productItemId,
       },
     }),
-    ...(dateRange && {
-      order: {
-        createdAt: parseDateRange(dateRange),
+    order: {
+      createdAt: {
+        gte: searchParams['dateRange[from]'] && new Date(searchParams['dateRange[from]']),
+        lte: searchParams['dateRange[to]'] && new Date(searchParams['dateRange[to]']),
       },
-    }),
+    },
   } satisfies Prisma.OrderItemWhereInput;
 
   const [orderItems, totalCount] = await Promise.all([
