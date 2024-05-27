@@ -10,20 +10,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-interface FormInputProps {
-  name: string;
+interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  type?: React.HTMLInputTypeAttribute;
-  placeholder?: string;
   description?: string;
+  name: string;
 }
 
 export function FormInput({
   name,
   label,
-  type,
-  placeholder,
   description,
+  ...props
 }: FormInputProps) {
   const form = useFormContext();
 
@@ -43,9 +40,8 @@ export function FormInput({
           <FormControl>
             <Input
               {...field}
-              type={type}
               disabled={isSubmitting}
-              placeholder={placeholder}
+              {...props}
             />
           </FormControl>
           <FormMessage />

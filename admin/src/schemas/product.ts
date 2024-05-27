@@ -3,10 +3,10 @@ import * as z from "zod";
 export const productItemSchema = z.object({
   name: z.string().min(1),
   sku: z.string().min(1),
-  stock: z.number().min(0)
-    .or(z.string().transform(v => +v)),
-  price: z.number().min(1)
-  .or(z.string().transform(v => +v)),
+  stock: z.number().min(0),
+  price: z.number()
+    .min(0.01)
+    .transform(v => Math.round(v) * 100),
   imageUrls: z.array(z.string()),
   isArchived: z.boolean()
     .or(z.literal("true").transform(() => true))
