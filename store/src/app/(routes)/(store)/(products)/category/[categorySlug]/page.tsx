@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getCategoryBySlug } from "@/db/query/category";
 import { getProducts } from "@/db/query/product";
 
-import { CategoryBillboard } from "./_components/category-billboard";
+import { Billboard } from "@/components/shared/billboard";
 import { CategoryFilter } from "./_components/category-filter";
 import { ProductCardList } from "@/components/shared/product-card";
 
@@ -61,7 +61,11 @@ export default async function CategoryPage({
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
-      <CategoryBillboard category={category} />
+      <Billboard
+        title={category.name}
+        description={category.billboard?.description}
+        imageUrl={category.billboard?.imageUrl}
+      />
       <div className="flex flex-col gap-4 lg:grid lg:grid-cols-5 lg:gap-x-8 mt-8">
         <div>
           <CategoryFilter category={category} />
