@@ -142,7 +142,7 @@ model Series {
   updatedAt DateTime @updatedAt
 
   brandId Int
-  brand   Brand @relation(fields: [brandId], references: [id])
+  brand   Brand @relation(fields: [brandId], references: [id], onDelete: Cascade)
 
   products Product[]
 }
@@ -156,7 +156,7 @@ model Subcategory {
   updatedAt DateTime @updatedAt
 
   categoryId Int
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   products       Product[]
   specifications Specification[]
@@ -176,16 +176,16 @@ model Product {
   updatedAt   DateTime @default(now()) @updatedAt
 
   categoryId    Int
-  category      Category    @relation(fields: [categoryId], references: [id])
+  category      Category    @relation(fields: [categoryId], references: [id], onDelete: SetDefault)
   subcategoryId Int
-  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
+  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id], onDelete: SetDefault)
   brandId       Int
-  brand         Brand       @relation(fields: [brandId], references: [id])
+  brand         Brand       @relation(fields: [brandId], references: [id], onDelete: SetDefault)
   seriesId      Int?
-  series        Series?     @relation(fields: [seriesId], references: [id])
+  series        Series?     @relation(fields: [seriesId], references: [id], onDelete: SetNull)
 
   productItems   ProductItem[]
-  orders         OrderItem[]
+  orderItems     OrderItem[]
   reviews        Review[]
   specifications ProductSpecification[]
 }
@@ -202,10 +202,10 @@ model ProductItem {
   updatedAt  DateTime @updatedAt
 
   productId Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  images ProductItemImage[]
-  orders OrderItem[]
+  images     ProductItemImage[]
+  orderItems OrderItem[]
 }
 
 model ProductItemImage {
@@ -214,7 +214,7 @@ model ProductItemImage {
   imageUrl String
 
   productItemId Int
-  productItem   ProductItem @relation(fields: [productItemId], references: [id])
+  productItem   ProductItem @relation(fields: [productItemId], references: [id], onDelete: Cascade)
 
   @@index([productItemId])
 }
@@ -225,16 +225,16 @@ model Specification {
   key String
 
   subcategoryId Int
-  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
+  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id], onDelete: Cascade)
 
   products ProductSpecification[]
 }
 
 model ProductSpecification {
   productId       Int
-  product         Product       @relation(fields: [productId], references: [id])
+  product         Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
   specificationId Int
-  specification   Specification @relation(fields: [specificationId], references: [id])
+  specification   Specification @relation(fields: [specificationId], references: [id], onDelete: Cascade)
 
   value String
 
@@ -244,8 +244,8 @@ model ProductSpecification {
 model Order {
   id String @id @default(cuid())
 
-  orderNumber   String @unique
-  customerName  String  
+  orderNumber   String      @unique
+  customerName  String
   addressLine1  String
   addressLine2  String?
   city          String
@@ -273,11 +273,11 @@ model OrderItem {
   price    Int
 
   orderId       String
-  order         Order       @relation(fields: [orderId], references: [id])
+  order         Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId     Int
-  product       Product     @relation(fields: [productId], references: [id])
+  product       Product     @relation(fields: [productId], references: [id], onDelete: SetDefault)
   productItemId Int
-  productItem   ProductItem @relation(fields: [productItemId], references: [id])
+  productItem   ProductItem @relation(fields: [productItemId], references: [id], onDelete: SetDefault)
 }
 
 model OrderTimeline {
@@ -287,7 +287,7 @@ model OrderTimeline {
   createdAt DateTime    @default(now())
 
   orderId String
-  order   Order  @relation(fields: [orderId], references: [id])
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 enum OrderStatus {
@@ -306,9 +306,9 @@ model Review {
   updatedAt DateTime @updatedAt
 
   productId Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   userId    String
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Store {
