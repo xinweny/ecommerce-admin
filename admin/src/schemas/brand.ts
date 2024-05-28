@@ -7,6 +7,7 @@ export const brandSchema = z.object({
   imageUrl: z.optional(
     z.string()
       .or(z.null())
+      .or(z.array(z.string()).length(0)).transform(v => null)
       .or(z.array(z.string()).length(1).transform(v => v[0])),
   ),
 });
