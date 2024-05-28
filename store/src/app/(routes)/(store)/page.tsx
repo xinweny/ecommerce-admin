@@ -6,6 +6,7 @@ export default function HomePage() {
     <div className="space-y-8">
       <Billboard
         title="Songbird Instruments"
+        imageUrl="/images/cover.webp"
       />
       <FeaturedProductsDisplay />
     </div>
