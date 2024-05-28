@@ -28,11 +28,13 @@ export function ImagePreview({
     name,
   });
 
-  const urls: string[] = watch(name);
+  const urls: string[] | string | null = watch(name);
+
+  if (!urls || urls.length === 0) return;
 
   return (
     <div className={listClassName}>
-      {urls.map((url, index) => (
+      {(typeof urls === "string" ? [urls] : urls).map((url, index) => (
         <div
           key={url}
           className={cn(

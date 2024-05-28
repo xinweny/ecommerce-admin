@@ -25,6 +25,8 @@ export function UpdateBrandForm({
 }: UpdateBrandFormProps) {
   const router = useRouter();
 
+  console.log(brand.imageUrl);
+
   const form = useForm<BrandSchema>({
     resolver: zodResolver(brandSchema),
     defaultValues: {
