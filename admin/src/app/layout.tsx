@@ -14,8 +14,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "",
+  title: "Songbird | Admin",
+  description: "Admin dashboard for Songbird Instruments e-commerce store",
 };
 
 export default async function RootLayout({

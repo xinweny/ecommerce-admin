@@ -6,12 +6,12 @@ export async function FeaturedProductsDisplay() {
   const featuredProducts = await getProducts({
     filter: { isFeatured: true },
     sort: { updatedAt: "desc" },
-    pagination: { limit: 10 },
+    pagination: { limit: 6 },
   });
 
   return (
     <ProductCardList
-      title="Featured Products"
+      title="Featured"
       products={featuredProducts}
     />
   );

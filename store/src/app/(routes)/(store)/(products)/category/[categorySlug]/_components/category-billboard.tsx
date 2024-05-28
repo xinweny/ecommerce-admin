@@ -10,7 +10,7 @@ export function CategoryBillboard({
   const { name, billboard } = category;
 
   return (
-    <div className="space-y-4 p-4 sm:p-6 lg:p-8">
+    <div className="space-y-4">
       <div className="relative rounded-xl overflow-hidden ">
         <div
           className="h-full w-full rounded-xl aspect-square md:aspect-[2.4/1] overflow-hidden bg-cover bg-blue-200"

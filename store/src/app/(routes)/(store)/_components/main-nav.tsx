@@ -3,7 +3,6 @@
 import { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User } from "next-auth";
 import { ShoppingBag } from "lucide-react";
 
 import { cn } from "@/lib/utils";

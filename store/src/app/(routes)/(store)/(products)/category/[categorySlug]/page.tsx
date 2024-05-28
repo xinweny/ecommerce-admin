@@ -1,13 +1,11 @@
 import { redirect } from "next/navigation";
 
-import {
-  getCategoryBySlug,
-  getSubcategories,
-} from "@/db/query/category";
+import { getCategoryBySlug } from "@/db/query/category";
 import { getProducts } from "@/db/query/product";
 
 import { CategoryBillboard } from "./_components/category-billboard";
 import { CategoryFilter } from "./_components/category-filter";
+import { ProductCardList } from "@/components/shared/product-card";
 
 interface CategoryPageProps {
   params: { categorySlug: string };
@@ -62,10 +60,18 @@ export default async function CategoryPage({
   });
 
   return (
-    <div>
+    <div className="p-4 sm:p-6 lg:p-8">
       <CategoryBillboard category={category} />
-      <div className="lg:grid lg:grid-cols-5 lg:gap-x-8 px-4 sm:px-6 lg:px-8">
-        <CategoryFilter category={category} />
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-5 lg:gap-x-8 mt-8">
+        <div>
+          <CategoryFilter category={category} />
+        </div>
+        <div className="lg:col-span-4">
+          <ProductCardList
+            title={category.name}
+            products={products}
+          />
+        </div>
       </div>
     </div>
   );
