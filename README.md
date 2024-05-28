@@ -5,9 +5,10 @@ A full-stack, responsive Next.js implementation of an e-commerce store.
 ## Features
 
 1. Inventory management with CRUD features for products/SKUs, categories and brands
-2. JWT authentication and authorization for admins
-3. Secure payment with Stripe API (Test mode only) integration
-4. Product search, filter and pagination
+2. Quickly sort and find data with customized search, filter and pagination features
+3. Sales data summary by day/week/month
+4. JWT authentication and authorization for admins
+5. Secure payment with Stripe API (Test mode only) integration
 
 ## Installation
 
