@@ -21,6 +21,7 @@ export default async function CategoryPage({
   },
   searchParams: {
     subcategoryIds,
+    brandIds,
     inStock,
     priceRange,
     page,
@@ -35,6 +36,9 @@ export default async function CategoryPage({
     subcategoryIds: (subcategoryIds
       ? JSON.parse(subcategoryIds).map((id: string) => +id)
       : undefined) as number[] | undefined,
+    brandIds: (brandIds
+        ? JSON.parse(brandIds).map((id: string) => +id)
+        : undefined) as number[] | undefined,
     inStock: inStock === "true",
     priceRange: (priceRange
       ? JSON.parse(priceRange)
@@ -45,6 +49,9 @@ export default async function CategoryPage({
     categoryId: category.id,
     ...(subcategoryIds && {
       subcategoryId: { in: fSearchParams.subcategoryIds },
+    }),
+    ...(brandIds && {
+      brandId: { in: fSearchParams.brandIds },
     }),
     ...(fSearchParams.inStock && {
       productItems: { some: { stock: { gt: 0 } } },

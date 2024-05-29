@@ -1,5 +1,6 @@
 "use client";
 
+import { Category } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 
@@ -9,6 +10,7 @@ import { Heading } from "@/components/shared/heading";
 import { Separator } from "@/components/ui/separator";
 import {
   DataTable,
+  DataTableFilters,
   DataTableQueryForm,
   DataTableSearch,
 } from "@/components/ui/data-table";
@@ -19,11 +21,13 @@ import { SubcategoryRow, columns } from "./columns";
 interface SubcategoriesClientProps {
   subcategories: SubcategoryIncludePayload[];
   totalCount: number;
+  categories: Category[];
 }
 
 export function SubcategoriesClient({
   subcategories,
   totalCount,
+  categories,
 }: SubcategoriesClientProps) {
   const router = useRouter();
 
@@ -58,6 +62,18 @@ export function SubcategoriesClient({
         totalCount={totalCount}
         queryForm={<DataTableQueryForm>
           <DataTableSearch placeholder="Search subcategory name" />
+          <DataTableFilters
+            filters={[
+              {
+                name: "categoryId",
+                label: "Categories",
+                values: categories.map(category => ({
+                  label: category.name,
+                  value: category.id,
+                })),
+              },
+            ]}
+          />
         </DataTableQueryForm>}
       />
     </div>

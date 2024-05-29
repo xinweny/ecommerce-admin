@@ -8,6 +8,7 @@ import {
 } from "@/components/shared/filters";
 
 import { getProductItemsPriceRange } from "@/db/query/product";
+import { getBrands } from "@/db/query/brand";
 
 interface CategoryFilterProps {
   category: CategoryIncludePayload;
@@ -16,9 +17,16 @@ interface CategoryFilterProps {
 export async function CategoryFilter({
   category,
 }: CategoryFilterProps) {
-  const priceRange = await getProductItemsPriceRange({
-    product: { categoryId: category.id },
-  });
+  const [priceRange, brands] = await Promise.all([
+    getProductItemsPriceRange({
+      product: { categoryId: category.id },
+    }),
+    getBrands({
+      products: {
+        some: { categoryId: category.id }
+      },
+    }),
+  ]);
 
   const filters = <>
     <SelectFilter
@@ -28,6 +36,14 @@ export async function CategoryFilter({
         value: id,
       }))}
       title="Subcategories"
+    />
+    <SelectFilter
+      name="brandIds"
+      values={brands.map(({ id, name }) => ({
+        label: name,
+        value: id,
+      }))}
+      title="Brands"
     />
     <RangeFilter
       name="priceRange"
