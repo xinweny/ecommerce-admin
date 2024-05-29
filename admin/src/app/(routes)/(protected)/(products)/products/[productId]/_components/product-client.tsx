@@ -43,7 +43,7 @@ export function ProductInfoCard({
 
   const rows = [
     { label: "Name", value: name },
-    { label: "Model No.", value: model },
+    { label: "Model", value: model },
     { label: "Category", value: category.name },
     { label: "Subcategory", value: subcategory.name },
     { label: "Brand", value: brand.name },

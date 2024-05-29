@@ -81,12 +81,6 @@ export function AddProductItemForm() {
             label="Price"
             type="number"
           />
-          <ImageUpload
-            name={`${name}.${index}.imageUrls`}
-            label="Product Images"
-            folder="/products"
-            limit={10}
-          />
           <FormSelect
             name={`${name}.${index}.isArchived`}
             label="Archived"
@@ -94,6 +88,12 @@ export function AddProductItemForm() {
               { value: false, label: "No" },
               { value: true, label: "Yes" },
             ]}
+          />
+          <ImageUpload
+            name={`${name}.${index}.imageUrls`}
+            label="Product Images"
+            folder="/products"
+            limit={10}
           />
           <ImagePreview
             name={`${name}.${index}.imageUrls`}

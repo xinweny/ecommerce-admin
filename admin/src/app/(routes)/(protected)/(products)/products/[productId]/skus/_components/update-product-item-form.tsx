@@ -39,7 +39,7 @@ export function UpdateProductItemForm({
     defaultValues: {
       name: productItem.name,
       sku: productItem.sku,
-      price: productItem.price,
+      price: productItem.price / 100,
       stock: productItem.stock,
       imageUrls: productItem.images.map(image => image.imageUrl),
       isArchived: productItem.isArchived,
@@ -51,13 +51,13 @@ export function UpdateProductItemForm({
   }, [openModal, form]);
 
   const onSubmit = async (values: ProductItemSchema) => {
-    const { success, error } = await updateProductItem(product.id, values);
+    const { success, error } = await updateProductItem(productItem.id, values);
 
     if (success) {
       form.reset();
       toast.success(success);
       setOpenModal(false);
-      router.push(`/products/${product.id}`);
+      router.push(`/products/${product.id}/skus`);
     };
     if (error) toast.error(error);
   };

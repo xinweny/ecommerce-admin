@@ -49,8 +49,10 @@ export function CreateProductForm({
         stock: undefined,
         price: undefined,
         imageUrls: [],
+        isArchived: false,
       }],
       isArchived: false,
+      isFeatured: false,
     },
   });
 
@@ -107,7 +109,7 @@ export function CreateProductForm({
         <div className="flex flex-col gap-8">
           <FormInput name="name" label="Name" />
           <FormInputSlug watchName="name" />
-          <div>
+          <div className="grid grid-cols-2 grid-rows-2 gap-8">
             <FormSelect
               name="categoryId"
               label="Category"
@@ -162,6 +164,11 @@ export function CreateProductForm({
           name="isArchived"
           label="Archived"
           description="Archived products are hidden from the store and cannot be purchased."
+        />
+        <FormSwitch
+          name="isFeatured"
+          label="Featured"
+          description="Feature this product on the store's front page."
         />
         <AddProductItemForm />
         <SubmitButton className="ml-auto">

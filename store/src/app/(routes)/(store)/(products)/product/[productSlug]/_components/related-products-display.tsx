@@ -22,9 +22,11 @@ export async function RelatedProductsDisplay({
   });
 
   return (
-    <ProductCardList
-      title="Related Items"
-      products={relatedProducts}
-    />
+    <div className="px-6">
+      <ProductCardList
+        title="Related Items"
+        products={relatedProducts}
+      />
+    </div>
   );
 }

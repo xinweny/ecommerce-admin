@@ -19,7 +19,7 @@ export function ImagePreview({
   name,
   listClassName,
   containerClassName,
-  imageClassName = "object-cover",
+  imageClassName,
 }: ImagePreviewProps) {
   const { control, watch } = useFormContext();
 
@@ -53,10 +53,16 @@ export function ImagePreview({
             </Button>
           </div>
           <Image
-            fill
-            className={imageClassName}
-            alt="Image"
             src={url}
+            alt="Product image"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className={cn(
+              "object-contain object-center bg-slate-200 aspect-square cursor-pointer inset-0 overflow-hidden rounded-md",
+              imageClassName
+            )}
+            style={{ width: "100%", height: "100%" }}
           />
         </div>
       ))}

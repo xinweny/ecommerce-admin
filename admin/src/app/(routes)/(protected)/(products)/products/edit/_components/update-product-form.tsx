@@ -102,7 +102,7 @@ export function UpdateProductForm({
         <div className="flex flex-col gap-8">
           <FormInput name="name" label="Name" />
           <FormInputSlug watchName="name" />
-          <div>
+          <div className="grid grid-cols-2 grid-rows-2 gap-8">
             <FormSelect
               name="categoryId"
               label="Category"
