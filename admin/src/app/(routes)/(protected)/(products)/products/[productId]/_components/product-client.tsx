@@ -69,7 +69,7 @@ export function ProductInfoCard({
         </div>
         <div className="text-sm">
           <span className=" font-semibold">Description</span>
-          <p className="font-light">{description || "-"}</p>
+          <p className="font-light whitespace-normal break-normal">{description || "-"}</p>
         </div>
         {videoUrl && (
           <div className="flex flex-col justify-between text-sm">

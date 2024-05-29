@@ -33,7 +33,7 @@ export function ProductCard({
 
   return (
     <Link href={`/product/${slug}`}>
-      <div className="w-full h-auto rounded-lg border shadow-md overflow-hidden group">
+      <div className="w-full h-full rounded-lg border shadow-md overflow-hidden group flex flex-col">
         <div className="relative">
           <Image
             src={imageUrls.length > 0
@@ -56,7 +56,7 @@ export function ProductCard({
             </button>
           </div>
         </div>
-        <div className="flex flex-col py-2 px-4">
+        <div className="grow flex flex-col py-2 px-4">
           <span className="text-xs">{brand.name.toUpperCase()}</span>
           <span className="font-semibold">{name}</span>
           {reviews && (
@@ -88,7 +88,7 @@ export function ProductCardList({
     <div className="space-y-6">
       {title && <h2 className="font-bold text-2xl">{title}</h2>}
       <div
-        className="grid"
+        className="grid gap-4"
         style={{
           gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
         }}

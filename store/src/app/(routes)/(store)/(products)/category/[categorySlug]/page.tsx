@@ -1,11 +1,12 @@
 import { redirect } from "next/navigation";
 
-import { getCategoryBySlug } from "@/db/query/category";
-import { getProducts } from "@/db/query/product";
-
 import { Billboard } from "@/components/shared/billboard";
 import { CategoryFilter } from "./_components/category-filter";
 import { ProductCardList } from "@/components/shared/product-card";
+import { ProductPagination } from "@/components/shared/product-pagination";
+
+import { getCategoryBySlug } from "@/db/query/category";
+import { getProducts, getProductsCount } from "@/db/query/product";
 
 interface CategoryPageProps {
   params: { categorySlug: string };
@@ -19,9 +20,11 @@ export default async function CategoryPage({
     categorySlug,
   },
   searchParams: {
-    categoryIds,
+    subcategoryIds,
     inStock,
     priceRange,
+    page,
+    limit,
   },
 }: CategoryPageProps) {
   const category = await getCategoryBySlug(categorySlug);
@@ -29,8 +32,8 @@ export default async function CategoryPage({
   if (!category) redirect("/");
 
   const fSearchParams = {
-    categoryIds: (categoryIds
-      ? JSON.parse(categoryIds).map((id: string) => +id)
+    subcategoryIds: (subcategoryIds
+      ? JSON.parse(subcategoryIds).map((id: string) => +id)
       : undefined) as number[] | undefined,
     inStock: inStock === "true",
     priceRange: (priceRange
@@ -38,26 +41,33 @@ export default async function CategoryPage({
       : undefined) as [number, number] | undefined,
   };
 
-  const products = await getProducts({
-    filter: {
-      ...(categoryIds && {
-        categoryId: { in: fSearchParams.categoryIds },
-      }),
-      ...(fSearchParams.inStock && {
-        productItems: { some: { stock: { gt: 0 } } },
-      }),
-      ...(fSearchParams.priceRange && {
-        productItems: {
-          some: {
-            AND: [
-              { price: { gte: fSearchParams.priceRange[0] } },
-              { price: { lte: fSearchParams.priceRange[1] } },
-            ],
-          },
+  const query = {
+    categoryId: category.id,
+    ...(subcategoryIds && {
+      subcategoryId: { in: fSearchParams.subcategoryIds },
+    }),
+    ...(fSearchParams.inStock && {
+      productItems: { some: { stock: { gt: 0 } } },
+    }),
+    ...(fSearchParams.priceRange && {
+      productItems: {
+        some: {
+          AND: [
+            { price: { gte: fSearchParams.priceRange[0] } },
+            { price: { lte: fSearchParams.priceRange[1] } },
+          ],
         },
-      })
-    },
-  });
+      },
+    }),
+  };
+
+  const [products, totalCount] = await Promise.all([
+    getProducts({
+      filter: query,
+      pagination: { page, limit },
+    }),
+    getProductsCount(query),
+  ]);
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -70,10 +80,14 @@ export default async function CategoryPage({
         <div>
           <CategoryFilter category={category} />
         </div>
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-4 flex flex-col gap-8">
           <ProductCardList
             title={category.name}
             products={products}
+          />
+          <ProductPagination
+            className="self-center"
+            totalCount={totalCount}
           />
         </div>
       </div>

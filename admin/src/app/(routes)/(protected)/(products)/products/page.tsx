@@ -20,7 +20,6 @@ export default async function ProductsPage({
     page,
     limit,
     name,
-    slug,
     model,
     categoryName,
     subcategoryName,
@@ -58,7 +57,6 @@ export default async function ProductsPage({
       sort: {
         id,
         name,
-        slug,
         model,
         category: { name: categoryName },
         subcategory: { name: subcategoryName },

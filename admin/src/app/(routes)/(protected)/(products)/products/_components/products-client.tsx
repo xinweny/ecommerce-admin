@@ -39,7 +39,7 @@ export function ProductsClient({
   const data: ProductRow[] = products.map(({
     id,
     name,
-    slug,
+    model,
     brand,
     series,
     category,
@@ -50,7 +50,7 @@ export function ProductsClient({
     return {
       id,
       name,
-      slug,
+      model,
       brand: { id: brand.id, name: brand.name },
       series: series
         ? { id: series.id, name: series.name }

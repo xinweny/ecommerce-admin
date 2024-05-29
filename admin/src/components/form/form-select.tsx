@@ -54,7 +54,7 @@ export function FormSelect({
             <Select
               disabled={isSubmitting || disabled}
               onValueChange={field.onChange}
-              value={field.value}
+              value={field.value?.toString()}
               defaultValue={field.value}
             >
               <FormControl>

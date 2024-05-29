@@ -4,8 +4,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 
 import { ToggleSort } from "@/components/ui/data-table";
+import { ImageCarousel } from "@/components/shared/image-carousel";
+import { Currency } from "@/components/shared/currency";
 
-import { ProductItemCellCarousel } from "@/components/shared/image-carousel";
 import { UpdateStockForm } from "../../_components/update-stock-form";
 import { UpdateArchivedForm } from "../../_components/update-archived-form";
 
@@ -21,6 +22,10 @@ export interface ProductItemRow {
   product: {
     id: number;
     name: string;
+    brand: {
+      id: number;
+      name: string;
+    };
   };
   isArchived: boolean;
 }
@@ -30,8 +35,22 @@ export const columns: ColumnDef<ProductItemRow>[] = [
     accessorKey: "imageUrls",
     header: "Images",
     cell: ({ row }) => (row.original.imageUrls.length > 0 ? (
-      <ProductItemCellCarousel imageUrls={row.original.imageUrls} />
+      <ImageCarousel imageUrls={row.original.imageUrls} />
     ) : null),
+  },
+  {
+    accessorKey: "sku",
+    header: ({ column }) => (
+      <ToggleSort
+        column={column}
+        label="SKU"
+      />
+    ),
+  },
+  {
+    accessorKey: "brandId",
+    header: "Brand",
+    cell: ({ row }) => row.original.product.brand.name,
   },
   {
     accessorKey: "productName",
@@ -55,15 +74,6 @@ export const columns: ColumnDef<ProductItemRow>[] = [
     ),
   },
   {
-    accessorKey: "sku",
-    header: ({ column }) => (
-      <ToggleSort
-        column={column}
-        label="SKU"
-      />
-    ),
-  },
-  {
     accessorKey: "price",
     header: ({ column }) => (
       <ToggleSort
@@ -71,6 +81,7 @@ export const columns: ColumnDef<ProductItemRow>[] = [
         label="Price"
       />
     ),
+    cell: ({ row }) => <Currency value={row.original.price} />,
   },
   {
     accessorKey: "stock",

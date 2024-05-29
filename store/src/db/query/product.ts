@@ -89,6 +89,12 @@ export const getProductBySlug = cache(async (productSlug: string) => {
   };
 });
 
+export const getProductsCount = cache(async (query?: Prisma.ProductWhereInput) => {
+  const count = await db.product.count({ where: query });
+
+  return count;
+});
+
 export const getProductItemsPriceRange = cache(async (filter: Prisma.ProductItemWhereInput) => {
   const productItemAggregate = await db.productItem.aggregate({
     where: filter,

@@ -67,7 +67,13 @@ type ProductItemGroupByPayload = Awaited<Prisma.GetProductItemGroupByPayload<typ
 
 const productItemIncludeArgs = Prisma.validator<Prisma.ProductItemDefaultArgs>()({
   include: {
-    product: { select: { id: true, name: true } },
+    product: {
+      include: {
+        brand: true,
+        category: true,
+        subcategory: true,
+      },
+    },
     images: true,
   },
 });

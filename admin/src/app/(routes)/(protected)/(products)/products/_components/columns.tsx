@@ -29,7 +29,6 @@ export interface ProductRow {
     id: number;
     name: string;
   };
-  slug: string;
   isArchived: boolean;
   productItems: {
     count: number;
@@ -67,15 +66,6 @@ export const columns: ColumnDef<ProductRow>[] = [
     ),
   },
   {
-    accessorKey: "slug",
-    header: ({ column }) => (
-      <ToggleSort
-        column={column}
-        label="Slug"
-      />
-    ),
-  },
-  {
     accessorKey: "model",
     header: ({ column }) => (
       <ToggleSort
@@ -83,6 +73,7 @@ export const columns: ColumnDef<ProductRow>[] = [
         label="Model"
       />
     ),
+    cell: ({ row }) => row.original.model,
   },
   {
     accessorKey: "categoryName",

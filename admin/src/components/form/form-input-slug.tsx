@@ -21,8 +21,8 @@ export function FormInputSlug({
   const watchField = watch(watchName);
 
   useEffect(() => {
-    setValue("slug", watchField.toLowerCase().replace(" ", "-"));
-  }, [setValue, watchField]);
+    setValue(name, watchField.toLowerCase().replace(/\s+/, "-"));
+  }, [setValue, watchField, name]);
 
   return (
     <FormInput
