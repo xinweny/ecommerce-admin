@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -16,11 +15,14 @@ import { CardWrapper } from "../../_components/card-wrapper";
 
 import { resetPassword } from "@/actions/auth";
 
-export function ResetPasswordForm() {
-  const [success, setSuccess] = useState<string>();
+interface ResetPasswordFormProps {
+  token?: string | null;
+}
 
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
+export function ResetPasswordForm({
+  token = null,
+}: ResetPasswordFormProps) {
+  const [success, setSuccess] = useState<string>();
 
   const form = useForm<ResetPasswordSchema>({
     resolver: zodResolver(resetPasswordSchema),

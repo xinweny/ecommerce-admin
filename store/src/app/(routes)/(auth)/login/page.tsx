@@ -1,7 +1,13 @@
 import { LoginForm } from "./_components/login-form";
 
-export default function LoginPage() {
+interface LoginPageProps {
+  searchParams: { [key: string]: string };
+}
+
+export default function LoginPage({
+  searchParams: { callbackUrl },
+}: LoginPageProps) {
   return (
-    <LoginForm />
+    <LoginForm callbackUrl={callbackUrl} />
   );
 }

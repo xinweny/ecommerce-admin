@@ -1,9 +1,13 @@
 import { EmailVerificationForm } from "./_components/email-verification-form";
 
-export default function VerifyPage() {
+interface VerifyPageProps {
+  searchParams: { [key: string]: string };
+}
+
+export default function VerifyPage({
+  searchParams: { token },
+}: VerifyPageProps) {
   return (
-    <div>
-      <EmailVerificationForm />
-    </div>
+    <EmailVerificationForm token={token} />
   );
 }

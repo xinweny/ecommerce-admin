@@ -10,10 +10,13 @@ import { CardWrapper } from "../../_components/card-wrapper";
 
 import { verifyEmail } from "@/actions/auth";
 
-export function EmailVerificationForm() {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
+interface EmailVerificationFormProps {
+  token?: string | null;
+}
 
+export function EmailVerificationForm({
+  token = null,
+}: EmailVerificationFormProps) {
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
 
