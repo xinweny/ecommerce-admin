@@ -38,7 +38,10 @@ export function LoginForm() {
   };
 
   return (
-    <CardWrapper headerLabel="Login">
+    <CardWrapper
+      headerLabel="Songbird Admin"
+      className="bg-secondary w-[50%] max-w-[600px]"
+    >
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
