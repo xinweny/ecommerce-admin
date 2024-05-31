@@ -1,5 +1,6 @@
 "use client";
 
+import { Route } from "next";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,7 @@ export const BackButton = ({
       size="sm"
       asChild
     >
-      <Link href={href}>
+      <Link href={href as Route}>
         {label}
       </Link>
     </Button>
