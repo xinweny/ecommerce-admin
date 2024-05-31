@@ -58,7 +58,7 @@ export function LoginForm({
 
   return (
     <CardWrapper
-      headerLabel="Welcome Back"
+      headerLabel="Welcome back"
       backButtonLabel="Don't have an account?"
       backButtonHref="/register"
       showSocial

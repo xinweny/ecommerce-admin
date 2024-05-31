@@ -1,8 +1,3 @@
-export const publicRoutes = [
-  "/",
-  "/verify",
-];
-
 export const authRoutes = [
   "/login",
   "/register",
@@ -12,4 +7,4 @@ export const authRoutes = [
 
 export const apiPrefix = "/api";
 
-export const DEFAULT_LOGIN_REDIRECT = "/"; // TODO: redirect to prev page
+export const DEFAULT_LOGIN_REDIRECT = "/";
