@@ -2,6 +2,9 @@
 
 A full-stack, responsive Next.js implementation of an e-commerce store.
 
+- Storefront: https://next-ecommerce-store-sigma.vercel.app
+- Admin dashboard: https://next-ecommerce-admin-phi.vercel.app
+
 ## Features
 
 1. Inventory management with CRUD features for products/SKUs, categories and brands
