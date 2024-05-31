@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
@@ -19,10 +18,13 @@ import { ForgotPasswordLink } from "./forgot-password-link";
 
 import { login } from "@/actions/auth";
 
-export function LoginForm() {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
+interface LoginFormProps {
+  callbackUrl?: string | null;
+}
 
+export function LoginForm({
+  callbackUrl = null,
+}: LoginFormProps) {
   const [showTwoFactor, setShowTwoFactor] = useState<boolean>(false);
 
   const form = useForm<LoginSchema>({
