@@ -15,14 +15,14 @@ A full-stack, responsive Next.js implementation of an e-commerce store.
 
 ## Installation
 
-Clone the repository
+### Setup local repo
 
 ```bash
 git clone https://github.com/xinweny/next-ecommerce.git
 cd next-ecommerce
 ```
 
-Admin dashboard setup
+### Admin dashboard setup
 
 ```bash
 cd ./store
@@ -31,11 +31,12 @@ cd ./store
 cp .env.example .env
 
 npm install
+npx prisma generate
 
 npm run dev
 ```
 
-Store setup
+### Store setup
 
 ```bash
 cd ./admin
@@ -44,8 +45,13 @@ cd ./admin
 cp .env.example .env
 
 npm install
+npx prisma generate
 
 npm run dev
 ```
 
+Additionally, you will need to set up a webhook event forwarder and listener with Stripe - detailed instructions [here](https://docs.stripe.com/webhooks/quickstart).
+
 ## Disclaimer
+
+This project is intended for personal and educational purposes only. Please only use [Stripe test payment cards](https://docs.stripe.com/testing) on checkout.
